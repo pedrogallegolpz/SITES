@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                 val action = "cambiando a mapa"
                 Toast.makeText(this, action, Toast.LENGTH_SHORT).show()
 
-                val intent = Intent(this, ActivityGPS::class.java)
+                val intent: Intent = Intent(this, ActivityGPS::class.java)
                 startActivity(intent)
             }
         }
