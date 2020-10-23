@@ -1,5 +1,6 @@
 package com.example.sites
 
+import android.content.Intent
 import android.gesture.Gesture
 import android.gesture.GestureLibraries
 import android.gesture.GestureLibrary
@@ -40,8 +41,11 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
         predictions?.let {
             if(it.size > 0 && it[0].score > 1.0){
-                val action = "gesto reconocido"
+                val action = "cambiando a mapa"
                 Toast.makeText(this, action, Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(this, ActivityGPS::class.java)
+                startActivity(intent)
             }
         }
 

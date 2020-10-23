@@ -11,7 +11,7 @@ import android.location.LocationListener
 
 class Localizacion: LocationListener {
 
-    var mainActivity = MainActivity()
+    var mainActivity = ActivityGPS()
     var tvMensaje: TextView? =null
 
     override fun onLocationChanged(location: Location) {
