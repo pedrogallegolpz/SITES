@@ -6,11 +6,7 @@ import android.gesture.GestureLibraries
 import android.gesture.GestureLibrary
 import android.gesture.GestureOverlayView
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 

@@ -10,13 +10,13 @@ import android.os.Bundle
 import android.provider.Settings
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_gps.*
 import java.util.jar.Manifest
 
 class ActivityGPS : AppCompatActivity() {
 
     var tvMensaje: TextView?=null
-    val MIN_TIME: Long=10000
+    val MIN_TIME: Long=1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

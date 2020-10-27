@@ -34,7 +34,7 @@ class Localizacion: LocationListener {
         var fragmentManager: FragmentManager =this.mainActivity.supportFragmentManager
         var fragmentTransaction: FragmentTransaction=fragmentManager.beginTransaction()
         fragmentTransaction.add(R.id.fragment,fragment, null)
-        fragmentTransaction.commit()
+        fragmentTransaction.commitAllowingStateLoss()
     }
 
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?){
