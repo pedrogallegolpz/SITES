@@ -42,6 +42,8 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
                 val intent: Intent = Intent(this, ActivityGPS::class.java)
                 startActivity(intent)
+                /** Fading Transition Effect */
+                this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
             }
         }
 
