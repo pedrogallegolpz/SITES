@@ -29,15 +29,14 @@ class ActivityGPS : AppCompatActivity() {
         setContentView(R.layout.activity_gps)
 
         tvMensaje = findViewById(R.id.tvMensaje)
+
         if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),1000)
         }else{
             iniciarLocalizacion()
         }
-
     }
-
 
     fun iniciarLocalizacion(){
         var locationManager: LocationManager= getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -59,8 +58,8 @@ class ActivityGPS : AppCompatActivity() {
 
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0F, local as LocationListener)
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0F, local as LocationListener)
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, 0F, local as LocationListener)
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, 0F, local as LocationListener)
 
         tvMensaje?.setText("Localización Agregada")
 
