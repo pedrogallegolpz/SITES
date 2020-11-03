@@ -3,6 +3,11 @@ package com.example.sites
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.location.LocationListener
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
@@ -16,30 +21,30 @@ import java.util.jar.Manifest
 class ActivityGPS : AppCompatActivity() {
 
     var tvMensaje: TextView?=null
-    val MIN_TIME: Long=1000
+    val MIN_TIME: Long=10000
+    var local:Localizacion?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gps)
 
         tvMensaje = findViewById(R.id.tvMensaje)
-
         if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),1000)
         }else{
             iniciarLocalizacion()
         }
+
     }
+
 
     fun iniciarLocalizacion(){
         var locationManager: LocationManager= getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        var local: Localizacion = Localizacion()
+        local = Localizacion()
 
-
-
-        local.mainActivity = this
-        local.tvMensaje = tvMensaje
+        local?.mainActivity = this
+        local?.tvMensaje = tvMensaje
 
         val gpsEnabled: Boolean=locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         if(!gpsEnabled){
@@ -54,8 +59,8 @@ class ActivityGPS : AppCompatActivity() {
 
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, 0F, local as LocationListener)
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, 0F, local as LocationListener)
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0F, local as LocationListener)
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0F, local as LocationListener)
 
         tvMensaje?.setText("Localización Agregada")
 
