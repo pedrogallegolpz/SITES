@@ -2,16 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.sites.MainActivity">
+
 
     <TextureView
         android:id="@+id/texture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true" />
 
 
     <android.gesture.GestureOverlayView
@@ -20,6 +21,19 @@
         android:layout_height="match_parent"
         android:eventsInterceptionEnabled="true"
         android:gestureColor="#A8A6A6"
-        android:uncertainGestureColor="#EE0024" />
+        android:uncertainGestureColor="#EE0024">
+
+        <ImageView
+            android:id="@+id/imgCompass"
+            android:layout_width="387dp"
+            android:layout_height="227dp"
+            android:padding="1dp"
+            android:src="@drawable/brujula"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="10:10"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.gesture.GestureOverlayView>
 
 </RelativeLayout>

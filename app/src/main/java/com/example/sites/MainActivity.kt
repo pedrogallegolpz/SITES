@@ -1,5 +1,6 @@
 package com.example.sites
 
+import android.content.Context
 import android.content.Intent
 import android.gesture.Gesture
 import android.gesture.GestureLibraries
@@ -10,9 +11,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.pm.PackageManager
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.util.Log
+import android.view.animation.Animation
+import android.view.animation.RotateAnimation
+import android.widget.ImageView
 
-class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedListener {
+class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedListener,
+    SensorEventListener {
 
     //Previene pulsar cualquier boton mientras se hace el gesto
     private var gLibrary: GestureLibrary? = null
@@ -20,12 +29,20 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     // Variables de cámara
     private var cam = Camera(this)
 
+    // record the compass picture angle turned
+    private var currentDegree = 0f
+    // device sensor manager
+    private var mSensorManager: SensorManager? = null
+    // image compass
+    private var imview: ImageView?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         cam.onCreate()
+
+        initData()
 
         gestureSetup()
     }
@@ -77,6 +94,9 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         } else {
             cam.onResume()
         }
+
+        @Suppress("DEPRECATION")
+        mSensorManager?.registerListener(this,mSensorManager?.getDefaultSensor(Sensor.TYPE_ORIENTATION),SensorManager.SENSOR_DELAY_GAME)
     }
 
     override fun onPause() {
@@ -84,5 +104,26 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         //closeCamera();
         cam.stopBackgroundThread()
         super.onPause()
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        val degree=Math.round(event?.values?.get(0)!!)
+
+        val rotateAnimation = RotateAnimation(currentDegree,(-degree).toFloat(), Animation.RELATIVE_TO_SELF,0.5f,
+            Animation.RELATIVE_TO_SELF,0.5f)
+        rotateAnimation.duration=210
+        rotateAnimation.fillAfter=true
+
+        imview?.startAnimation(rotateAnimation)
+        currentDegree= (-degree).toFloat()
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+
+    }
+
+    private fun initData(){
+        mSensorManager=getSystemService(Context.SENSOR_SERVICE) as SensorManager?
+        imview=findViewById(R.id.imgCompass)
     }
 }
