@@ -17,6 +17,7 @@ class ActivityGPS : AppCompatActivity() {
 
     var tvMensaje: TextView?=null
     val MIN_TIME: Long=1000
+    var local: Localizacion? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,12 +35,12 @@ class ActivityGPS : AppCompatActivity() {
 
     fun iniciarLocalizacion(){
         var locationManager: LocationManager= getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        var local: Localizacion = Localizacion()
+        local= Localizacion()
 
 
 
-        local.mainActivity = this
-        local.tvMensaje = tvMensaje
+        local?.mainActivity = this
+        local?.tvMensaje = tvMensaje
 
         val gpsEnabled: Boolean=locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         if(!gpsEnabled){
