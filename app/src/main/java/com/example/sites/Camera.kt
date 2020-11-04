@@ -13,9 +13,12 @@ import android.os.HandlerThread
 import android.util.Log
 import android.util.Size
 import android.util.SparseIntArray
+import android.view.Gravity
 import android.view.Surface
 import android.view.TextureView
 import android.view.View
+import android.widget.FrameLayout
+import android.widget.RelativeLayout
 import androidx.core.app.ActivityCompat
 import java.io.*
 import java.util.*
@@ -134,6 +137,10 @@ class Camera (activity: MainActivity){
         try {
             val texture = textureView!!.surfaceTexture!!
             imageDimension?.getWidth()?.let { texture.setDefaultBufferSize(it, imageDimension!!.getHeight()) }
+
+            //Esta linea hace un resize de la view de la cámara para que no se distorsione
+            textureView?.layoutParams = RelativeLayout.LayoutParams(textureView?.width!!, (textureView?.width!!.toFloat()*(imageDimension?.width!!.toFloat()/imageDimension?.height!!.toFloat())).toInt())
+
             val surface = Surface(texture)
             captureRequestBuilder = cameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
             captureRequestBuilder!!.addTarget(surface)
@@ -162,8 +169,8 @@ class Camera (activity: MainActivity){
         Log.e(TAG, "is camera open")
         try {
             val characteristics = manager.getCameraCharacteristics(manager.cameraIdList[0])
-            val map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)!!
-            imageDimension = map.getOutputSizes(SurfaceTexture::class.java)[0]
+            val map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
+            imageDimension = map!!.getOutputSizes(SurfaceTexture::class.java)[2]
             // Add permission for camera and let user grant the permission
             if (ActivityCompat.checkSelfPermission(mainActivity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(mainActivity, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_CAMERA_PERMISSION)

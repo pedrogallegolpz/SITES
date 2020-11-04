@@ -9,12 +9,15 @@
     tools:context="com.example.sites.MainActivity">
 
 
+
+
     <TextureView
         android:id="@+id/texture"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_marginBottom="104dp"
-        android:layout_alignParentTop="true"/>
+        />
 
 
     <android.gesture.GestureOverlayView
@@ -50,7 +53,7 @@
 
 
     <TextView
-        android:id="@+id/miradores"
+        android:id="@+id/ubicaciones"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/texture"

@@ -16,8 +16,11 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.util.Log
+import android.view.TextureView
+import android.view.View
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
+import android.widget.FrameLayout
 import android.widget.ImageView
 
 class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedListener,
@@ -28,6 +31,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
     // Variables de cámara
     private var cam = Camera(this)
+
 
     // record the compass picture angle turned
     private var currentDegree = 0f
