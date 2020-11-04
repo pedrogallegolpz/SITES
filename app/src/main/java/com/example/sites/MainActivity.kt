@@ -74,8 +74,8 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),1000)
         }else{
-            iniciarLocalizacion()
             locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+            locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, locationListener)
         }
 
     }
@@ -118,7 +118,6 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         }
         if(requestCode==1000){
             if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                iniciarLocalizacion()
                 return
             }
         }
@@ -168,33 +167,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     }
 
 
-    fun iniciarLocalizacion(){
-        locationManager= getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        local = Localizacion()
-
-        local?.tvMensaje = tvMensaje
-
-        val gpsEnabled: Boolean= locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        if(!gpsEnabled){
-            var intent: Intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            startActivity(intent)
-        }
-
-        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),1000)
-
-            return;
-        }
-        locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, 0F, local as LocationListener)
-        locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, 0F, local as LocationListener)
-
-        ubicaciones?.setText("Localización Agregada")
-
-    }
-
-    //define the listener
+    //define the location listener
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
             /*val sb = StringBuilder()
@@ -216,6 +189,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         var angulo2:Double=Math.atan2(sin(posPrueba2lon-longit)*cos(posPrueba2lat), cos(latit)*sin(posPrueba2lat)-sin(latit)*cos(posPrueba2lat)*cos(posPrueba2lon-longit))
         angulo+=PI
         angulo2+=PI
+        var ubis: String="Mirando hacia:"
         if(abs(toRadians(degg.toDouble())-angulo)<PI/4){
             mirandoa.text="Mirando hacia Posicion 1"
         }else if(abs(toRadians(degg.toDouble())-angulo2)<PI/4){
