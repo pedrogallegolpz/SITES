@@ -8,6 +8,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
@@ -21,14 +22,13 @@ import java.util.jar.Manifest
 class ActivityGPS : AppCompatActivity() {
 
     var tvMensaje: TextView?=null
-    val MIN_TIME: Long=1000000
+    val MIN_TIME: Long=10000
     var local:Localizacion?=null
     var locationManager:LocationManager?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gps)
-        var contextAct:ActivityGPS=this
         tvMensaje = findViewById(R.id.tvMensaje)
 
         if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
@@ -37,28 +37,6 @@ class ActivityGPS : AppCompatActivity() {
         }else{
             iniciarLocalizacion()
         }
-
-        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        val gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-        // Create a listener
-        val gyroscopeSensorListener = object : SensorEventListener {
-            var valorOrientacionAnt: Float =90.0f
-            override fun onSensorChanged(sensorEvent: SensorEvent) {
-                if (sensorEvent.values[0]<0.5 ){
-                    if(ActivityCompat.checkSelfPermission(contextAct, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
-                        && ActivityCompat.checkSelfPermission(contextAct, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                        ActivityCompat.requestPermissions(contextAct, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),1000)
-                    }else{
-                        locationManager?.removeUpdates(local as LocationListener)
-                        iniciarLocalizacion()
-                    }
-                }
-
-            }
-
-            override fun onAccuracyChanged(sensor: Sensor, i: Int) {}
-        }
-        sensorManager.registerListener(gyroscopeSensorListener,gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
     fun iniciarLocalizacion(){
@@ -101,7 +79,46 @@ class ActivityGPS : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
 
+
+        var contextAct:ActivityGPS=this
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        // Create a listener
+        val gyroscopeSensorListener = object : SensorEventListener {
+            var out: Boolean = false
+            override fun onSensorChanged(sensorEvent: SensorEvent) {
+                if (sensorEvent.values[0]<0.5 ) {
+                    if (ActivityCompat.checkSelfPermission(
+                            contextAct,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION
+                        ) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(
+                            contextAct,
+                            android.Manifest.permission.ACCESS_COARSE_LOCATION
+                        ) != PackageManager.PERMISSION_GRANTED
+                    ) {
+                        ActivityCompat.requestPermissions(
+                            contextAct,
+                            arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                            1000
+                        )
+                    } else {
+                        locationManager?.removeUpdates(local as LocationListener)
+                        locationManager = null
+                        local = null
+                        iniciarLocalizacion()
+
+                    }
+                }
+            }
+
+            override fun onAccuracyChanged(sensor: Sensor, i: Int) {}
+        }
+        sensorManager.registerListener(gyroscopeSensorListener,gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL)
+    }
 
 
 }
