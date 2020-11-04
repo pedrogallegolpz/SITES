@@ -22,7 +22,7 @@ import java.util.jar.Manifest
 class ActivityGPS : AppCompatActivity() {
 
     var tvMensaje: TextView?=null
-    val MIN_TIME: Long=10000
+    val MIN_TIME: Long=1000
     var local:Localizacion?=null
     var locationManager:LocationManager?=null
 
@@ -60,6 +60,8 @@ class ActivityGPS : AppCompatActivity() {
         }
         locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, 0F, local as LocationListener)
         locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, 0F, local as LocationListener)
+        locationManager?.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, MIN_TIME, 0F, local as LocationListener)
+
 
         tvMensaje?.setText("Localización Agregada")
 
@@ -105,12 +107,15 @@ class ActivityGPS : AppCompatActivity() {
                             1000
                         )
                     } else {
-                        tvMensaje?.setText("Actualizando")
+                        tvMensaje?.setText("Actualizando ")
                         locationManager?.removeUpdates(local as LocationListener)
                         locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, 0F, local as LocationListener)
                         locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, 0F, local as LocationListener)
                         locationManager?.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, MIN_TIME, 0F, local as LocationListener)
-
+                        if(locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!=null){
+                            local?.onLocationChanged(locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!!)
+                            tvMensaje?.setText("Actualizando..."+ tvMensaje?.text.toString())
+                        }
                     }
                 }
             }
