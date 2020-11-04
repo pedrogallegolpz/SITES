@@ -41,9 +41,8 @@ class ActivityGPS : AppCompatActivity() {
 
     fun iniciarLocalizacion(){
         locationManager= getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        local = Localizacion()
+        local = Localizacion(this)
 
-        local?.mainActivity = this
         local?.tvMensaje = tvMensaje
 
         val gpsEnabled: Boolean= locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
@@ -106,10 +105,11 @@ class ActivityGPS : AppCompatActivity() {
                             1000
                         )
                     } else {
+                        tvMensaje?.setText("Actualizando")
                         locationManager?.removeUpdates(local as LocationListener)
-                        locationManager = null
-                        local = null
-                        iniciarLocalizacion()
+                        locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, 0F, local as LocationListener)
+                        locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, 0F, local as LocationListener)
+                        locationManager?.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, MIN_TIME, 0F, local as LocationListener)
 
                     }
                 }

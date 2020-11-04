@@ -9,9 +9,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import android.location.LocationListener
 
-class Localizacion: LocationListener {
+class Localizacion(activity: ActivityGPS): LocationListener {
 
-    var mainActivity = ActivityGPS()
+    var mainActivity = activity
     var tvMensaje: TextView? =null
 
     override fun onLocationChanged(location: Location) {
