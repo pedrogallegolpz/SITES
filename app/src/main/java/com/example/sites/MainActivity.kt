@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         cam.onCreate()
 
         initData()
+        calcularZona()
 
         gestureSetup()
 
@@ -190,12 +191,53 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         angulo+=PI
         angulo2+=PI
         var ubis: String="Mirando hacia:"
+
+
         if(abs(toRadians(degg.toDouble())-angulo)<PI/4){
             mirandoa.text="Mirando hacia Posicion 1"
         }else if(abs(toRadians(degg.toDouble())-angulo2)<PI/4){
             mirandoa.text = "Mirando hacia Posicion 2"
         }else
             mirandoa.text = ""
+
+
     }
 
+    fun calcularZona(){
+        var z = Zona
+
+        // CAMBIAR POR VERDADERA UBICACION
+        val a = Zona.Point(37.174562, -3.574643)
+
+        if(z.isInside(z.centro, 4, a))
+            zona.text="Centro"
+        else if (z.isInside(z.albaicin, 4, a))
+            zona.text="Albaicin"
+        else if (z.isInside(z.alhambra, 4, a))
+            zona.text="Alhambra"
+        else if (z.isInside(z.carreteraSierra, 4, a))
+            zona.text="Carretera de la Sierra"
+        else if (z.isInside(z.cartuja, 4, a))
+            zona.text="Cartuja"
+        else if (z.isInside(z.cerrillo, 4, a))
+            zona.text="Cerrillo de Maracena"
+        else if (z.isInside(z.chana, 4, a))
+            zona.text="La Chana"
+        else if (z.isInside(z.generalife, 4, a))
+            zona.text="Dehesa del Generalife"
+        else if (z.isInside(z.norte, 4, a))
+            zona.text="Zona Norte"
+        else if (z.isInside(z.plazaToros, 4, a))
+            zona.text="Plaza de Toros"
+        else if (z.isInside(z.realejo, 4, a))
+            zona.text="Realejo"
+        else if (z.isInside(z.sacromonte, 4, a))
+            zona.text="Sacromonte"
+        else if (z.isInside(z.vega, 4, a))
+            zona.text="Vega de Granada"
+        else if (z.isInside(z.zaidin, 4, a))
+            zona.text="Zaidín"
+        else
+            zona.text="Fuera de Granada"
+    }
 }
