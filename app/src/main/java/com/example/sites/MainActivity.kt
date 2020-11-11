@@ -203,7 +203,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
 
     fun getDistanceFromLatLonInKm(lat1:Double,lon1:Double,lat2:Double,lon2:Double): Double {
-        var R = 6371; // Radius of the earth in km
+        var R: Double = 6371.0; // Radius of the earth in km
         var dLat = deg2rad(lat2-lat1);  // deg2rad below
         var dLon = deg2rad(lon2-lon1);
         var a =
@@ -227,7 +227,8 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     }
 
     fun anguloLatLon(lat1:Double,lon1:Double,lat2:Double,lon2:Double): Double{
-        return Math.atan2(sin(lat1-lon2)*cos(lat1), cos(lat2)*sin(lat1)-sin(lat2)*cos(lat1)*cos(lon1-lon2))
+        //return Math.atan2(sin(lat1-lon2)*cos(lat1), cos(lat2)*sin(lat1)-sin(lat2)*cos(lat1)*cos(lon1-lon2))
+        return Math.atan2(lat1-lat2,lon1-lon2)
 
     }
 
@@ -236,6 +237,13 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         var m=Miradores
         var z=Zona
         var enMirador:Boolean=false
+        var degg=-deg
+        var degrad=toRadians(degg.toDouble())- kotlin.math.PI/2
+        if(degrad> kotlin.math.PI){
+            degrad=degrad - 2* kotlin.math.PI
+        }
+        degrad=-degrad
+
         //Indice en el array de Miradores del mirador en el que estamos (si estamos en alguno)
         var indiceMirador:Int = 0
 
@@ -246,7 +254,8 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             if(dist<0.020){
                 enMirador=true
                 mirandoa.text="Te encuentras en el mirador "+m.arrayNombres[indiceMirador]+System.lineSeparator()
-            }else {
+                break
+            }else if(!enMirador) {
                 indiceMirador = indiceMirador + 1
             }
         }
@@ -256,13 +265,24 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             mirandoa.text="No te encuentras en ningun mirador"+System.lineSeparator()
             var indiceMir:Int=0
             for(mir in m.arraySitios) {
-                var degg = -deg
                 var angulo: Double = anguloLatLon(mir.lat, mir.lon, latit, longit)
                 var distMir=getDistanceFromLatLonInKm(latit, longit, mir.lat, mir.lon)
-                if(abs(toRadians(degg.toDouble())-angulo)<PI/(distMir*10)){
-                    mirandoa.text=mirandoa.text.toString()+m.arrayNombres[indiceMir]+System.lineSeparator()
+
+                var degrad2=degrad
+                if(degrad*angulo<0 && abs(degrad-angulo)>kotlin.math.PI) {
+                    if(degrad<0){
+                        degrad2=degrad2+2* kotlin.math.PI
+                    }else{
+                        angulo=angulo+2* kotlin.math.PI
+                    }
                 }
-                indiceMir=indiceMir+1
+
+                if (abs(degrad - angulo) < PI / (distMir * 10)) {
+                    mirandoa.text =mirandoa.text.toString() + m.arrayNombres[indiceMir] + System.lineSeparator()
+                }
+
+                indiceMir = indiceMir + 1
+
             }
         }
 
@@ -272,44 +292,39 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         var distcer: Double
         var distlej: Double
         for(zone in z.arrayZonas) {
-            //Este array contiene los dos puntos entre los que estarás mirando a una zona
-            var puntosVista = ArrayList<Zona.Point>()
-            //Para ello, guardamos en ese array los dos puntos que no sean el más cercano ni el más lejano
-            var lejano: Zona.Point = Zona.Point(1.0, 1.0)
-            var cercano: Zona.Point = Zona.Point(1.0, 1.0)
-            distlej = 0.0
-            distcer = Zona.INF
-            for (p in zone) {
 
-                var distactual = getDistanceFromLatLonInKm(latit, longit, p.x, p.y)
-                if (distactual > distlej) {
-                    lejano = p
-                    distlej = distactual
+            var zonaDetectada=false
+            for(punto in 0..3){
+                var ang1: Double = anguloLatLon(zone[punto].x, zone[punto].y, latit, longit)
+                var ang2: Double = anguloLatLon(zone[(punto+1)%4].x, zone[(punto+1)%4].y, latit, longit)
+
+                var angmayor: Double= 0.0
+                var angmenor: Double = 0.0
+
+                if (ang1 >= ang2) {
+                    angmayor = ang1
+                    angmenor = ang2
+                }else {
+                    angmayor = ang2
+                    angmenor = ang1
                 }
-                if (distactual < distcer) {
-                    cercano = p
-                    distcer = distactual
-                }
-            }
-            //Añadimos los dos puntos "medios"
-            var ind:Int=0
-            for (p in zone) {
-                if (p != cercano && p != lejano) {
-                    puntosVista.add(p)
-                    ind=ind+1
+
+
+                zona.text=degrad.toString()
+                // con esta condición vemos si es negativo el número
+                if(!zonaDetectada) {
+                    if (angmayor * angmenor < 0 && (angmayor-angmenor)> kotlin.math.PI) {
+                        if ((degrad > angmayor && degrad <= kotlin.math.PI) || ( degrad < angmenor && degrad >= -kotlin.math.PI)) {
+                            mirandoa.text = mirandoa.text.toString() + z.arrayNombres[numMirador] + System.lineSeparator()
+                            zonaDetectada = true
+                        }
+                    } else if ( degrad < angmayor && degrad > angmenor ) {
+                        mirandoa.text = mirandoa.text.toString() + z.arrayNombres[numMirador] + System.lineSeparator()
+                        zonaDetectada = true
+                    }
                 }
             }
 
-            //Ahora vamos a calcular si nuestro punto de mira se encuenta entre esos dos puntos
-            var degg = -deg
-            var ang1: Double = anguloLatLon(puntosVista[0].x, puntosVista[0].y, latit, longit)
-            var ang2: Double = anguloLatLon(puntosVista[1].x, puntosVista[1].y, latit, longit)
-            if (ang1 >= ang2) {
-                if (toRadians(degg.toDouble()) < ang1 && toRadians(degg.toDouble()) > ang2) {
-                    mirandoa.text =
-                        mirandoa.text.toString()  + z.arrayNombres[numMirador]+ System.lineSeparator()
-                }
-            }
             numMirador = numMirador + 1
         }
 
