@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         cam.onCreate()
 
         initData()
-        calcularZona()
+
 
         gestureSetup()
 
@@ -105,6 +105,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             longit=location.longitude
             latit=location.latitude
             ubicaciones.text=(System.lineSeparator()+"Longitud:" + location.longitude + System.lineSeparator()+  " Latitud: " + location.latitude)
+            calcularZona()
             latlonActualizadas=true
         }
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
