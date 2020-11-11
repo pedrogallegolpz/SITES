@@ -14,17 +14,33 @@ import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_gps.*
 import java.util.jar.Manifest
 
-class ActivityGPS : AppCompatActivity() {
+class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
 
     var tvMensaje: TextView?=null
     val MIN_TIME: Long=1000
     var local:Localizacion?=null
     var locationManager:LocationManager?=null
+
+    //Parte de Fragmentmaps
+    var lat: Double=0.0
+    var lon: Double=0.0
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +77,6 @@ class ActivityGPS : AppCompatActivity() {
         locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, 0F, local as LocationListener)
         locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, 0F, local as LocationListener)
         locationManager?.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, MIN_TIME, 0F, local as LocationListener)
-
 
         tvMensaje?.setText("Localización Agregada")
 
@@ -123,6 +138,61 @@ class ActivityGPS : AppCompatActivity() {
             override fun onAccuracyChanged(sensor: Sensor, i: Int) {}
         }
         sensorManager.registerListener(gyroscopeSensorListener,gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL)
+    }
+
+
+
+
+
+    //Parte de mapFragment
+
+    //Se llama desde Localización
+    fun onCreateView(lati: Double, longi: Double){
+        //Fragment del mapa
+        var fragment = SupportMapFragment()
+
+        var bundle= Bundle()
+        bundle.putDouble("lat",lat)
+        bundle.putDouble("lon",lon)
+        fragment.arguments = bundle
+
+
+        var fragmentManager: FragmentManager =this.supportFragmentManager
+        var fragmentTransaction: FragmentTransaction =fragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.fragment,fragment, null)
+        fragmentTransaction.commitAllowingStateLoss()
+
+
+        if(fragment.arguments!=null){
+            this.lat=lati
+            this.lon=longi
+        }
+
+        fragment.getMapAsync(this)
+    }
+
+    //Viene de OnMapCallBack
+    override fun onMapReady(googleMap: GoogleMap?) {
+        var latLng = LatLng(lat, lon)
+        var zoom: Float = 17F
+
+        if (googleMap != null) {
+
+            //Modo noche
+            //googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_dark_json))
+
+            //Modo normal
+            googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_json))
+
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom))
+
+            googleMap.uiSettings.isZoomControlsEnabled=false
+            googleMap.uiSettings.isCompassEnabled=true
+
+
+            googleMap.addMarker(MarkerOptions().position(latLng))
+
+        }
     }
 
 

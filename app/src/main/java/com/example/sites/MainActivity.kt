@@ -105,7 +105,6 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                 this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
             }
         }
-
     }
 
 
@@ -134,7 +133,6 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             cam.onResume()
         }
 
-        @Suppress("DEPRECATION")
         mSensorManager?.registerListener(this,mSensorManager?.getDefaultSensor(Sensor.TYPE_ORIENTATION),SensorManager.SENSOR_DELAY_GAME)
     }
 

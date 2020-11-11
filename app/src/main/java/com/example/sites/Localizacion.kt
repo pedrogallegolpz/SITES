@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import android.location.LocationListener
+import androidx.annotation.RawRes
+import com.google.android.gms.maps.GoogleMapOptions
 
 class Localizacion(activity: ActivityGPS): LocationListener {
 
@@ -19,23 +21,9 @@ class Localizacion(activity: ActivityGPS): LocationListener {
         var texto="Mi ubicación es: \nLatitud = ${location.latitude}\nLongitud = ${location.longitude}"
         tvMensaje?.text = texto
 
-        mapa(location.latitude, location.longitude)
+        mainActivity.onCreateView(location.latitude,location.longitude)
     }
 
-    fun mapa(lat: Double, lon: Double){
-        //Fragment del mapa
-        var fragment = FragmentMaps()
-
-        var bundle= Bundle()
-        bundle.putDouble("lat",lat)
-        bundle.putDouble("lon",lon)
-        fragment.arguments = bundle
-
-        var fragmentManager: FragmentManager =this.mainActivity.supportFragmentManager
-        var fragmentTransaction: FragmentTransaction=fragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.fragment,fragment, null)
-        fragmentTransaction.commitAllowingStateLoss()
-    }
 
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?){
         if(status== LocationProvider.AVAILABLE){
