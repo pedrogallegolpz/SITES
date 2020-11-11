@@ -13,7 +13,7 @@ import com.google.android.gms.maps.GoogleMapOptions
 
 class Localizacion(activity: ActivityGPS): LocationListener {
 
-    var mainActivity = activity
+    var ActivityGPS = activity
     var tvMensaje: TextView? =null
 
     override fun onLocationChanged(location: Location) {
@@ -21,7 +21,7 @@ class Localizacion(activity: ActivityGPS): LocationListener {
         var texto="Mi ubicación es: \nLatitud = ${location.latitude}\nLongitud = ${location.longitude}"
         tvMensaje?.text = texto
 
-        mainActivity.onCreateView(location.latitude,location.longitude)
+        ActivityGPS.onCreateView(location.latitude,location.longitude)
     }
 
 

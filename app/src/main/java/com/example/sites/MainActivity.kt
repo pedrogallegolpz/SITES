@@ -20,11 +20,8 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.provider.Settings
 import android.util.Log
-import android.view.TextureView
-import android.view.View
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
@@ -47,18 +44,11 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     // image compass
     private var imview: ImageView?=null
 
-
-    var tvMensaje: TextView?=null
     val MIN_TIME: Long=1000000
-    var local:Localizacion?=null
     var locationManager:LocationManager?=null
     var longit:Double=0.0
     var latit:Double= 0.0
-
-    var posPrueba1lat:Double=37.159181
-    var posPrueba1lon:Double=-3.608803
-    var posPrueba2lat:Double=37.159698
-    var posPrueba2lon:Double=-3.6065912
+    var latlonActualizadas:Boolean=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,10 +65,51 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),1000)
         }else{
-            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
-            locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, locationListener)
+            iniciarLocalizacion()
         }
 
+    }
+
+    fun iniciarLocalizacion(){
+        locationManager= getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+
+        val gpsEnabled: Boolean= locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        if(!gpsEnabled){
+            var intent: Intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivity(intent)
+        }
+
+        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),1000)
+
+            return;
+        }
+        locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, 0F, locationListener)
+        locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, 0F, locationListener)
+        locationManager?.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, MIN_TIME, 0F, locationListener)
+
+
+
+    }
+
+    //define the location listener
+    private val locationListener: LocationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            /*val sb = StringBuilder()
+            val ubi = ("Longitud:" + location.longitude + " Latitud: " + location.latitude)
+            sb.append(ubicaciones.text).append(System.lineSeparator()).append(ubi)
+            ubicaciones.text=sb.toString()*/
+            longit=location.longitude
+            latit=location.latitude
+            ubicaciones.text=(System.lineSeparator()+"Longitud:" + location.longitude + System.lineSeparator()+  " Latitud: " + location.latitude)
+            latlonActualizadas=true
+        }
+        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+        override fun onProviderEnabled(provider: String) {}
+        override fun onProviderDisabled(provider: String) {}
     }
 
     private fun gestureSetup(){
@@ -110,7 +141,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (requestCode == cam.getRequestCameraPermission()) {
-            if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            if (grantResults.size>0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 // close the app
                 Toast.makeText(this@MainActivity, "Sorry!!!, you can't use this app without granting permission", Toast.LENGTH_LONG).show()
                 finish()
@@ -118,6 +149,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         }
         if(requestCode==1000){
             if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                iniciarLocalizacion()
                 return
             }
         }
@@ -153,7 +185,9 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
         imview?.startAnimation(rotateAnimation)
         currentDegree= (-degree).toFloat()
-        mirandoHacia(currentDegree)
+        if(latlonActualizadas) {
+            mirandoHacia(currentDegree)
+        }
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
@@ -166,37 +200,118 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     }
 
 
-    //define the location listener
-    private val locationListener: LocationListener = object : LocationListener {
-        override fun onLocationChanged(location: Location) {
-            /*val sb = StringBuilder()
-            val ubi = ("Longitud:" + location.longitude + " Latitud: " + location.latitude)
-            sb.append(ubicaciones.text).append(System.lineSeparator()).append(ubi)
-            ubicaciones.text=sb.toString()*/
-            ubicaciones.text=("Longitud:" + location.longitude + " Latitud: " + location.latitude)
-            longit=location.longitude
-            latit=location.latitude
-        }
-        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
-        override fun onProviderEnabled(provider: String) {}
-        override fun onProviderDisabled(provider: String) {}
+
+
+    fun getDistanceFromLatLonInKm(lat1:Double,lon1:Double,lat2:Double,lon2:Double): Double {
+        var R = 6371; // Radius of the earth in km
+        var dLat = deg2rad(lat2-lat1);  // deg2rad below
+        var dLon = deg2rad(lon2-lon1);
+        var a =
+            Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+                    Math.sin(dLon/2) * Math.sin(dLon/2)
+        ;
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        var d = R * c; // Distance in km
+        return d;
+    }
+
+    fun deg2rad(deg:Double): Double {
+        return deg * (Math.PI/180)
+    }
+
+    fun <T> append(arr: Array<T>, element: T): Array<T?> {
+        val array = arr.copyOf(arr.size + 1)
+        array[arr.size] = element
+        return array
+    }
+
+    fun anguloLatLon(lat1:Double,lon1:Double,lat2:Double,lon2:Double): Double{
+        return Math.atan2(sin(lat1-lon2)*cos(lat1), cos(lat2)*sin(lat1)-sin(lat2)*cos(lat1)*cos(lon1-lon2))
+
     }
 
     fun mirandoHacia(deg: Float){
-        var angulo:Double=Math.atan2(sin(posPrueba1lon-longit)*cos(posPrueba1lat), cos(latit)*sin(posPrueba1lat)-sin(latit)*cos(posPrueba1lat)*cos(posPrueba1lon-longit))
-        var degg=-deg
-        var angulo2:Double=Math.atan2(sin(posPrueba2lon-longit)*cos(posPrueba2lat), cos(latit)*sin(posPrueba2lat)-sin(latit)*cos(posPrueba2lat)*cos(posPrueba2lon-longit))
-        angulo+=PI
-        angulo2+=PI
-        var ubis: String="Mirando hacia:"
+        mirandoa.text = ""
+        var m=Miradores
+        var z=Zona
+        var enMirador:Boolean=false
+        //Indice en el array de Miradores del mirador en el que estamos (si estamos en alguno)
+        var indiceMirador:Int = 0
 
+        //Primero calculamos si nos encontramos en un mirador para no mostrar la posición de otros miradores en el TextView
+        //Si estamos a menos de 20 metros de un mirador, consideramos que estamos en él
+        for (x in m.getArray()){
+            var dist=getDistanceFromLatLonInKm(latit, longit, x.lat,x.lon)
+            if(dist<0.020){
+                enMirador=true
+                mirandoa.text="Te encuentras en el mirador "+m.arrayNombres[indiceMirador]+System.lineSeparator()
+            }else {
+                indiceMirador = indiceMirador + 1
+            }
+        }
 
-        if(abs(toRadians(degg.toDouble())-angulo)<PI/4){
-            mirandoa.text="Mirando hacia Posicion 1"
-        }else if(abs(toRadians(degg.toDouble())-angulo2)<PI/4){
-            mirandoa.text = "Mirando hacia Posicion 2"
-        }else
-            mirandoa.text = ""
+        //Si no estamos en un mirador, añadimos si estamos mirando hacia algún mirador
+        if(!enMirador){
+            mirandoa.text="No te encuentras en ningun mirador"+System.lineSeparator()
+            var indiceMir:Int=0
+            for(mir in m.arraySitios) {
+                var degg = -deg
+                var angulo: Double = anguloLatLon(mir.lat, mir.lon, latit, longit)
+                var distMir=getDistanceFromLatLonInKm(latit, longit, mir.lat, mir.lon)
+                if(abs(toRadians(degg.toDouble())-angulo)<PI/(distMir*10)){
+                    mirandoa.text=mirandoa.text.toString()+m.arrayNombres[indiceMir]+System.lineSeparator()
+                }
+                indiceMir=indiceMir+1
+            }
+        }
+
+        //En caso de que estemos en un mirador, sólo se escribirían las zonas a las que miramos
+        //Variable para llevar el índice del mirador en el array de zonas
+        var numMirador:Int=0
+        var distcer: Double
+        var distlej: Double
+        for(zone in z.arrayZonas) {
+            //Este array contiene los dos puntos entre los que estarás mirando a una zona
+            var puntosVista = ArrayList<Zona.Point>()
+            //Para ello, guardamos en ese array los dos puntos que no sean el más cercano ni el más lejano
+            var lejano: Zona.Point = Zona.Point(1.0, 1.0)
+            var cercano: Zona.Point = Zona.Point(1.0, 1.0)
+            distlej = 0.0
+            distcer = Zona.INF
+            for (p in zone) {
+
+                var distactual = getDistanceFromLatLonInKm(latit, longit, p.x, p.y)
+                if (distactual > distlej) {
+                    lejano = p
+                    distlej = distactual
+                }
+                if (distactual < distcer) {
+                    cercano = p
+                    distcer = distactual
+                }
+            }
+            //Añadimos los dos puntos "medios"
+            var ind:Int=0
+            for (p in zone) {
+                if (p != cercano && p != lejano) {
+                    puntosVista.add(p)
+                    ind=ind+1
+                }
+            }
+
+            //Ahora vamos a calcular si nuestro punto de mira se encuenta entre esos dos puntos
+            var degg = -deg
+            var ang1: Double = anguloLatLon(puntosVista[0].x, puntosVista[0].y, latit, longit)
+            var ang2: Double = anguloLatLon(puntosVista[1].x, puntosVista[1].y, latit, longit)
+            if (ang1 >= ang2) {
+                if (toRadians(degg.toDouble()) < ang1 && toRadians(degg.toDouble()) > ang2) {
+                    mirandoa.text =
+                        mirandoa.text.toString()  + z.arrayNombres[numMirador]+ System.lineSeparator()
+                }
+            }
+            numMirador = numMirador + 1
+        }
 
 
     }
@@ -204,8 +319,8 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     fun calcularZona(){
         var z = Zona
 
-        // CAMBIAR POR VERDADERA UBICACION
-        val a = Zona.Point(37.174562, -3.574643)
+
+        val a = Zona.Point(latit, longit)
 
         if(z.isInside(z.centro, 4, a))
             zona.text="Centro"
@@ -238,4 +353,6 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         else
             zona.text="Fuera de Granada"
     }
+
+
 }

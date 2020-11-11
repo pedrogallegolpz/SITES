@@ -28,6 +28,18 @@
         android:gestureColor="#A8A6A6"
         android:uncertainGestureColor="#EE0024" >
 
+        <TextView
+            android:id="@+id/ubicaciones"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="124dp"
+            android:text="Ubicación" />
+
+        <TextView
+            android:id="@+id/zona"
+            android:layout_width="match_parent"
+            android:layout_height="99dp"
+            android:text="Zona" />
     </android.gesture.GestureOverlayView>
 
     <LinearLayout
@@ -55,27 +67,13 @@
 
 
     <TextView
-        android:id="@+id/ubicaciones"
-        android:layout_width="match_parent"
-        android:layout_height="38dp"
-        android:layout_alignBottom="@+id/texture"
-        android:layout_marginBottom="124dp"
-        android:text="Ubicación" />
-
-    <TextView
         android:id="@+id/mirandoa"
         android:layout_width="match_parent"
-        android:layout_height="62dp"
+        android:layout_height="327dp"
         android:layout_alignBottom="@+id/texture"
-        android:layout_marginBottom="64dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="283dp"
+        android:layout_marginBottom="17dp"
         android:text="" />
-
-    <TextView
-        android:id="@+id/zona"
-        android:layout_width="match_parent"
-        android:layout_height="38dp"
-        android:layout_alignBottom="@+id/texture"
-        android:layout_marginBottom="105dp"
-        android:text="Zona" />
 
 </RelativeLayout>

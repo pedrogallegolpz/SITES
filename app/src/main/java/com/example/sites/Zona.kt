@@ -102,6 +102,13 @@ internal object Zona {
         Point(37.18286, -3.57521),
         Point(37.18889, -3.57993)
     )
+    val arrayZonas = arrayOf(centro, plazaToros, chana, cerrillo, vega, zaidin, carreteraSierra, norte,
+    cartuja, albaicin, alhambra, realejo, generalife, sacromonte)
+    val arrayNombres = arrayOf("Zona centro", "Zona  plaza de toros", "Zona chana", "Zona cerrillo de Maracena", "Zona de la vega",
+    "Zona del zaidín", "Zona carretera de la Sierra", "Zona norte", "Zona cartuja", "Zona albaicin", "Zona Alhambra", "Zona realejo", "Zona generalife",
+    "Zona sacromonte")
+
+
 
     // Given three colinear points p, q, r,
     // the function checks if point q lies
