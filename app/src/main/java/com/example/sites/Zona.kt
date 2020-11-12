@@ -7,44 +7,51 @@ internal object Zona {
 
     val centro = arrayOf(
         Point(37.18471, -3.60176),
-        Point(37.18095, -3.61559),
+        Point(37.17767, -3.6104),
         Point(37.16372, -3.60692),
         Point(37.16944, -3.5933)
     )
 
     val plazaToros = arrayOf(
         Point(37.18471, -3.60176),
-        Point(37.18095, -3.61559),
-        Point(37.19354, -3.62087),
-        Point(37.19661, -3.60924)
+        Point(37.17767, -3.6104),
+        Point(37.18826, -3.61482),
+        Point( 37.19165, -3.60795)
     )
 
     val chana = arrayOf(
-        Point(37.18095, -3.61559),
-        Point(37.19354, -3.62087),
-        Point(37.18681, -3.6316),
-        Point(37.19309, -3.63445)
+        Point(37.18826, -3.61482),
+        Point(37.19716, -3.62062),
+        Point(37.19309, -3.63445),
+        Point(37.18062, -3.62164)
     )
 
     val cerrillo = arrayOf(
         Point(37.19309, -3.63445),
-        Point(37.19354, -3.62087),
+        Point(37.19716, -3.62062),
         Point(37.20478, -3.62608),
         Point(37.20099, -3.63033)
     )
 
     val vega = arrayOf(
-        Point(37.18681, -3.6316),
-        Point(37.18095, -3.61559),
+        Point(37.18062, -3.62164),
+        Point(37.17767, -3.6104),
         Point(37.16372, -3.60692),
         Point(37.15929, -3.61508)
     )
 
     val zaidin = arrayOf(
         Point(37.16944, -3.5933),
-        Point(37.16372, -3.60692),
+        Point(37.15929, -3.61508),
         Point(37.14271, -3.60748),
         Point(37.15726, -3.5818)
+    )
+
+    val juventud = arrayOf(
+        Point(37.18826, -3.61482),
+        Point(37.18062, -3.62164),
+        Point(37.17935, -3.61639),
+        Point(37.17767, -3.6104)
     )
 
     val carreteraSierra = arrayOf(
@@ -56,14 +63,14 @@ internal object Zona {
 
     val norte = arrayOf(
         Point(37.20478, -3.62608),
-        Point(37.19354, -3.62087),
-        Point(37.20124, -3.59313),
+        Point(37.18826, -3.61482),
+        Point(37.19673, -3.59257),
         Point(37.21361, -3.6024)
     )
 
     val cartuja = arrayOf(
-        Point(37.19661, -3.60924),
-        Point(37.20124, -3.59313),
+        Point(37.19165, -3.60795),
+        Point(37.19673, -3.59257),
         Point(37.18944, -3.58644),
         Point(37.18471, -3.60176)
     )
@@ -102,11 +109,11 @@ internal object Zona {
         Point(37.18286, -3.57521),
         Point(37.18889, -3.57993)
     )
-    val arrayZonas = arrayOf(centro, plazaToros, chana, cerrillo, vega, zaidin, carreteraSierra, norte,
+    val arrayZonas = arrayOf(centro, plazaToros, chana, cerrillo, vega, zaidin, juventud, carreteraSierra, norte,
     cartuja, albaicin, alhambra, realejo, generalife, sacromonte)
-    val arrayNombres = arrayOf("Zona centro", "Zona  plaza de toros", "Zona chana", "Zona cerrillo de Maracena", "Zona de la vega",
-    "Zona del zaidín", "Zona carretera de la Sierra", "Zona norte", "Zona cartuja", "Zona albaicin", "Zona Alhambra", "Zona realejo", "Zona generalife",
-    "Zona sacromonte")
+    val arrayNombres = arrayOf("Zona Centro", "Zona Plaza de Toros", "Zona Chana", "Zona Cerrillo de Maracena", "Zona de la Vega",
+    "Zona Zaidín", "Zona Estadio de la Juventud" "Zona Carretera de la Sierra", "Zona Norte", "Zona Cartuja", "Zona Albaicin", "Zona Alhambra", "Zona Realejo", "Zona Generalife",
+    "Zona Sacromonte")
 
 
 
