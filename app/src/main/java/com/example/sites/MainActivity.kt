@@ -312,7 +312,6 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                 }
 
 
-                zona.text=degrad.toString()
                 // con esta condición vemos si es negativo el número
                 if(!zonaDetectada) {
                     if (angmayor * angmenor < 0 && (angmayor-angmenor)> kotlin.math.PI) {
