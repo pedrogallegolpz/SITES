@@ -366,6 +366,8 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             zona.text="Vega de Granada"
         else if (z.isInside(z.zaidin, 4, a))
             zona.text="Zaidín"
+        else if (z.isInside(z.juventud, 4, a))
+            zona.text="Estadio de la Juventud"
         else
             zona.text="Fuera de Granada"
     }
