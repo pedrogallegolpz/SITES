@@ -91,6 +91,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, 0F, locationListener)
         locationManager?.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, MIN_TIME, 0F, locationListener)
 
+        locationListener.onLocationChanged(locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) as Location)
 
 
     }
