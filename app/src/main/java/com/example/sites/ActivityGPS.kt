@@ -96,13 +96,18 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
     override fun onResume() {
         super.onResume()
 
+        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),1000)
+        }else{
+            iniciarLocalizacion()
+        }
 
         var contextAct:ActivityGPS=this
         val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         val gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         // Create a listener
         val gyroscopeSensorListener = object : SensorEventListener {
-            var out: Boolean = false
             override fun onSensorChanged(sensorEvent: SensorEvent) {
                 if (sensorEvent.values[0]<0.5 ) {
                     if (ActivityCompat.checkSelfPermission(
@@ -120,6 +125,7 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
                             1000
                         )
                     } else {
+                        
                         tvMensaje?.setText("Actualizando ")
                         locationManager?.removeUpdates(local as LocationListener)
                         locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, 0F, local as LocationListener)
@@ -129,6 +135,7 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
                             local?.onLocationChanged(locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!!)
                             tvMensaje?.setText("Actualizando..."+ tvMensaje?.text.toString())
                         }
+
                     }
                 }
             }
@@ -136,6 +143,8 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
             override fun onAccuracyChanged(sensor: Sensor, i: Int) {}
         }
         sensorManager.registerListener(gyroscopeSensorListener,gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL)
+
+
     }
 
 
@@ -175,6 +184,25 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
         var zoom: Float = 17F
 
         if (googleMap != null) {
+
+            val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+            val lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+            val act=this
+            // Create a listener
+            val lightSensorListener = object : SensorEventListener {
+                override fun onSensorChanged(sensorEvent: SensorEvent) {
+                    if (sensorEvent.values[0]<5 ){
+                        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(act, R.raw.style_dark_json))
+                    }else{
+                        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(act, R.raw.style_json))
+                    }
+
+                }
+
+                override fun onAccuracyChanged(sensor: Sensor, i: Int) {}
+            }
+            sensorManager.registerListener(lightSensorListener,lightSensor, SensorManager.SENSOR_DELAY_NORMAL)
+
 
             //Modo noche
             //googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_dark_json))
