@@ -112,7 +112,7 @@ internal object Zona {
     val arrayZonas = arrayOf(centro, plazaToros, chana, cerrillo, vega, zaidin, juventud, carreteraSierra, norte,
     cartuja, albaicin, alhambra, realejo, generalife, sacromonte)
     val arrayNombres = arrayOf("Zona Centro", "Zona Plaza de Toros", "Zona Chana", "Zona Cerrillo de Maracena", "Zona de la Vega",
-    "Zona Zaidín", "Zona Estadio de la Juventud" "Zona Carretera de la Sierra", "Zona Norte", "Zona Cartuja", "Zona Albaicin", "Zona Alhambra", "Zona Realejo", "Zona Generalife",
+    "Zona Zaidín", "Zona Estadio de la Juventud", "Zona Carretera de la Sierra", "Zona Norte", "Zona Cartuja", "Zona Albaicin", "Zona Alhambra", "Zona Realejo", "Zona Generalife",
     "Zona Sacromonte")
 
 
