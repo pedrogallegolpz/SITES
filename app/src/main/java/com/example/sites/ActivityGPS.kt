@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
@@ -178,6 +179,7 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap?) {
         var latLng = LatLng(lat, lon)
         var zoom: Float = 17F
+        var m=Miradores
 
         if (googleMap != null) {
 
@@ -213,6 +215,12 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
 
 
             googleMap.addMarker(MarkerOptions().position(latLng))
+
+
+
+            for(i in m.arraySitios){
+                googleMap.addMarker(MarkerOptions().position(LatLng(i.lat,i.lon)).icon(BitmapDescriptorFactory.fromResource(R.drawable.chincheta)))
+            }
 
         }
     }

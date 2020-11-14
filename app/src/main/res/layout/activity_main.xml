@@ -16,6 +16,22 @@
 
 
     <TextView
+        android:id="@+id/mirandoa"
+        android:layout_width="359dp"
+        android:layout_height="307dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="360dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="60dp"
+        android:gravity="bottom"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <TextView
         android:id="@+id/zona"
         android:layout_width="match_parent"
         android:layout_height="93dp"
@@ -23,17 +39,6 @@
         android:gravity="center"
         android:text="Zona"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-    <TextView
-        android:id="@+id/mirandoa"
-        android:layout_width="match_parent"
-        android:layout_height="327dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="283dp"
-        android:layout_marginBottom="20dp"
-        android:gravity="bottom"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <android.gesture.GestureOverlayView
         android:id="@+id/gOverlay"
