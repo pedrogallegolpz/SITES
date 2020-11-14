@@ -166,7 +166,6 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
     override fun onPause() {
         Log.e(cam.getTAG(), "onPause")
-        //closeCamera();
         cam.stopBackgroundThread()
         super.onPause()
     }

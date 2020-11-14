@@ -87,14 +87,6 @@ class Camera (activity: MainActivity){
         }
     }
 
-    val captureCallbackListener: CameraCaptureSession.CaptureCallback = object : CameraCaptureSession.CaptureCallback() {
-        override fun onCaptureCompleted(session: CameraCaptureSession, request: CaptureRequest, result: TotalCaptureResult) {
-            super.onCaptureCompleted(session, request, result)
-            Toast.makeText(mainActivity, "Saved:$file", Toast.LENGTH_SHORT).show()
-            createCameraPreview()
-        }
-    }
-
     fun onCreate(){
         textureView = mainActivity.findViewById<View>(R.id.texture) as TextureView
         assert(textureView != null)
@@ -192,17 +184,6 @@ class Camera (activity: MainActivity){
             cameraCaptureSessions!!.setRepeatingRequest(captureRequestBuilder!!.build(), null, mBackgroundHandler)
         } catch (e: CameraAccessException) {
             e.printStackTrace()
-        }
-    }
-
-    fun closeCamera() {
-        if (null != cameraDevice) {
-            cameraDevice!!.close()
-            cameraDevice = null
-        }
-        if (null != imageReader) {
-            imageReader!!.close()
-            imageReader = null
         }
     }
 
