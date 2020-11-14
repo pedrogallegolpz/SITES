@@ -13,11 +13,9 @@ import android.os.HandlerThread
 import android.util.Log
 import android.util.Size
 import android.util.SparseIntArray
-import android.view.Gravity
 import android.view.Surface
 import android.view.TextureView
 import android.view.View
-import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import androidx.core.app.ActivityCompat
 import java.io.*
