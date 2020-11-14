@@ -215,14 +215,8 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         return deg * (Math.PI/180)
     }
 
-    fun <T> append(arr: Array<T>, element: T): Array<T?> {
-        val array = arr.copyOf(arr.size + 1)
-        array[arr.size] = element
-        return array
-    }
 
     fun anguloLatLon(lat1:Double,lon1:Double,lat2:Double,lon2:Double): Double{
-        //return Math.atan2(sin(lat1-lon2)*cos(lat1), cos(lat2)*sin(lat1)-sin(lat2)*cos(lat1)*cos(lon1-lon2))
         return Math.atan2(lat1-lat2,lon1-lon2)
 
     }
