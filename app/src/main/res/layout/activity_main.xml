@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DFD5D5D5"
+    android:background="#DF000000"
     android:orientation="vertical"
     tools:context="com.example.sites.MainActivity">
 
@@ -15,6 +15,26 @@
         android:layout_height="match_parent" />
 
 
+    <TextView
+        android:id="@+id/zona"
+        android:layout_width="match_parent"
+        android:layout_height="93dp"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"
+        android:text="Zona"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+    <TextView
+        android:id="@+id/mirandoa"
+        android:layout_width="match_parent"
+        android:layout_height="327dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="283dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="bottom"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
     <android.gesture.GestureOverlayView
         android:id="@+id/gOverlay"
         android:layout_width="match_parent"
@@ -23,27 +43,6 @@
         android:gestureColor="#A8A6A6"
         android:uncertainGestureColor="#EE0024">
 
-        <TextView
-            android:id="@+id/mirandoa"
-            android:layout_width="match_parent"
-            android:layout_height="327dp"
-            android:layout_marginTop="283dp"
-            android:layout_marginBottom="17dp"
-            android:text="" />
-
-        <TextView
-            android:id="@+id/ubicaciones"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="110dp"
-            android:layout_marginBottom="124dp"
-            android:text="Ubicación" />
-
-        <TextView
-            android:id="@+id/zona"
-            android:layout_width="match_parent"
-            android:layout_height="99dp"
-            android:text="Zona" />
     </android.gesture.GestureOverlayView>
 
     <LinearLayout
@@ -55,10 +54,10 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="25dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="392dp"
+        android:layout_marginTop="380dp"
         android:layout_marginEnd="25dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="2dp"
+        android:layout_marginBottom="160dp"
         android:gravity="center"
         android:orientation="horizontal">
 
