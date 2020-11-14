@@ -13,11 +13,9 @@ import android.os.HandlerThread
 import android.util.Log
 import android.util.Size
 import android.util.SparseIntArray
-import android.view.Gravity
 import android.view.Surface
 import android.view.TextureView
 import android.view.View
-import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import androidx.core.app.ActivityCompat
 import java.io.*
@@ -84,14 +82,6 @@ class Camera (activity: MainActivity){
         override fun onError(camera: CameraDevice, error: Int) {
             cameraDevice!!.close()
             cameraDevice = null
-        }
-    }
-
-    val captureCallbackListener: CameraCaptureSession.CaptureCallback = object : CameraCaptureSession.CaptureCallback() {
-        override fun onCaptureCompleted(session: CameraCaptureSession, request: CaptureRequest, result: TotalCaptureResult) {
-            super.onCaptureCompleted(session, request, result)
-            Toast.makeText(mainActivity, "Saved:$file", Toast.LENGTH_SHORT).show()
-            createCameraPreview()
         }
     }
 
@@ -192,17 +182,6 @@ class Camera (activity: MainActivity){
             cameraCaptureSessions!!.setRepeatingRequest(captureRequestBuilder!!.build(), null, mBackgroundHandler)
         } catch (e: CameraAccessException) {
             e.printStackTrace()
-        }
-    }
-
-    fun closeCamera() {
-        if (null != cameraDevice) {
-            cameraDevice!!.close()
-            cameraDevice = null
-        }
-        if (null != imageReader) {
-            imageReader!!.close()
-            imageReader = null
         }
     }
 
