@@ -136,7 +136,7 @@ class Camera (activity: MainActivity){
     fun createCameraPreview() {
         try {
             val texture = textureView!!.surfaceTexture!!
-            imageDimension?.getWidth()?.let { texture.setDefaultBufferSize(it, imageDimension!!.getHeight()) }
+            imageDimension?.width?.let { texture.setDefaultBufferSize(it, imageDimension!!.height) }
 
             //Esta linea hace un resize de la view de la cámara para que no se distorsione
             textureView?.layoutParams = RelativeLayout.LayoutParams(textureView?.width!!, (textureView?.width!!.toFloat()*(imageDimension?.width!!.toFloat()/imageDimension?.height!!.toFloat())).toInt())
