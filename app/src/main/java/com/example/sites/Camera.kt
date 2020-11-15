@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.*
-import android.media.ImageReader
 import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
@@ -18,7 +17,6 @@ import android.view.TextureView
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.core.app.ActivityCompat
-import java.io.*
 import java.util.*
 
 
@@ -29,11 +27,8 @@ class Camera (activity: MainActivity){
     private var cameraId: String? = null
     protected var cameraDevice: CameraDevice? = null
     protected var cameraCaptureSessions: CameraCaptureSession? = null
-    protected var captureRequest: CaptureRequest? = null
     protected var captureRequestBuilder: CaptureRequest.Builder? = null
     private var imageDimension: Size? = null
-    private var imageReader: ImageReader? = null
-    private val file: File? = null
     private var mBackgroundHandler: Handler? = null
     private var mBackgroundThread: HandlerThread? = null
 
