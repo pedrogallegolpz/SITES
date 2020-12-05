@@ -12,9 +12,6 @@ import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
@@ -24,8 +21,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.activity_gps.*
-import java.util.jar.Manifest
 
 class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
 
@@ -57,6 +52,7 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
     fun iniciarLocalizacion(){
         locationManager= getSystemService(Context.LOCATION_SERVICE) as LocationManager
         local = Localizacion(this)
+
 
         local?.tvMensaje = tvMensaje
 

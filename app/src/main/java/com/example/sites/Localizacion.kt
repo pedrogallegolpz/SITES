@@ -5,11 +5,7 @@ import android.location.LocationProvider
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import android.location.LocationListener
-import androidx.annotation.RawRes
-import com.google.android.gms.maps.GoogleMapOptions
 
 class Localizacion(activity: ActivityGPS): LocationListener {
 

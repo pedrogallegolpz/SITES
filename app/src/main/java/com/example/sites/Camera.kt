@@ -126,9 +126,11 @@ class Camera (activity: MainActivity){
             //Esta linea hace un resize de la view de la cámara para que no se distorsione
             textureView?.layoutParams = RelativeLayout.LayoutParams(textureView?.width!!, (textureView?.width!!.toFloat()*(imageDimension?.width!!.toFloat()/imageDimension?.height!!.toFloat())).toInt())
 
+
             val surface = Surface(texture)
             captureRequestBuilder = cameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
             captureRequestBuilder!!.addTarget(surface)
+
             cameraDevice!!.createCaptureSession(Arrays.asList(surface), object : CameraCaptureSession.StateCallback() {
                 override fun onConfigured(cameraCaptureSession: CameraCaptureSession) {
                     //The camera is already closed

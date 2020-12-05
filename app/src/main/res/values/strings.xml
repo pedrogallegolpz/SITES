@@ -5,7 +5,6 @@
     <string name="textview">TextView</string>
 
 
-
     <string name="style_json">
         [
             {
@@ -28,6 +27,7 @@
             }
         ]
     </string>
+    <string name="sitesbot">SitesBot</string>
 
 
 </resources>
