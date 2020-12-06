@@ -27,5 +27,21 @@ class MenuPrincipal : AppCompatActivity() {
             }
         })
 
+        var vision = findViewById<View>(R.id.vision) as ImageButton
+        vision?.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View) {
+                val intent: Intent = Intent(v.context, MainActivity::class.java)
+                startActivity(intent)
+            }
+        })
+
+        var mapa = findViewById<View>(R.id.mapa) as ImageButton
+        mapa?.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View) {
+                val intent: Intent = Intent(v.context, ActivityGPS::class.java)
+                startActivity(intent)
+            }
+        })
+
     }
 }
