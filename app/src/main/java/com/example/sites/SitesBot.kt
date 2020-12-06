@@ -2,6 +2,7 @@ package com.example.sites
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
@@ -14,10 +15,11 @@ import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 
 class SitesBot : AppCompatActivity(), RecognitionListener {
-    private val permission = 100
+    private val permission = 1
     private lateinit var returnedText: TextView
     private lateinit var toggleButton: ToggleButton
     private lateinit var progressBar: ProgressBar
@@ -37,16 +39,24 @@ class SitesBot : AppCompatActivity(), RecognitionListener {
         speech.setRecognitionListener(this)
         recognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "US-en")
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        recognizerIntent.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+        )
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3)
         toggleButton.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 progressBar.visibility = View.VISIBLE
                 progressBar.isIndeterminate = true
+                if(ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
+                    checkPermission();
+                }
+                /*
                 ActivityCompat.requestPermissions(this@SitesBot,
                     arrayOf(Manifest.permission.RECORD_AUDIO),
                     permission)
+
+                 */
             } else {
                 progressBar.isIndeterminate = false
                 progressBar.visibility = View.VISIBLE
@@ -55,6 +65,7 @@ class SitesBot : AppCompatActivity(), RecognitionListener {
         }
     }
 
+    /*//Función del tutorial de kotlin
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>,
                                             grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -63,11 +74,25 @@ class SitesBot : AppCompatActivity(), RecognitionListener {
                     .PERMISSION_GRANTED) {
                 speech.startListening(recognizerIntent)
             } else {
-                Toast.makeText(this@SitesBot, "Permission Denied!",
+                Toast.makeText(this, "Permission Denied!",
                     Toast.LENGTH_SHORT).show()
             }
         }
     }
+    */
+    private fun checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.RECORD_AUDIO),
+                permission
+            )
+        }
+    }
+
+
+
+
     override fun onStop() {
         super.onStop()
         speech.destroy()
