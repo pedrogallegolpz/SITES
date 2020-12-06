@@ -10,16 +10,13 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.util.Log
 import android.view.View
+import android.webkit.WebView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.applozic.mobicommons.commons.core.utils.Utils
-import io.kommunicate.KmChatBuilder
-import io.kommunicate.Kommunicate
-import io.kommunicate.callbacks.KmCallback
 
 
 class SitesBot : AppCompatActivity(), RecognitionListener {
@@ -34,21 +31,7 @@ class SitesBot : AppCompatActivity(), RecognitionListener {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sites_bot)
-        Kommunicate.init(this, "sitesbot-oy9w");
 
-        val botList: List<String> = listOf( "sitesbot-oy9w" ) //enter your integrated bot Ids
-
-        KmChatBuilder(this).setChatName("Support")
-            .setBotIds(botList)
-            .launchChat(object : KmCallback {
-                override fun onSuccess(message: Any) {
-                    Utils.printLog(this@SitesBot , "ChatTest", "Success : $message")
-                }
-
-                override fun onFailure(error: Any) {
-                    Utils.printLog(this@SitesBot, "ChatTest", "Failure : $error")
-                }
-            })
 
         title = "KotlinApp"
         returnedText = findViewById(R.id.textView)
@@ -84,6 +67,33 @@ class SitesBot : AppCompatActivity(), RecognitionListener {
                 speech.stopListening()
             }
         }
+
+        val botList: List<String> = listOf("sitesbot-oy9w") //enter your integrated bot Ids
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        var vistachat = findViewById<WebView>(R.id.webview)
+        val html ="<iframe height=\"430\" width=\"350\" src=\"https://bot.dialogflow.com/5853c2c1-a522-4534-b82f-5b3c72c64389\"></iframe>"
+        vistachat.settings.javaScriptEnabled=true
+        
+        vistachat.loadData(html,"text/html",null)
+       /* Kommunicate.openConversation(this)
+
+        var conversacion = KmConversationBuilder(this)
+            .setSingleConversation(false)
+            .createConversation(object : KmCallback {
+                override fun onSuccess(message: Any) {
+                    Utils.printLog(this@SitesBot , "ChatTest", "Success : $message")
+                }
+
+                override fun onFailure(error: Any) {
+                    Utils.printLog(this@SitesBot, "ChatTest", "Failure : $error")
+                }
+            })
+        */
     }
 
     /*//Función del tutorial de kotlin
