@@ -1,14 +1,19 @@
 package com.example.sites
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.speech.RecognitionListener
+import android.util.DisplayMetrics
 import android.util.Log
 import android.webkit.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.datatransport.runtime.util.PriorityMapping.toInt
 
 
 class SitesBot : AppCompatActivity(), RecognitionListener {
@@ -24,12 +29,19 @@ class SitesBot : AppCompatActivity(), RecognitionListener {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onResume() {
         super.onResume()
 
         vistachat = findViewById<WebView>(R.id.webview)
+
+        val height =  (getResources().getDisplayMetrics().heightPixels/getResources().getDisplayMetrics().density).toInt()-22 // ancho absoluto en pixels
+        val width =  (getResources().getDisplayMetrics().widthPixels/getResources().getDisplayMetrics().density).toInt()-22
+
+
+
         val html =
-            "<iframe allow=\"microphone\" height=\"430\" width=\"350\" src=\"https://console.dialogflow.com/api-client/demo/embedded/5853c2c1-a522-4534-b82f-5b3c72c64389\"></iframe>"
+            "<iframe allow=\"microphone\" height=\""+height.toString()+"\" width=\""+width.toString()+"\" src=\"https://console.dialogflow.com/api-client/demo/embedded/5853c2c1-a522-4534-b82f-5b3c72c64389\"></iframe>"
 
         vistachat?.settings?.javaScriptEnabled = true
         vistachat?.settings?.javaScriptCanOpenWindowsAutomatically = true
