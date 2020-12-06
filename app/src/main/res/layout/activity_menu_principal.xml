@@ -6,14 +6,53 @@
     android:layout_height="match_parent"
     tools:context=".MenuPrincipal">
 
+
     <Button
         android:id="@+id/chatbot"
-        android:layout_width="211dp"
-        android:layout_height="83dp"
-        android:layout_marginStart="108dp"
-        android:layout_marginTop="116dp"
+        android:layout_width="310dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
         android:text="@string/sitesbot"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/camara"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/camara"
+        android:layout_width="150dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:text="camara"
+        app:layout_constraintEnd_toStartOf="@id/mapa"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chatbot"
+        app:layout_constraintBottom_toTopOf="@id/info"/>
+
+
+    <Button
+        android:id="@+id/mapa"
+        android:layout_width="150dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:text="Mapa"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/camara"
+        app:layout_constraintTop_toBottomOf="@+id/chatbot"
+        app:layout_constraintBottom_toTopOf="@id/info"/>
+
+    <Button
+        android:id="@+id/info"
+        android:layout_width="310dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="100dp"
+        android:text="Información"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mapa"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
