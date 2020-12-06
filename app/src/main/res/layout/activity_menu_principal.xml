@@ -4,56 +4,109 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EEEEEE"
     tools:context=".MenuPrincipal">
 
-
-    <Button
+    <ImageButton
         android:id="@+id/chatbot"
         android:layout_width="310dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:layout_marginTop="100dp"
-        android:text="@string/sitesbot"
-        android:background="@color/black"
+        android:layout_marginTop="70dp"
+        android:background="@color/alphabet_o"
+        android:contentDescription="@string/sitesbot"
+        android:scaleType="fitEnd"
+        android:src="@drawable/agente"
+        app:layout_constraintBottom_toTopOf="@+id/vision"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/camara"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/camara"
+
+    <TextView
+        android:layout_width="310dp"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:text="SITESBOT"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        app:layout_constraintRight_toRightOf="@+id/chatbot"
+        app:layout_constraintTop_toTopOf="@+id/chatbot" />
+
+
+    <ImageButton
+        android:id="@+id/vision"
         android:layout_width="150dp"
         android:layout_height="250dp"
         android:layout_gravity="center"
-        android:text="camara"
+        android:background="@color/alphabet_g"
+        android:scaleType="fitEnd"
+        android:src="@drawable/vision"
+        app:layout_constraintBottom_toTopOf="@id/info"
         app:layout_constraintEnd_toStartOf="@id/mapa"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chatbot"
-        app:layout_constraintBottom_toTopOf="@id/info"/>
+        app:layout_constraintTop_toBottomOf="@+id/chatbot" />
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="180dp"
+        android:gravity="center"
+        android:text="VISIÓN"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        app:layout_constraintRight_toRightOf="@+id/vision"
+        app:layout_constraintTop_toTopOf="@+id/vision" />
 
 
-    <Button
+    <ImageButton
         android:id="@+id/mapa"
         android:layout_width="150dp"
         android:layout_height="250dp"
         android:layout_gravity="center"
-        android:text="Mapa"
+        android:scaleType="centerCrop"
+        android:src="@drawable/mapa"
+        app:layout_constraintBottom_toTopOf="@id/info"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/camara"
-        app:layout_constraintTop_toBottomOf="@+id/chatbot"
-        app:layout_constraintBottom_toTopOf="@id/info"/>
+        app:layout_constraintStart_toEndOf="@id/vision"
+        app:layout_constraintTop_toBottomOf="@+id/chatbot" />
 
-    <Button
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="180dp"
+        android:gravity="center"
+        android:text="MAPA"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        app:layout_constraintRight_toRightOf="@+id/mapa"
+        app:layout_constraintTop_toTopOf="@+id/mapa" />
+
+    <ImageButton
         android:id="@+id/info"
         android:layout_width="310dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="100dp"
-        android:text="Información"
+        android:layout_marginBottom="70dp"
+        android:background="@color/alphabet_b"
+        android:scaleType="fitEnd"
+        android:src="@drawable/informacion"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapa"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/mapa" />
+
+    <TextView
+        android:layout_width="310dp"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:text="INFORMACIÓN    "
+        android:textColor="@color/white"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        app:layout_constraintRight_toRightOf="@+id/info"
+        app:layout_constraintTop_toTopOf="@+id/info" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
