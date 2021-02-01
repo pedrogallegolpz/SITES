@@ -9,18 +9,21 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.location.LocationListener
 import android.location.LocationManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.*
+
 
 class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
 
@@ -41,9 +44,19 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_gps)
         tvMensaje = findViewById(R.id.tvMensaje)
 
-        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),1000)
+        if(ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            )!= PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                1000
+            )
         }else{
             iniciarLocalizacion()
         }
@@ -62,14 +75,29 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
             startActivity(intent)
         }
 
-        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+        if(ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            )!= PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED){
 
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),1000)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                1000
+            )
 
             return;
         }
-        locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, 0F, local as LocationListener)
+        locationManager?.requestLocationUpdates(
+            LocationManager.NETWORK_PROVIDER,
+            MIN_TIME,
+            0F,
+            local as LocationListener
+        )
 
         tvMensaje?.setText("Localización Agregada")
 
@@ -91,9 +119,19 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
     override fun onResume() {
         super.onResume()
 
-        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),1000)
+        if(ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            )!= PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                1000
+            )
         }else{
             iniciarLocalizacion()
         }
@@ -123,10 +161,19 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
                         
                         tvMensaje?.setText("Actualizando ")
                         locationManager?.removeUpdates(local as LocationListener)
-                        locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, 0F, local as LocationListener)
+                        locationManager?.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            MIN_TIME,
+                            0F,
+                            local as LocationListener
+                        )
                         if(locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!=null){
-                            local?.onLocationChanged(locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!!)
-                            tvMensaje?.setText("Actualizando..."+ tvMensaje?.text.toString())
+                            local?.onLocationChanged(
+                                locationManager?.getLastKnownLocation(
+                                    LocationManager.NETWORK_PROVIDER
+                                )!!
+                            )
+                            tvMensaje?.setText("Actualizando..." + tvMensaje?.text.toString())
                         }
 
                     }
@@ -135,7 +182,11 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
 
             override fun onAccuracyChanged(sensor: Sensor, i: Int) {}
         }
-        sensorManager.registerListener(gyroscopeSensorListener,gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL)
+        sensorManager.registerListener(
+            gyroscopeSensorListener,
+            gyroscopeSensor,
+            SensorManager.SENSOR_DELAY_NORMAL
+        )
 
 
     }
@@ -152,14 +203,14 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
         var fragment = SupportMapFragment()
 
         var bundle= Bundle()
-        bundle.putDouble("lat",lat)
-        bundle.putDouble("lon",lon)
+        bundle.putDouble("lat", lat)
+        bundle.putDouble("lon", lon)
         fragment.arguments = bundle
 
 
         var fragmentManager: FragmentManager =this.supportFragmentManager
         var fragmentTransaction: FragmentTransaction =fragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.fragment,fragment, null)
+        fragmentTransaction.add(R.id.fragment, fragment, null)
         fragmentTransaction.commitAllowingStateLoss()
 
 
@@ -186,16 +237,30 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
             val lightSensorListener = object : SensorEventListener {
                 override fun onSensorChanged(sensorEvent: SensorEvent) {
                     if (sensorEvent.values[0]<5 ){
-                        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(act, R.raw.style_dark_json))
+                        googleMap.setMapStyle(
+                            MapStyleOptions.loadRawResourceStyle(
+                                act,
+                                R.raw.style_dark_json
+                            )
+                        )
                     }else{
-                        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(act, R.raw.style_json))
+                        googleMap.setMapStyle(
+                            MapStyleOptions.loadRawResourceStyle(
+                                act,
+                                R.raw.style_json
+                            )
+                        )
                     }
 
                 }
 
                 override fun onAccuracyChanged(sensor: Sensor, i: Int) {}
             }
-            sensorManager.registerListener(lightSensorListener,lightSensor, SensorManager.SENSOR_DELAY_NORMAL)
+            sensorManager.registerListener(
+                lightSensorListener,
+                lightSensor,
+                SensorManager.SENSOR_DELAY_NORMAL
+            )
 
 
             //Modo noche
@@ -213,12 +278,72 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
             googleMap.addMarker(MarkerOptions().position(latLng))
 
 
+            var somewhere: Marker
+            var markerclicked: Int=0
+            for(i in 0..(m.arraySitios.size-1)){
+                markerclicked=0
+                somewhere = googleMap.addMarker(
+                    MarkerOptions().position(
+                        LatLng(
+                            m.arraySitios[i].lat,
+                            m.arraySitios[i].lon
+                        )
+                    ).title(m.arrayNombres[i]).snippet("Esto es la info").icon(
+                        BitmapDescriptorFactory.fromResource(
+                            R.drawable.chincheta
+                        )
+                    )
+                )
 
-            for(i in m.arraySitios){
-                googleMap.addMarker(MarkerOptions().position(LatLng(i.lat,i.lon)).icon(BitmapDescriptorFactory.fromResource(R.drawable.chincheta)))
+                googleMap.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
+
+
+                    // Defines the contents of the InfoWindow
+                    override fun getInfoContents(arg0: Marker): View?
+                    {
+
+                        // Getting view from the layout file infowindowlayout.xml
+                        var v = getLayoutInflater ().inflate(R.layout.infowindowlayout, null);
+
+                        var latLng: LatLng= arg0.getPosition ();
+
+                        var im : ImageView= v.findViewById (R.id.imageView1);
+                        var tv1: TextView = v.findViewById (R.id.textView1);
+                        var tv2: TextView =v.findViewById (R.id.textView2);
+                        var title = arg0 . getTitle ();
+                        var informations = arg0 . getSnippet ();
+
+                        tv1.setText(title);
+                        tv2.setText(informations);
+
+                        if (onMarkerClick(arg0, somewhere) == true) {
+                            im.setImageResource(R.drawable.agente);
+                        }
+
+
+                        return v;
+
+                    }
+
+                    override fun getInfoWindow(p0: Marker?): View {
+                        TODO("Not yet implemented")
+                    }
+                });
+
+
+
             }
 
         }
+    }
+
+    fun  onMarkerClick(marker: Marker, somewhere: Marker): Boolean{
+
+        if (marker.equals(somewhere))
+        {
+            return true;
+        }
+        return false;
     }
 
 
