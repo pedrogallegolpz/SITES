@@ -26,10 +26,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity android:name=".ActivityInfoMiradores"></activity>
         <activity
             android:name=".InformacionMirador"
             android:label="@string/title_activity_informacion_mirador"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar" />
         <activity android:name=".ListaMiradores" />
         <activity android:name=".SitesBot" />
         <activity android:name=".MenuPrincipal">

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ListView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class ListaMiradores : AppCompatActivity() {
@@ -23,9 +22,12 @@ class ListaMiradores : AppCompatActivity() {
 
         listamiradores.onItemClickListener =
             OnItemClickListener { parent, view, position, id -> //position será el índice del elemento pulsado
-                var miradorPulsado=listamiradores.getItemAtPosition(position)
-                val intent: Intent = Intent(view.context, InformacionMirador::class.java)
+                var miradorPulsado=listamiradores.getItemAtPosition(position) as String
+                val intent: Intent = Intent(view.context, ActivityInfoMiradores::class.java)
+                intent.putExtra("MIRADOR", miradorPulsado)
+                intent.putExtra("POS", position.toString())
                 startActivity(intent)
+
             }
 
     }
