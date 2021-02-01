@@ -26,7 +26,6 @@ class SitesBot : AppCompatActivity(), RecognitionListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sites_bot)
 
-
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
@@ -37,7 +36,6 @@ class SitesBot : AppCompatActivity(), RecognitionListener {
 
         val height =  (getResources().getDisplayMetrics().heightPixels/getResources().getDisplayMetrics().density).toInt()-22 // ancho absoluto en pixels
         val width =  (getResources().getDisplayMetrics().widthPixels/getResources().getDisplayMetrics().density).toInt()-22
-
 
 
         val html =
@@ -65,7 +63,6 @@ class SitesBot : AppCompatActivity(), RecognitionListener {
                 }
             }
         }
-
 
         vistachat?.loadData(html, "text/html", null)
 

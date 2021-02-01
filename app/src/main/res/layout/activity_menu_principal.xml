@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EEEEEE"
+    android:background="#00695c"
     tools:context=".MenuPrincipal">
 
     <ImageButton
@@ -12,8 +12,8 @@
         android:layout_width="310dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:layout_marginTop="70dp"
-        android:background="@color/alphabet_o"
+        android:layout_marginTop="25dp"
+        android:background="@color/white"
         android:contentDescription="@string/sitesbot"
         android:scaleType="fitEnd"
         android:src="@drawable/agente"
@@ -28,68 +28,99 @@
         android:layout_height="100dp"
         android:gravity="center"
         android:text="SITESBOT"
-        android:textColor="@color/black"
+        android:textColor="#d32f2f"
         android:textSize="17dp"
         android:textStyle="bold"
         app:layout_constraintRight_toRightOf="@+id/chatbot"
         app:layout_constraintTop_toTopOf="@+id/chatbot" />
 
-
     <ImageButton
         android:id="@+id/vision"
-        android:layout_width="150dp"
-        android:layout_height="250dp"
+        android:layout_width="310dp"
+        android:layout_height="100dp"
         android:layout_gravity="center"
-        android:background="@color/alphabet_g"
+        android:background="@color/white"
+        android:contentDescription="@string/vision"
         android:scaleType="fitEnd"
         android:src="@drawable/vision"
-        app:layout_constraintBottom_toTopOf="@id/info"
-        app:layout_constraintEnd_toStartOf="@id/mapa"
+        app:layout_constraintBottom_toTopOf="@+id/listaMiradores"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chatbot" />
 
     <TextView
-        android:layout_width="150dp"
-        android:layout_height="180dp"
+        android:layout_width="310dp"
+        android:layout_height="100dp"
         android:gravity="center"
-        android:text="VISIÓN"
-        android:textColor="@color/black"
+        android:text="VISION"
+        android:textColor="#d32f2f"
         android:textSize="17dp"
         android:textStyle="bold"
         app:layout_constraintRight_toRightOf="@+id/vision"
         app:layout_constraintTop_toTopOf="@+id/vision" />
 
-
     <ImageButton
         android:id="@+id/mapa"
-        android:layout_width="150dp"
-        android:layout_height="250dp"
+        android:layout_width="310dp"
+        android:layout_height="100dp"
         android:layout_gravity="center"
-        android:scaleType="centerCrop"
-        android:src="@drawable/mapa"
-        app:layout_constraintBottom_toTopOf="@id/info"
+        android:background="@color/white"
+        android:contentDescription="@string/sitesbot"
+        android:scaleType="fitEnd"
+        android:src="@drawable/mapa1"
+        app:layout_constraintBottom_toTopOf="@+id/info"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/vision"
-        app:layout_constraintTop_toBottomOf="@+id/chatbot" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listaMiradores"/>
+
 
     <TextView
-        android:layout_width="150dp"
-        android:layout_height="180dp"
+        android:layout_width="310dp"
+        android:layout_height="100dp"
         android:gravity="center"
         android:text="MAPA"
-        android:textColor="@color/black"
+        android:textColor="#d32f2f"
         android:textSize="17dp"
         android:textStyle="bold"
         app:layout_constraintRight_toRightOf="@+id/mapa"
         app:layout_constraintTop_toTopOf="@+id/mapa" />
 
     <ImageButton
+        android:id="@+id/listaMiradores"
+        android:layout_width="310dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:contentDescription="@string/sitesbot"
+        android:scaleType="fitEnd"
+        android:src="@drawable/miradores"
+        app:layout_constraintBottom_toTopOf="@+id/mapa"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vision"/>
+
+
+    <TextView
+        android:layout_width="310dp"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:text="MIRADORES"
+        android:textColor="#d32f2f"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        app:layout_constraintRight_toRightOf="@+id/listaMiradores"
+        app:layout_constraintTop_toTopOf="@+id/listaMiradores" />
+
+
+
+
+    <ImageButton
         android:id="@+id/info"
         android:layout_width="310dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="70dp"
-        android:background="@color/alphabet_b"
+        android:layout_marginBottom="60dp"
+        android:background="@color/white"
         android:scaleType="fitEnd"
         android:src="@drawable/informacion"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -102,11 +133,20 @@
         android:layout_height="100dp"
         android:gravity="center"
         android:text="INFORMACIÓN    "
-        android:textColor="@color/white"
+        android:textColor="#d32f2f"
         android:textSize="17dp"
         android:textStyle="bold"
         app:layout_constraintRight_toRightOf="@+id/info"
         app:layout_constraintTop_toTopOf="@+id/info" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="408dp"
+        android:layout_height="85dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="50dp"
+        app:srcCompat="@drawable/alhambra"
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
