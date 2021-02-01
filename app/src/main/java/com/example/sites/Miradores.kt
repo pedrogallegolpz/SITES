@@ -17,10 +17,9 @@ object Miradores {
         "Mirador San Miguel Alto", "Mirador Silla del Moro", "Mirador Torreón de Cartuja", "Mirador Barranco del Abogado",
         "Mirador Monasterio Chill-Out")
 
-    val imageUrl = arrayOf( "https://allkenyanrecipescom.files.wordpress.com/2013/06/beef-pilau.jpg?w=260", "https://allkenyanrecipescom.files.wordpress.com/2013/06/beef-pilau.jpg?w=260",
-        "https://allkenyanrecipescom.files.wordpress.com/2013/06/beef-pilau.jpg?w=260", "https://allkenyanrecipescom.files.wordpress.com/2013/06/beef-pilau.jpg?w=260", "https://allkenyanrecipescom.files.wordpress.com/2013/06/beef-pilau.jpg?w=260"
-        , "https://allkenyanrecipescom.files.wordpress.com/2013/06/beef-pilau.jpg?w=260",
-        "https://allkenyanrecipescom.files.wordpress.com/2013/06/beef-pilau.jpg?w=260")
+    val image = arrayOf( R.drawable.miradorsannicolas,R.drawable.torredelavela,R.drawable.sanmiguel,R.drawable.sillamoro,
+        R.drawable.cartuja,R.drawable.barranco,R.drawable.monasterio)
+
 
     val zona = arrayOf( "Albaicín", "Alhambra",  "Albaicín", "Alhambra", "Cartuja", "Realejo",
         "Centro")

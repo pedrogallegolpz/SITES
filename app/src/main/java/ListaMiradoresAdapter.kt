@@ -5,10 +5,12 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.example.sites.Miradores
 import com.example.sites.R
 
 import com.squareup.picasso.Picasso
+import java.io.File
 
 class ListaMiradoresAdapter(private val context: Context, private val dataSource: Miradores) : BaseAdapter() {
 
@@ -44,7 +46,7 @@ class ListaMiradoresAdapter(private val context: Context, private val dataSource
         val detailTextView = rowView.findViewById(R.id.recipe_list_detail) as TextView
 
 // Get thumbnail element
-        //val thumbnailImageView = rowView.findViewById(R.id.recipe_list_thumbnail) as ImageView
+        val thumbnailImageView = rowView.findViewById(R.id.recipe_list_thumbnail) as ImageView
 
         // 1
         val mirador = getItem(position) as String
@@ -54,8 +56,9 @@ class ListaMiradoresAdapter(private val context: Context, private val dataSource
         subtitleTextView.text = dataSource.descripcion[position]
         detailTextView.text = dataSource.zona[position]
 
-// 3
-        //Picasso.get().load( dataSource.imageUrl as String).placeholder(R.mipmap.ic_launcher).into(thumbnailImageView)
+// 3    image
+        Picasso.get().load(dataSource.image[position] ).placeholder(R.mipmap.ic_launcher).into(thumbnailImageView) //"@drawable/miradorSanNicolas"
+        //thumbnailImageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.miradorsannicolas));
 
         return rowView
     }
