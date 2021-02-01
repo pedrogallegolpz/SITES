@@ -42,5 +42,14 @@ class MenuPrincipal : AppCompatActivity() {
             }
         })
 
+        var botonMiradores = findViewById<View>(R.id.listaMiradores) as ImageButton
+        botonMiradores?.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View) {
+                val intent: Intent = Intent(v.context, ListaMiradores::class.java)
+                startActivity(intent)
+            }
+        })
+
+
     }
 }
