@@ -50,6 +50,8 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     var latit:Double= 0.0
     var latlonActualizadas:Boolean=false
     var enMirador:Boolean=false
+    var miradorElegido:String = ""
+    var posicionElegido:Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +68,9 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         }else{
             iniciarLocalizacion()
         }
+
+        val action = "para información de miradores haga un rayo"
+        Toast.makeText(this, action, Toast.LENGTH_SHORT).show()
 
     }
 
@@ -114,6 +119,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         if(gLibrary?.load()==false){
             finish()
         }
+        gOverlay.setGestureVisible(false);
         gOverlay.addOnGesturePerformedListener(this)
     }
 
@@ -123,12 +129,26 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
         predictions?.let {
             if(it.size > 0 && it[0].score > 2.0){
-                val action = "cambiando a mapa"
-                Toast.makeText(this, action, Toast.LENGTH_SHORT).show()
 
-                val intent: Intent = Intent(this, ActivityGPS::class.java)
-                startActivity(intent)
-                /** Fading Transition Effect */
+
+                //val intent: Intent = Intent(this, ActivityGPS::class.java)
+                //startActivity(intent)
+
+                /** Cambio a que el rayo nos de información */
+
+                if(enMirador){
+                    val intent: Intent = Intent(this, ActivityInfoMiradores::class.java)
+                    intent.putExtra("MIRADOR", miradorElegido)
+                    intent.putExtra("POS", posicionElegido.toString())
+                    startActivity(intent)
+
+                    val action = "cambiando a información"
+                    Toast.makeText(this, action, Toast.LENGTH_SHORT).show()
+                }else{
+                    val action = "debe estar en un mirador"
+                    Toast.makeText(this, action, Toast.LENGTH_SHORT).show()
+                }
+
                 this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
             }
         }
@@ -324,6 +344,8 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             var dist=getDistanceFromLatLonInKm(latit, longit, x.lat,x.lon)
             if(dist<0.020){
                 enMirador=true
+                miradorElegido = m.arrayNombres[indiceMirador]
+                posicionElegido = indiceMirador
                 zona.text=m.arrayNombres[indiceMirador]+System.lineSeparator()
                 break
             }else if(!enMirador) {
