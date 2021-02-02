@@ -214,19 +214,21 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
 
 
             var somewhere: Marker
-            for(i in 0..(m.arraySitios.size-1)){
+            for(i in m.arraySitios.indices){
                 somewhere = googleMap.addMarker(
                     MarkerOptions().position(
                         LatLng(
                             m.arraySitios[i].lat,
                             m.arraySitios[i].lon
                         )
-                    ).title(m.arrayNombres[i]).snippet("Esto es la info").icon(
+                    ).title(m.arrayNombres[i]).snippet(m.info[i]).icon(
                         BitmapDescriptorFactory.fromResource(
                             R.drawable.chincheta
                         )
                     )
                 )
+                somewhere.tag=i
+                var img = m.image[i]
 
                 googleMap.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
 
@@ -248,10 +250,15 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
 
                         tv1.setText(title);
                         tv2.setText(informations);
-
-                        if (onMarkerClick(arg0, somewhere) == true) {
-                            im.setImageResource(R.drawable.agente);
+                        for(j in m.arraySitios.indices) {
+                            if (arg0.title.equals(m.arrayNombres[j]))
+                                im.setImageResource(m.image[j])
                         }
+
+                        //if (onMarkerClick(arg0, somewhere) == true) {
+                           // im.setImageResource(m.image[i])
+
+                        //}
 
 
                         return v;
