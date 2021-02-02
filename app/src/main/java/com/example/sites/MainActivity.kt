@@ -264,7 +264,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             angulo=360*angulo/(2*kotlin.math.PI)
 
 
-            zona.text = "Dirigiéndote a "+m.arrayNombres[mirador_destino]
+
 
 
             var rotateAnimation = RotateAnimation(currentDegree+angulo.toFloat(),-degree.toFloat()+angulo.toFloat(), Animation.RELATIVE_TO_SELF,0.5f,
@@ -277,6 +277,8 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
             //Miramos si hemos llegado al mirador (estar a menos de 10 metros)
             var distMir=getDistanceFromLatLonInKm(latit, longit, m.arraySitios[mirador_destino].lat, m.arraySitios[mirador_destino].lon)
+
+            zona.text = "Dirigiéndote a "+m.arrayNombres[mirador_destino] + "("+ (distMir*1000).toString()+"m)"
             if(distMir<0.01){
                 destinoAlcanzado()
             }
