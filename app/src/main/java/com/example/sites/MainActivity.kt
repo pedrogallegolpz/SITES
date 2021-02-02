@@ -1,16 +1,13 @@
 package com.example.sites
 
+import android.R.attr.*
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.gesture.Gesture
 import android.gesture.GestureLibraries
 import android.gesture.GestureLibrary
 import android.gesture.GestureOverlayView
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.*
-import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -18,14 +15,18 @@ import android.hardware.SensorManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
-import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Math.*
+
 
 class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedListener,
     SensorEventListener {
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
     // record the compass picture angle turned
     private var currentDegree = 0f
+
     // device sensor manager
     private var mSensorManager: SensorManager? = null
     // image compass
@@ -53,6 +55,11 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     var miradorElegido:String = ""
     var posicionElegido:Int = -1
 
+    var m=Miradores
+
+    // Como llegar
+    var mirador_destino: Int=-1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -62,9 +69,19 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         initData()
         gestureSetup()
 
-        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),1000)
+        if(ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            )!= PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                1000
+            )
         }else{
             iniciarLocalizacion()
         }
@@ -84,14 +101,29 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             startActivity(intent)
         }
 
-        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+        if(ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            )!= PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED){
 
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),1000)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                1000
+            )
 
             return;
         }
-        locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, 0F, locationListener)
+        locationManager?.requestLocationUpdates(
+            LocationManager.NETWORK_PROVIDER,
+            MIN_TIME,
+            0F,
+            locationListener
+        )
 
         locationListener.onLocationChanged(locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) as Location)
 
@@ -114,7 +146,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     }
 
     private fun gestureSetup(){
-        gLibrary= GestureLibraries.fromRawResource(this,R.raw.gesture)
+        gLibrary= GestureLibraries.fromRawResource(this, R.raw.gesture)
 
         if(gLibrary?.load()==false){
             finish()
@@ -149,17 +181,28 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                     Toast.makeText(this, action, Toast.LENGTH_SHORT).show()
                 }
 
-                this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                this.overridePendingTransition(
+                    android.R.anim.slide_in_left,
+                    android.R.anim.slide_out_right
+                )
             }
         }
     }
 
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         if (requestCode == cam.getRequestCameraPermission()) {
             if (grantResults.size>0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 // close the app
-                Toast.makeText(this@MainActivity, "Sorry!!!, you can't use this app without granting permission", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this@MainActivity,
+                    "Sorry!!!, you can't use this app without granting permission",
+                    Toast.LENGTH_LONG
+                ).show()
                 finish()
             }
         }
@@ -181,7 +224,11 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             cam.onResume()
         }
 
-        mSensorManager?.registerListener(this,mSensorManager?.getDefaultSensor(Sensor.TYPE_ORIENTATION),SensorManager.SENSOR_DELAY_GAME)
+        mSensorManager?.registerListener(
+            this,
+            mSensorManager?.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+            SensorManager.SENSOR_DELAY_GAME
+        )
     }
 
     override fun onPause() {
@@ -190,15 +237,51 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         super.onPause()
     }
 
+    fun anguloLatLon(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double{
+        return Math.atan2(lat1 - lat2, lon1 - lon2)
+
+    }
+
     override fun onSensorChanged(event: SensorEvent?) {
         val degree=Math.round(event?.values?.get(0)!!)
+        mirador_destino = 1
+        if(mirador_destino>=0f && mirador_destino < m.arrayNombres.size) {
+            var degrad = toRadians(degree.toDouble()) - kotlin.math.PI / 2
+            if (degrad > kotlin.math.PI) {
+                degrad = degrad - 2 * kotlin.math.PI
+            }
+            degrad = -degrad
 
-        val rotateAnimation = RotateAnimation(currentDegree,(-degree).toFloat(), Animation.RELATIVE_TO_SELF,0.5f,
-            Animation.RELATIVE_TO_SELF,0.5f)
-        rotateAnimation.duration=210
-        rotateAnimation.fillAfter=true
 
-        imview?.startAnimation(rotateAnimation)
+            var angulo: Double = anguloLatLon(m.arraySitios[mirador_destino].lat, m.arraySitios[mirador_destino].lon, latit, longit)
+
+            var degrad2=degrad
+            if(degrad*angulo<0 && abs(degrad - angulo)>kotlin.math.PI) {
+                if(degrad<0){
+                    degrad2=degrad2+2* kotlin.math.PI
+                }else{
+                    angulo=angulo+2* kotlin.math.PI
+                }
+            }
+            angulo=degrad2-angulo
+
+            zona.text = angulo.toString()
+            angulo=-angulo
+            if(angulo<0) {
+                angulo = angulo+2*kotlin.math.PI
+            }
+
+            angulo= (angulo/(2*kotlin.math.PI))*360
+
+            val rotateAnimation = RotateAnimation(angulo.toFloat(),0f, Animation.RELATIVE_TO_SELF,0.5f,
+                Animation.RELATIVE_TO_SELF,0.5f)
+            rotateAnimation.duration=210
+            rotateAnimation.fillAfter=true
+
+
+            imview?.startAnimation(rotateAnimation)
+        }
+
         currentDegree= (-degree).toFloat()
         if(latlonActualizadas) {
             mirandoHacia(currentDegree)
@@ -215,37 +298,35 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     }
 
 
-
-
-    fun getDistanceFromLatLonInKm(lat1:Double,lon1:Double,lat2:Double,lon2:Double): Double {
+    fun getDistanceFromLatLonInKm(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
         var R: Double = 6371.0; // Radius of the earth in km
-        var dLat = deg2rad(lat2-lat1);  // deg2rad below
-        var dLon = deg2rad(lon2-lon1);
+        var dLat = deg2rad(lat2 - lat1);  // deg2rad below
+        var dLon = deg2rad(lon2 - lon1);
         var a =
-            Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                     Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-                    Math.sin(dLon/2) * Math.sin(dLon/2)
+                    Math.sin(dLon / 2) * Math.sin(dLon / 2)
         ;
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         var d = R * c; // Distance in km
         return d;
     }
 
-    fun deg2rad(deg:Double): Double {
+    fun deg2rad(deg: Double): Double {
         return deg * (Math.PI/180)
     }
 
 
-    fun anguloLatLon(lat1:Double,lon1:Double,lat2:Double,lon2:Double): Double{
-        return Math.atan2(lat1-lat2,lon1-lon2)
 
+    fun comoLlegar(indice: Int){
+        mirador_destino = indice
     }
 
     fun mirandoHacia(deg: Float){
         mirandoa.text = ""
-        var m=Miradores
+
         var z=Zona
-        val m_cercanos = mutableMapOf<Double,Int>()
+        val m_cercanos = mutableMapOf<Double, Int>()
 
         var degg=-deg
         var degrad=toRadians(degg.toDouble())- kotlin.math.PI/2
@@ -262,7 +343,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                 var distMir=getDistanceFromLatLonInKm(latit, longit, mir.lat, mir.lon)
 
                 var degrad2=degrad
-                if(degrad*angulo<0 && abs(degrad-angulo)>kotlin.math.PI) {
+                if(degrad*angulo<0 && abs(degrad - angulo)>kotlin.math.PI) {
                     if(degrad<0){
                         degrad2=degrad2+2* kotlin.math.PI
                     }else{
@@ -270,9 +351,9 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                     }
                 }
 
-                if (abs(degrad - angulo) < PI / (distMir * 10)) {
+                if (abs(degrad2 - angulo) < PI / (distMir * 10)) {
                     //mirandoa.text =mirandoa.text.toString() + m.arrayNombres[indiceMir] + System.lineSeparator()
-                    m_cercanos.put(distMir,indiceMir)
+                    m_cercanos.put(distMir, indiceMir)
                 }
 
                 indiceMir = indiceMir + 1
@@ -281,7 +362,9 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             var distOrdenados=m_cercanos.toSortedMap()
 
             for(i in distOrdenados.keys){
-                mirandoa.text =mirandoa.text.toString() +"- "+ m.arrayNombres[m_cercanos[i] as Int] + " ( " +  kotlin.math.truncate(i*1000).toInt() +"m )" +System.lineSeparator()
+                mirandoa.text =mirandoa.text.toString() +"- "+ m.arrayNombres[m_cercanos[i] as Int] + " ( " +  kotlin.math.truncate(
+                    i * 1000
+                ).toInt() +"m )" +System.lineSeparator()
             }
 
         }else{
@@ -293,7 +376,12 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                 var zonaDetectada=false
                 for(punto in 0..3){
                     var ang1: Double = anguloLatLon(zone[punto].x, zone[punto].y, latit, longit)
-                    var ang2: Double = anguloLatLon(zone[(punto+1)%4].x, zone[(punto+1)%4].y, latit, longit)
+                    var ang2: Double = anguloLatLon(
+                        zone[(punto + 1) % 4].x,
+                        zone[(punto + 1) % 4].y,
+                        latit,
+                        longit
+                    )
 
                     var angmayor: Double= 0.0
                     var angmenor: Double = 0.0
@@ -325,9 +413,6 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
         }
 
-
-
-
     }
 
     fun calcularZona(){
@@ -341,7 +426,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         //Primero calculamos si nos encontramos en un mirador para no mostrar la posición de otros miradores en el TextView
         //Si estamos a menos de 20 metros de un mirador, consideramos que estamos en él
         for (x in m.getArray()){
-            var dist=getDistanceFromLatLonInKm(latit, longit, x.lat,x.lon)
+            var dist=getDistanceFromLatLonInKm(latit, longit, x.lat, x.lon)
             if(dist<0.020){
                 enMirador=true
                 miradorElegido = m.arrayNombres[indiceMirador]
