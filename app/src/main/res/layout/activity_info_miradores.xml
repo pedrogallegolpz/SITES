@@ -7,37 +7,76 @@
     tools:context=".ActivityInfoMiradores"
     android:background="@color/white">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="410dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="30dp"
-        android:src="@drawable/sillamoro"
-        app:layout_constraintBottom_toTopOf="@+id/text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/text"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text=""
-        android:textAlignment="textStart"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        tools:layout_editor_absoluteX="31dp" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="410dp"
+                    android:layout_marginTop="38dp"
+                    android:src="@drawable/sillamoro"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layout_editor_absoluteX="0dp" />
+
+                <TextView
+                    android:id="@+id/separador"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="430dp"
+                    android:background="#00695c"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layout_editor_absoluteX="0dp" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/floatingActionButton"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="370dp"
+                    android:clickable="true"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView2"
+                    app:layout_constraintTop_toTopOf="@+id/imageView2"
+                    app:srcCompat="@android:drawable/ic_menu_directions" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="347dp">
+
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAlignment="textStart"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
 
     <TextView
         android:id="@+id/titulo"
         android:layout_width="fill_parent"
         android:layout_height="70dp"
-        android:gravity="center_vertical"
         android:background="#00695c"
         android:fontFamily="sans-serif"
+        android:gravity="center_vertical"
         android:text="  Información"
         android:textColor="@color/white"
         android:textSize="24sp"
