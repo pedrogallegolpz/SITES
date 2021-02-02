@@ -18,6 +18,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.View
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
@@ -244,42 +245,37 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
     override fun onSensorChanged(event: SensorEvent?) {
         val degree=Math.round(event?.values?.get(0)!!)
-        mirador_destino = 1
+
+
         if(mirador_destino>=0f && mirador_destino < m.arrayNombres.size) {
-            var degrad = toRadians(degree.toDouble()) - kotlin.math.PI / 2
-            if (degrad > kotlin.math.PI) {
-                degrad = degrad - 2 * kotlin.math.PI
-            }
-            degrad = -degrad
-
-
             var angulo: Double = anguloLatLon(m.arraySitios[mirador_destino].lat, m.arraySitios[mirador_destino].lon, latit, longit)
+            angulo=-angulo+kotlin.math.PI/2
+            if (angulo<0)
+                angulo=angulo+2*kotlin.math.PI
+            angulo=360*angulo/(2*kotlin.math.PI)
 
-            var degrad2=degrad
-            if(degrad*angulo<0 && abs(degrad - angulo)>kotlin.math.PI) {
-                if(degrad<0){
-                    degrad2=degrad2+2* kotlin.math.PI
-                }else{
-                    angulo=angulo+2* kotlin.math.PI
-                }
-            }
-            angulo=degrad2-angulo
 
             zona.text = angulo.toString()
-            angulo=-angulo
-            if(angulo<0) {
-                angulo = angulo+2*kotlin.math.PI
-            }
 
-            angulo= (angulo/(2*kotlin.math.PI))*360
 
-            val rotateAnimation = RotateAnimation(angulo.toFloat(),0f, Animation.RELATIVE_TO_SELF,0.5f,
+            var rotateAnimation = RotateAnimation(currentDegree+angulo.toFloat(),-degree.toFloat()+angulo.toFloat(), Animation.RELATIVE_TO_SELF,0.5f,
                 Animation.RELATIVE_TO_SELF,0.5f)
+
+
             rotateAnimation.duration=210
             rotateAnimation.fillAfter=true
 
 
             imview?.startAnimation(rotateAnimation)
+        }else{
+            // Intentar ocultar la brújula
+            imview?.animation?.cancel()
+            imview?.animation = null
+
+            //hacemos invisible la brújula
+            if(imview?.visibility==View.VISIBLE){
+                imview?.visibility=View.INVISIBLE
+            }
         }
 
         currentDegree= (-degree).toFloat()
@@ -320,6 +316,9 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
     fun comoLlegar(indice: Int){
         mirador_destino = indice
+        if(imview?.visibility==View.INVISIBLE) {
+            imview?.visibility = View.VISIBLE
+        }
     }
 
     fun mirandoHacia(deg: Float){

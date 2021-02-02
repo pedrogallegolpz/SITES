@@ -75,7 +75,8 @@
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:padding="1dp"
-            android:src="@drawable/compass" />
+            android:visibility="visible"
+            android:src="@drawable/compass"/>
 
     </LinearLayout>
 
