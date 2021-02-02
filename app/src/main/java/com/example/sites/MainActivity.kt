@@ -8,6 +8,8 @@ import android.gesture.Gesture
 import android.gesture.GestureLibraries
 import android.gesture.GestureLibrary
 import android.gesture.GestureOverlayView
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -46,6 +48,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     private var mSensorManager: SensorManager? = null
     // image compass
     private var imview: ImageView?=null
+    private var destimview: ImageView?=null
 
     val MIN_TIME: Long=100000
     var locationManager:LocationManager?=null
@@ -264,9 +267,6 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             angulo=360*angulo/(2*kotlin.math.PI)
 
 
-
-
-
             var rotateAnimation = RotateAnimation(currentDegree+angulo.toFloat(),-degree.toFloat()+angulo.toFloat(), Animation.RELATIVE_TO_SELF,0.5f,
                 Animation.RELATIVE_TO_SELF,0.5f)
 
@@ -278,7 +278,9 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             //Miramos si hemos llegado al mirador (estar a menos de 10 metros)
             var distMir=getDistanceFromLatLonInKm(latit, longit, m.arraySitios[mirador_destino].lat, m.arraySitios[mirador_destino].lon)
 
-            zona.text = "Dirigiéndote a "+m.arrayNombres[mirador_destino] + "("+ (distMir*1000).toString()+"m)"
+            destino.text = "Dirigiéndote a "+m.arrayNombres[mirador_destino] + "("+ kotlin.math.truncate(
+                distMir * 1000
+            ).toInt() +"m )"
             if(distMir<0.01){
                 destinoAlcanzado()
             }
@@ -306,6 +308,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     private fun initData(){
         mSensorManager=getSystemService(Context.SENSOR_SERVICE) as SensorManager?
         imview=findViewById(R.id.imgCompass)
+        destimview=findViewById(R.id.destinoimagen)
     }
 
 
@@ -331,6 +334,9 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
     fun comoLlegar(indice: Int){
         mirador_destino = indice
+
+
+        destimview?.setImageResource(m.image_dest[mirador_destino])
         if(imview?.visibility==View.INVISIBLE) {
             imview?.visibility = View.VISIBLE
         }

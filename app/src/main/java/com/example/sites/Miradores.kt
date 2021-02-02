@@ -20,6 +20,9 @@ object Miradores {
     val image = arrayOf( R.drawable.miradorsannicolas,R.drawable.torredelavela,R.drawable.sanmiguel,R.drawable.sillamoro,
         R.drawable.cartuja,R.drawable.barranco,R.drawable.monasterio)
 
+    val image_dest = arrayOf( R.drawable.miradorsannicolas_dest,R.drawable.torredelavela_dest,R.drawable.sanmiguel_dest,R.drawable.sillamoro_dest,
+        R.drawable.cartuja_dest,R.drawable.barranco_dest,R.drawable.monasterio_dest)
+
 
     val zona = arrayOf( "Albaicín", "Alhambra",  "Albaicín", "Alhambra", "Cartuja", "Realejo",
         "Centro")
