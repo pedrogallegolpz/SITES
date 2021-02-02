@@ -270,7 +270,7 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
             googleMap.uiSettings.isCompassEnabled=true
 
 
-            googleMap.addMarker(MarkerOptions().position(latLng))
+            googleMap.addMarker(MarkerOptions().position(latLng).title("Su posicion.").snippet("Se encuentra aqui."))
 
 
 
@@ -334,12 +334,15 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
                     GoogleMap.OnInfoWindowClickListener {
                     var items = arrayOf("onefunction", "twofunction")
                     override fun onInfoWindowClick(marker: Marker) {
-                        var m=Miradores
-                        var miradorPulsado=marker.title
-                        val intent: Intent = Intent(context, ActivityInfoMiradores::class.java)
-                        intent.putExtra("MIRADOR", miradorPulsado)
-                        intent.putExtra("POS", m.getIndex(miradorPulsado).toString())
-                        startActivity(intent)
+                        if(marker.title!="Su posicion.") {
+                            var m = Miradores
+                            var miradorPulsado = marker.title
+                            val intent: Intent = Intent(context, ActivityInfoMiradores::class.java)
+                            intent.putExtra("MIRADOR", miradorPulsado)
+                            intent.putExtra("POS", m.getIndex(miradorPulsado).toString())
+                            startActivity(intent)
+                        }
+
                     }
                 })
 
