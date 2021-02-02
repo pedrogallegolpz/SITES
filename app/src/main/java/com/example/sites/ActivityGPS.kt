@@ -1,6 +1,7 @@
 package com.example.sites
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.Sensor
@@ -9,17 +10,20 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.location.LocationListener
 import android.location.LocationManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
+
 
 class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
 
@@ -31,7 +35,7 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
     //Parte de Fragmentmaps
     var lat: Double=0.0
     var lon: Double=0.0
-
+    var context = this
 
 
 
@@ -40,9 +44,19 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_gps)
         tvMensaje = findViewById(R.id.tvMensaje)
 
-        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),1000)
+        if(ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            )!= PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                1000
+            )
         }else{
             iniciarLocalizacion()
         }
@@ -61,14 +75,29 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
             startActivity(intent)
         }
 
-        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+        if(ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            )!= PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED){
 
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),1000)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                1000
+            )
 
             return;
         }
-        locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, 0F, local as LocationListener)
+        locationManager?.requestLocationUpdates(
+            LocationManager.NETWORK_PROVIDER,
+            MIN_TIME,
+            0F,
+            local as LocationListener
+        )
 
         tvMensaje?.setText("Localización Agregada")
 
@@ -90,9 +119,19 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
     override fun onResume() {
         super.onResume()
 
-        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),1000)
+        if(ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            )!= PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                1000
+            )
         }else{
             iniciarLocalizacion()
         }
@@ -122,10 +161,19 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
                         
                         tvMensaje?.setText("Actualizando ")
                         locationManager?.removeUpdates(local as LocationListener)
-                        locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, 0F, local as LocationListener)
+                        locationManager?.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            MIN_TIME,
+                            0F,
+                            local as LocationListener
+                        )
                         if(locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!=null){
-                            local?.onLocationChanged(locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!!)
-                            tvMensaje?.setText("Actualizando..."+ tvMensaje?.text.toString())
+                            local?.onLocationChanged(
+                                locationManager?.getLastKnownLocation(
+                                    LocationManager.NETWORK_PROVIDER
+                                )!!
+                            )
+                            tvMensaje?.setText("Actualizando..." + tvMensaje?.text.toString())
                         }
 
                     }
@@ -134,7 +182,11 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
 
             override fun onAccuracyChanged(sensor: Sensor, i: Int) {}
         }
-        sensorManager.registerListener(gyroscopeSensorListener,gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL)
+        sensorManager.registerListener(
+            gyroscopeSensorListener,
+            gyroscopeSensor,
+            SensorManager.SENSOR_DELAY_NORMAL
+        )
 
 
     }
@@ -151,14 +203,14 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
         var fragment = SupportMapFragment()
 
         var bundle= Bundle()
-        bundle.putDouble("lat",lat)
-        bundle.putDouble("lon",lon)
+        bundle.putDouble("lat", lat)
+        bundle.putDouble("lon", lon)
         fragment.arguments = bundle
 
 
         var fragmentManager: FragmentManager =this.supportFragmentManager
         var fragmentTransaction: FragmentTransaction =fragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.fragment,fragment, null)
+        fragmentTransaction.add(R.id.fragment, fragment, null)
         fragmentTransaction.commitAllowingStateLoss()
 
 
@@ -187,14 +239,23 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
                     if (sensorEvent.values[0]<5 ){
                         googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(act, R.raw.style_dark_json))
                     }else{
-                        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(act, R.raw.style_json))
+                        googleMap.setMapStyle(
+                            MapStyleOptions.loadRawResourceStyle(
+                                act,
+                                R.raw.style_json
+                            )
+                        )
                     }
 
                 }
 
                 override fun onAccuracyChanged(sensor: Sensor, i: Int) {}
             }
-            sensorManager.registerListener(lightSensorListener,lightSensor, SensorManager.SENSOR_DELAY_NORMAL)
+            sensorManager.registerListener(
+                lightSensorListener,
+                lightSensor,
+                SensorManager.SENSOR_DELAY_NORMAL
+            )
 
 
             //Modo noche
@@ -221,7 +282,7 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
                             m.arraySitios[i].lat,
                             m.arraySitios[i].lon
                         )
-                    ).title(m.arrayNombres[i]).snippet(m.info[i]).icon(
+                    ).title(m.arrayNombres[i]).snippet(m.descripcion[i]+"\n\nToca esta ventana para saber más información o para ir al mirador").icon(
                         BitmapDescriptorFactory.fromResource(
                             R.drawable.chincheta
                         )
@@ -234,29 +295,28 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
 
 
                     // Defines the contents of the InfoWindow
-                    override fun getInfoContents(arg0: Marker): View?
-                    {
+                    override fun getInfoContents(arg0: Marker): View? {
 
                         // Getting view from the layout file infowindowlayout.xml
-                        var v = getLayoutInflater ().inflate(R.layout.infowindowlayout, null);
+                        var v = getLayoutInflater().inflate(R.layout.infowindowlayout, null);
 
-                        var latLng: LatLng= arg0.getPosition ();
+                        var latLng: LatLng = arg0.getPosition();
 
-                        var im : ImageView = v.findViewById (R.id.imageView1);
-                        var tv1: TextView = v.findViewById (R.id.textView1);
-                        var tv2: TextView =v.findViewById (R.id.textView2);
-                        var title = arg0 . getTitle ();
-                        var informations = arg0 . getSnippet ();
+                        var im: ImageView = v.findViewById(R.id.imageView1);
+                        var tv1: TextView = v.findViewById(R.id.textView1);
+                        var tv2: TextView = v.findViewById(R.id.textView2);
+                        var title = arg0.getTitle();
+                        var informations = arg0.getSnippet();
 
                         tv1.setText(title);
                         tv2.setText(informations);
-                        for(j in m.arraySitios.indices) {
+                        for (j in m.arraySitios.indices) {
                             if (arg0.title.equals(m.arrayNombres[j]))
                                 im.setImageResource(m.image[j])
                         }
 
                         //if (onMarkerClick(arg0, somewhere) == true) {
-                           // im.setImageResource(m.image[i])
+                        // im.setImageResource(m.image[i])
 
                         //}
 
@@ -269,6 +329,19 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
                         return null;
                     }
                 });
+
+                googleMap.setOnInfoWindowClickListener(object :
+                    GoogleMap.OnInfoWindowClickListener {
+                    var items = arrayOf("onefunction", "twofunction")
+                    override fun onInfoWindowClick(marker: Marker) {
+                        var m=Miradores
+                        var miradorPulsado=marker.title
+                        val intent: Intent = Intent(context, ActivityInfoMiradores::class.java)
+                        intent.putExtra("MIRADOR", miradorPulsado)
+                        intent.putExtra("POS", m.getIndex(miradorPulsado).toString())
+                        startActivity(intent)
+                    }
+                })
 
 
 

@@ -63,6 +63,10 @@ object Miradores {
         return arrayNombres[posicion];
     }
 
+    fun getIndex(name:String): Int{
+        return arrayNombres.indexOf(name)
+    }
+
     fun getCount(): Int {
         return arrayNombres.size
     }
