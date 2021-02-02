@@ -36,7 +36,6 @@ object Miradores {
          "vistas que se pueden tener de Granada, su Vega y Sierra Nevada. Además de ser un sitio privilegiado por poder contemplarse desde allí el interior de la Alhambra, el Albaicín, el Sacromonte, " +
          "el Realejo y la zona Centro donde destaca la Catedral.",
 
-
         "Se sitúa en el Albaicín y es el más elevado de los miradores de Granada. Desde él se contempla una amplia panorámica de la ciudad, del Albaicín y sus murallas, de la Alhambra y Sierra Nevada. " +
          "Se accede a él después de una larga y empinada caminata. Está situado ante la Ermita de San Miguel Alto. "
 
