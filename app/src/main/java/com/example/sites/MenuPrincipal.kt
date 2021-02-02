@@ -50,6 +50,14 @@ class MenuPrincipal : AppCompatActivity() {
             }
         })
 
+        var botonAyuda = findViewById<View>(R.id.ayuda) as ImageButton
+        botonAyuda?.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View) {
+                val intent: Intent = Intent(v.context, ActivityAyuda::class.java)
+                startActivity(intent)
+            }
+        })
+
 
     }
 }

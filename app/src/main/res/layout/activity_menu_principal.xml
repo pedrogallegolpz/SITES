@@ -68,7 +68,7 @@
         android:contentDescription="@string/sitesbot"
         android:scaleType="fitEnd"
         android:src="@drawable/mapa1"
-        app:layout_constraintBottom_toTopOf="@+id/info"
+        app:layout_constraintBottom_toTopOf="@+id/ayuda"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listaMiradores"/>
@@ -115,7 +115,7 @@
 
 
     <ImageButton
-        android:id="@+id/info"
+        android:id="@+id/ayuda"
         android:layout_width="310dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
@@ -132,12 +132,12 @@
         android:layout_width="310dp"
         android:layout_height="100dp"
         android:gravity="center"
-        android:text="INFORMACIÓN    "
+        android:text="AYUDA"
         android:textColor="#d32f2f"
         android:textSize="17dp"
         android:textStyle="bold"
-        app:layout_constraintRight_toRightOf="@+id/info"
-        app:layout_constraintTop_toTopOf="@+id/info" />
+        app:layout_constraintRight_toRightOf="@+id/ayuda"
+        app:layout_constraintTop_toTopOf="@+id/ayuda" />
 
     <ImageView
         android:id="@+id/imageView"
