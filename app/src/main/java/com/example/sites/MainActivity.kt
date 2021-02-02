@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         cam.onCreate()
 
         initData()
-        gestureSetup()
+
 
         if(ActivityCompat.checkSelfPermission(
                 this,
@@ -87,8 +87,17 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             iniciarLocalizacion()
         }
 
-        val action = "para información de miradores haga un rayo"
-        Toast.makeText(this, action, Toast.LENGTH_SHORT).show()
+        if(intent.hasExtra("POS")){
+            var position = intent.getStringExtra("POS").toString()
+            comoLlegar(position.toInt())
+        }else{
+            gestureSetup()
+            val action = "para información de miradores haga un rayo"
+            Toast.makeText(this, action, Toast.LENGTH_SHORT).show()
+
+        }
+
+
 
     }
 
@@ -255,7 +264,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             angulo=360*angulo/(2*kotlin.math.PI)
 
 
-            zona.text = angulo.toString()
+            zona.text = "Dirigiéndote a "+m.arrayNombres[mirador_destino]
 
 
             var rotateAnimation = RotateAnimation(currentDegree+angulo.toFloat(),-degree.toFloat()+angulo.toFloat(), Animation.RELATIVE_TO_SELF,0.5f,
