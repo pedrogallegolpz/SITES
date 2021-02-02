@@ -261,12 +261,16 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             var rotateAnimation = RotateAnimation(currentDegree+angulo.toFloat(),-degree.toFloat()+angulo.toFloat(), Animation.RELATIVE_TO_SELF,0.5f,
                 Animation.RELATIVE_TO_SELF,0.5f)
 
-
             rotateAnimation.duration=210
             rotateAnimation.fillAfter=true
 
-
             imview?.startAnimation(rotateAnimation)
+
+            //Miramos si hemos llegado al mirador (estar a menos de 10 metros)
+            var distMir=getDistanceFromLatLonInKm(latit, longit, m.arraySitios[mirador_destino].lat, m.arraySitios[mirador_destino].lon)
+            if(distMir<0.01){
+                destinoAlcanzado()
+            }
         }else{
             // Intentar ocultar la brújula
             imview?.animation?.cancel()
@@ -320,6 +324,12 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             imview?.visibility = View.VISIBLE
         }
     }
+
+    fun destinoAlcanzado(){
+        mirador_destino=-1
+    }
+
+
 
     fun mirandoHacia(deg: Float){
         mirandoa.text = ""
@@ -419,6 +429,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         var m=Miradores
         val a = Zona.Point(latit, longit)
         enMirador=false
+
         //Indice en el array de Miradores del mirador en el que estamos (si estamos en alguno)
         var indiceMirador:Int = 0
 
@@ -430,14 +441,19 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                 enMirador=true
                 miradorElegido = m.arrayNombres[indiceMirador]
                 posicionElegido = indiceMirador
-                zona.text=m.arrayNombres[indiceMirador]+System.lineSeparator()
+
+                // Comprobamos que no estemos de camino a un mirador
+                if(mirador_destino<0f || mirador_destino >= m.arrayNombres.size) {
+                    zona.text = m.arrayNombres[indiceMirador] + System.lineSeparator()
+                }
                 break
             }else if(!enMirador) {
                 indiceMirador = indiceMirador + 1
             }
         }
 
-        if(!enMirador) {
+        // Comprobamos que no estemos de camino a un mirador y que no estemos en uno
+        if(!enMirador && (mirador_destino<0f || mirador_destino >= m.arrayNombres.size)) {
 
             if (z.isInside(z.centro, 4, a))
                 zona.text = "Centro"
