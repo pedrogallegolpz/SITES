@@ -1,6 +1,6 @@
 package com.example.sites
 
-internal object Zona {
+object Zona {
     // Define Infinite (Using INT_MAX
     // caused overflow problems)
     var INF = 10000.99999
@@ -119,9 +119,45 @@ internal object Zona {
         "Zona Residencial", "Zona Residencial con bares", "Carretera dirección la sierra", "Zona Residencial", "Universidades", "Barrio Árabe Granada", "Palacio Árabe", "Zona con buenos bares", "Palacio veraniego Alhambra",
         "Zona tradicional Granadina")
 
-    val image = arrayOf( R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,
-        R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,
-        R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,R.drawable.miradorsannicolas)
+    val info = arrayOf("En esta zona se encuentran lugares emblemáticos de la ciudad como la Catedral, la Capilla Real, la Alcaicería, el Zacatín, el Ayuntamiento, Puerta Real y " +
+            "la plaza Bib-Rambla. También es la zona comercial más importante de la ciudad, concentrada en torno a las calles Recogidas, Mesones, Alhóndiga, Puentezuelas, Gran Vía de Colón, " +
+            "Reyes Católicos y Acera del Darro.",
+        "Es el barrio en el que se encuentra situada la plaza de toros y la mayoría de hospitales de la ciudad. Se caracteriza por sus bares de tapas y cafeterías.",
+
+        "Es una de las zona más nuevas de la ciudad. Además es muy popular por sus innumerables bares de tapas.",
+
+        "Barrio colindante a la Chana y que sirve de nexo de unión con el cercano municipio de Maracena. En él se encuentra la Escuela de Informática y Telecomunicaciones.",
+
+        "Zona más al oeste de Granada, donde se encuentra la Circunvalación y donde la ciudad no ha llegado a extenderse en edificación. Entre colegios e institutos, sigue habiendo huertos y zonas de cultivo.",
+
+        "Es el barrio comprendido entre los ríos Genil y Monachil, situado al sur de la ciudad. Es un barrio de origen humilde y destaca por el Palacio de Congresos, el Palacio de Deportes y el Estadio Nuevo Los Cármenes.",
+
+        "Zona que abarca los alrededores del Estadio de la Juventud. Y que destaca por sus bares de tapas y su cercanía con la Facultad de Ciencias.",
+
+        "Zona localizada a la orilla del río Genil, bajo la Alhambra, y que fluye en dirección a Sierra Nevada. A esta zona pertenecen el barrio del Serrallo y Bola de Oro.",
+
+        "Está compuesta los barrios de Almanjáyar, Casería de Montijo, Parque Nueva Granada y La Paz. Es la zona más humilde de la ciudad y donde se encuentra el Recinto Ferial.",
+
+        "Barrio situado al norte de la ciudad y formado en torno al Monasterio de la Cartuja. Destaca por las vistas de la ciudad y sus facultades.",
+
+        "Es el barrio más antiguo de Granada, fue el germen de la actual ciudad y conserva aún toda la magia de su pasado árabe. Es famoso por sus calles " +
+            "estrechas, sus iglesias y sus aljibes de la época musulmana. Pero sobre todo destacan sus miradores desde donde se puede contemplar la Alhambra con Sierra Nevada de fondo.",
+
+        "Es una ciudad palatina andalusí consistente en un conjunto de antiguos palacios, jardines y fortaleza inicialmente concebida para alojar al emir y la corte del Reino nazarí, y " +
+                "más tarde como residencia real castellana y de sus representantes. Su singularidad artística radica en los interiores de los palacios nazaríes, cuya decoración está entre las cumbres " +
+                "del arte andalusí, así como en su localización y adaptación, generando un paisaje nuevo pero totalmente integrado con la naturaleza preexistente.",
+
+        "Situado en el casco antiguo de la ciudad, a los pies de la Alhambra. Arrabal judío de la ciudad musulmana  y que cuando los cristianos tomaron la ciudad, lo renombraron como Realejo. " +
+                "En él se encuentra una de las lugares más famosos de Granada por sus bares, el Campo del Príncipe.",
+
+        "Extenso parque que continúa a la espalda del Generalife con caminos para pasear, mesas de pícnic, ruinas y vistas a la ciudad y a la Sierra. Destaca como lugar muy conocido el Llano de la Perdiz.",
+
+        "Se encuentra en el valle de Valparaíso, frente a la Alhambra. Famoso por sus cuevas y por su tradición flamenca."
+    )
+
+    val image = arrayOf( R.drawable.centro,R.drawable.plazadetoros,R.drawable.chana,R.drawable.etsiit,
+        R.drawable.vega,R.drawable.zaidin,R.drawable.juventud,R.drawable.zaidin,R.drawable.zaidin,R.drawable.cartuja,R.drawable.albaicin,
+        R.drawable.alhambra2,R.drawable.realejo,R.drawable.generalife,R.drawable.sacromonte)
 
 
 
@@ -238,5 +274,5 @@ internal object Zona {
         return count % 2 == 1 // Same as (count%2 == 1)
     }
 
-    internal class Point(var x: Double, var y: Double)
+    class Point(var x: Double, var y: Double)
 }

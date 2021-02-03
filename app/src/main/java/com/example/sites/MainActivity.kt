@@ -97,10 +97,14 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             var position = intent.getStringExtra("POS").toString()
             comoLlegar(position.toInt())
             gestureSetup()
+            val action = "Si se encuentra en un mirador haga un rayo para obtener información"
+            val notificacion:Toast = Toast.makeText(this, action, Toast.LENGTH_LONG)
+            notificacion.setGravity(Gravity.CENTER,Gravity.CENTER,Gravity.CENTER)
+            notificacion.show()
         }else{
             gestureSetup()
-            val action = "para información de el mirador haga un rayo"
-            val notificacion:Toast = Toast.makeText(this, action, Toast.LENGTH_SHORT)
+            val action = "Si se encuentra en un mirador haga un rayo para obtener información"
+            val notificacion:Toast = Toast.makeText(this, action, Toast.LENGTH_LONG)
             notificacion.setGravity(Gravity.CENTER,Gravity.CENTER,Gravity.CENTER)
             notificacion.show()
 
@@ -546,6 +550,17 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             titulo.text="   Zonas en esa dirección"
             val adapter = ListaMirandoaAdapter(this, zonasCercanas, ArrayList<Int>(15), false) //false para zonas y arrayList no se usa, inicializado a lo que sea
             listamirandoa.adapter = adapter
+
+            listamirandoa.onItemClickListener =
+                AdapterView.OnItemClickListener { parent, view, position, id -> //position será el índice del elemento pulsado
+                    var miradorPulsado = listamirandoa.getItemAtPosition(position) as String
+                    val intent: Intent = Intent(view.context, ActivityInfoMiradores::class.java)
+                    intent.putExtra("MIRADOR", miradorPulsado)
+                    intent.putExtra("POS", zonasCercanas[position].toString())
+                    intent.putExtra("ZONA", "")
+                    startActivity(intent)
+
+                }
 
         }
 

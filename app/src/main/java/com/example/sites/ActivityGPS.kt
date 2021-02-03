@@ -28,7 +28,7 @@ import com.google.android.gms.maps.model.*
 class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
 
     var tvMensaje: TextView?=null
-    val MIN_TIME: Long=10000
+    val MIN_TIME: Long=100000
     var local:Localizacion?=null
     var locationManager:LocationManager?=null
 
