@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     var posicionElegido:Int = -1
 
     var m=Miradores
+    var mon = Monumentos
 
     // Como llegar
     var mirador_destino: Int=-1
@@ -363,6 +364,29 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
         //Si no estamos en un mirador, añadimos si estamos mirando hacia algún mirador
         if(!enMirador){
+            var j = 0
+            monumento.text = ""
+            for(monument in mon.arraySitios) {
+                var angulo: Double = anguloLatLon(monument.lat, monument.lon, latit, longit)
+                var distMon=getDistanceFromLatLonInKm(latit, longit, monument.lat, monument.lon)
+
+                var degrad3 = degrad
+                if(degrad*angulo<0 && abs(degrad - angulo)>kotlin.math.PI) {
+                    if(degrad<0){
+                        degrad3=degrad3+2* kotlin.math.PI
+                    }else{
+                        angulo=angulo+2* kotlin.math.PI
+                    }
+                }
+
+                if ((abs(degrad3 - angulo) < PI / (distMon * 10)) && kotlin.math.truncate(distMon * 1000).toInt() < 30) {
+                    monumento.text = "Estas a " + kotlin.math.truncate(distMon * 1000).toInt() +
+                            "m del monumento " + mon.arrayNombres[j] + ". Pulsa para obtener información."
+                }
+
+                j += 1
+            }
+
             var indiceMir:Int=0
             for(mir in m.arraySitios) {
                 var angulo: Double = anguloLatLon(mir.lat, mir.lon, latit, longit)

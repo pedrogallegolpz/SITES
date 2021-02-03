@@ -111,9 +111,6 @@
         app:layout_constraintRight_toRightOf="@+id/listaMiradores"
         app:layout_constraintTop_toTopOf="@+id/listaMiradores" />
 
-
-
-
     <ImageButton
         android:id="@+id/ayuda"
         android:layout_width="310dp"

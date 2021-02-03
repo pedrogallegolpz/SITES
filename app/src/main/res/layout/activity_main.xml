@@ -53,6 +53,17 @@
         android:text="Dirigiéndote a "
         android:textAppearance="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large" />
 
+    <TextView
+        android:id="@+id/monumento"
+        android:layout_width="match_parent"
+        android:layout_height="93dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="400dp"
+        android:gravity="center"
+        android:text="Aaaaaaaaaaaaaa"
+        android:textAppearance="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large" />
+
     <android.gesture.GestureOverlayView
         android:id="@+id/gOverlay"
         android:layout_width="match_parent"
