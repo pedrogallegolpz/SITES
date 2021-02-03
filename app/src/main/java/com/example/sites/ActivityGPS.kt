@@ -12,6 +12,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
+import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -60,6 +61,11 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
         }else{
             iniciarLocalizacion()
         }
+        val action = "Pase la mano por encima de la pantalla para recargar la ubicación.\n" +
+                "También se hará automáticamente cada cierto tiempo"
+        val notificacion:Toast = Toast.makeText(this, action, Toast.LENGTH_LONG)
+        notificacion.setGravity(Gravity.CENTER, Gravity.CENTER, Gravity.CENTER)
+        notificacion.show()
     }
 
     fun iniciarLocalizacion(){
