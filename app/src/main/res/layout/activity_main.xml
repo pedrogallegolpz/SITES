@@ -18,22 +18,6 @@
 
 
     <TextView
-        android:id="@+id/mirandoa"
-        android:layout_width="359dp"
-        android:layout_height="307dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="360dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="60dp"
-        android:gravity="bottom"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-    <TextView
         android:id="@+id/zona"
         android:layout_width="match_parent"
         android:layout_height="93dp"
@@ -50,18 +34,19 @@
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="300dp"
         android:gravity="center"
-        android:text="Dirigiéndote a "
+        android:text=""
         android:textAppearance="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large" />
 
-    <TextView
+    <Button
         android:id="@+id/monumento"
+        android:background="@color/applozic_transparent_color"
         android:layout_width="match_parent"
         android:layout_height="93dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="400dp"
         android:gravity="center"
-        android:text="Aaaaaaaaaaaaaa"
+        android:text=""
         android:textAppearance="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large" />
 
     <android.gesture.GestureOverlayView
@@ -83,10 +68,10 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="25dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="380dp"
+        android:layout_marginTop="370dp"
         android:layout_marginEnd="25dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="160dp"
+        android:layout_marginBottom="190dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -97,37 +82,56 @@
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:padding="1dp"
-            android:visibility="visible"
-            android:src="@drawable/compass"/>
+            android:src="@drawable/compass"
+            android:visibility="visible" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="346dp"
-        android:layout_height="200dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="235dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginRight="0dp"
         android:layout_marginBottom="0dp"
-        android:orientation="horizontal">
+        android:background="#e0e0e0">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:layout_constraintEnd_toEndOf="@+id/textView4"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="?attr/homeAsUpIndicator" />
 
-        <ImageView
-            android:id="@+id/destinoimagen"
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:background="#00695c"
+            android:gravity="center_vertical"
+            android:text="   Miradores en esa dirección"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ListView
+            android:id="@+id/listamirandoa"
             android:layout_width="match_parent"
+            android:background="@color/white"
             android:layout_height="match_parent"
-            android:baselineAlignBottom="true"
-            android:layout_marginBottom="0dp"
-            android:padding="0dp"
-            android:visibility="visible"
-            android:scaleType="centerCrop"
-            android:src="@drawable/alhambravision"/>
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 
 
 </RelativeLayout>

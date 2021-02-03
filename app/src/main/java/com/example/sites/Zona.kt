@@ -115,6 +115,14 @@ internal object Zona {
     "Zona Zaidín", "Zona Estadio de la Juventud", "Zona Carretera de la Sierra", "Zona Norte", "Zona Cartuja", "Zona Albaicin", "Zona Alhambra", "Zona Realejo", "Zona Generalife",
     "Zona Sacromonte")
 
+    val descripcion = arrayOf("Zona céntrica con comercios", "Zona conBares al rededor de la Plaza de toros", "Zona Residencial con bares", "Zona Residencial", "Zona Residencial",
+        "Zona Residencial", "Zona Residencial con bares", "Carretera dirección la sierra", "Zona Residencial", "Universidades", "Barrio Árabe Granada", "Palacio Árabe", "Zona con buenos bares", "Palacio veraniego Alhambra",
+        "Zona tradicional Granadina")
+
+    val image = arrayOf( R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,
+        R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,
+        R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,R.drawable.miradorsannicolas,R.drawable.miradorsannicolas)
+
 
 
     // Given three colinear points p, q, r,

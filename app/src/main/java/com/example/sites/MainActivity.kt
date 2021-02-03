@@ -20,13 +20,14 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Math.*
 
@@ -61,6 +62,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
     var m=Miradores
     var mon = Monumentos
+    var  degreeAnt :Float =-1.0f
 
     // Como llegar
     var mirador_destino: Int=-1
@@ -94,12 +96,23 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         if(intent.hasExtra("POS")){
             var position = intent.getStringExtra("POS").toString()
             comoLlegar(position.toInt())
+            gestureSetup()
         }else{
             gestureSetup()
-            val action = "para información de miradores haga un rayo"
-            Toast.makeText(this, action, Toast.LENGTH_SHORT).show()
+            val action = "para información de el mirador haga un rayo"
+            val notificacion:Toast = Toast.makeText(this, action, Toast.LENGTH_SHORT)
+            notificacion.setGravity(Gravity.CENTER,Gravity.CENTER,Gravity.CENTER)
+            notificacion.show()
 
         }
+
+        var botton = findViewById<View>(R.id.floatingActionButton2) as FloatingActionButton
+        botton?.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View) {
+                val intent: Intent = Intent(v.context, MenuPrincipal::class.java)
+                startActivity(intent)
+            }
+        })
 
 
 
@@ -258,48 +271,72 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
     override fun onSensorChanged(event: SensorEvent?) {
         val degree=Math.round(event?.values?.get(0)!!)
+        val degree_float=event?.values?.get(0) as Float
+
+        //necesito que ejecute si la diferencia de giro es suficiente
+
+        if(degreeAnt==-1.0f || Math.abs(degree_float-degreeAnt)>0.5) {
+
+            if (mirador_destino >= 0f && mirador_destino < m.arrayNombres.size) {
+                var angulo: Double = anguloLatLon(
+                    m.arraySitios[mirador_destino].lat,
+                    m.arraySitios[mirador_destino].lon,
+                    latit,
+                    longit
+                )
+                angulo = -angulo + kotlin.math.PI / 2
+                if (angulo < 0)
+                    angulo = angulo + 2 * kotlin.math.PI
+                angulo = 360 * angulo / (2 * kotlin.math.PI)
 
 
-        if(mirador_destino>=0f && mirador_destino < m.arrayNombres.size) {
-            var angulo: Double = anguloLatLon(m.arraySitios[mirador_destino].lat, m.arraySitios[mirador_destino].lon, latit, longit)
-            angulo=-angulo+kotlin.math.PI/2
-            if (angulo<0)
-                angulo=angulo+2*kotlin.math.PI
-            angulo=360*angulo/(2*kotlin.math.PI)
+                var rotateAnimation = RotateAnimation(
+                    currentDegree + angulo.toFloat(),
+                    -degree.toFloat() + angulo.toFloat(),
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f
+                )
 
+                rotateAnimation.duration = 210
+                rotateAnimation.fillAfter = true
 
-            var rotateAnimation = RotateAnimation(currentDegree+angulo.toFloat(),-degree.toFloat()+angulo.toFloat(), Animation.RELATIVE_TO_SELF,0.5f,
-                Animation.RELATIVE_TO_SELF,0.5f)
+                imview?.startAnimation(rotateAnimation)
 
-            rotateAnimation.duration=210
-            rotateAnimation.fillAfter=true
+                //Miramos si hemos llegado al mirador (estar a menos de 10 metros)
+                var distMir = getDistanceFromLatLonInKm(
+                    latit,
+                    longit,
+                    m.arraySitios[mirador_destino].lat,
+                    m.arraySitios[mirador_destino].lon
+                )
 
-            imview?.startAnimation(rotateAnimation)
+                destino.text =
+                    "Dirigiéndote a " + m.arrayNombres[mirador_destino] + "(" + kotlin.math.truncate(
+                        distMir * 1000
+                    ).toInt() + "m )"
+                if (distMir < 0.01) {
+                    destinoAlcanzado()
+                }
+            } else {
+                // Intentar ocultar la brújula
+                imview?.animation?.cancel()
+                imview?.animation = null
 
-            //Miramos si hemos llegado al mirador (estar a menos de 10 metros)
-            var distMir=getDistanceFromLatLonInKm(latit, longit, m.arraySitios[mirador_destino].lat, m.arraySitios[mirador_destino].lon)
-
-            destino.text = "Dirigiéndote a "+m.arrayNombres[mirador_destino] + "("+ kotlin.math.truncate(
-                distMir * 1000
-            ).toInt() +"m )"
-            if(distMir<0.01){
-                destinoAlcanzado()
+                //hacemos invisible la brújula
+                if (imview?.visibility == View.VISIBLE) {
+                    imview?.visibility = View.INVISIBLE
+                }
             }
-        }else{
-            // Intentar ocultar la brújula
-            imview?.animation?.cancel()
-            imview?.animation = null
 
-            //hacemos invisible la brújula
-            if(imview?.visibility==View.VISIBLE){
-                imview?.visibility=View.INVISIBLE
+            currentDegree = (-degree).toFloat()
+            if (latlonActualizadas) {
+                mirandoHacia(currentDegree)
             }
-        }
 
-        currentDegree= (-degree).toFloat()
-        if(latlonActualizadas) {
-            mirandoHacia(currentDegree)
         }
+        degreeAnt=degree_float
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
@@ -309,7 +346,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     private fun initData(){
         mSensorManager=getSystemService(Context.SENSOR_SERVICE) as SensorManager?
         imview=findViewById(R.id.imgCompass)
-        destimview=findViewById(R.id.destinoimagen)
+        //destimview=findViewById(R.id.destinoimagen)
     }
 
 
@@ -350,7 +387,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
 
     fun mirandoHacia(deg: Float){
-        mirandoa.text = ""
+
 
         var z=Zona
         val m_cercanos = mutableMapOf<Double, Int>()
@@ -365,6 +402,9 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         //Si no estamos en un mirador, añadimos si estamos mirando hacia algún mirador
         if(!enMirador){
             var j = 0
+            /* MONUMENTOS */
+            var monumentoPulsado = ""
+            var monumento : Button = findViewById(R.id.monumento)
             monumento.text = ""
             for(monument in mon.arraySitios) {
                 var angulo: Double = anguloLatLon(monument.lat, monument.lon, latit, longit)
@@ -382,10 +422,22 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                 if ((abs(degrad3 - angulo) < PI / (distMon * 10)) && kotlin.math.truncate(distMon * 1000).toInt() < 30) {
                     monumento.text = "Estas a " + kotlin.math.truncate(distMon * 1000).toInt() +
                             "m del monumento " + mon.arrayNombres[j] + ". Pulsa para obtener información."
+
+                    monumentoPulsado = mon.arrayNombres[j]
                 }
 
                 j += 1
             }
+
+            monumento?.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(v: View) {
+                    val intent: Intent =   Intent(v.context, ActivityInfoMiradores::class.java)
+                    intent.putExtra("MIRADOR", monumentoPulsado)
+                    intent.putExtra("POS", mon.getIndex(monumentoPulsado).toString())
+                    intent.putExtra("MONUMENTO", "")
+                    startActivity(intent)
+                }
+            })
 
             var indiceMir:Int=0
             for(mir in m.arraySitios) {
@@ -410,17 +462,43 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             }
 
             var distOrdenados=m_cercanos.toSortedMap()
-
-            for(i in distOrdenados.keys){
+            var indices_cercanos : ArrayList<Int> = ArrayList<Int>(distOrdenados.size)
+            var distancias : ArrayList<Int> = ArrayList<Int>(distOrdenados.size)
+            for(i in distOrdenados.keys) {
+                /*
                 mirandoa.text =mirandoa.text.toString() +"- "+ m.arrayNombres[m_cercanos[i] as Int] + " ( " +  kotlin.math.truncate(
                     i * 1000
                 ).toInt() +"m )" +System.lineSeparator()
+
+                 */
+                indices_cercanos.add(m_cercanos[i] as Int)
+                distancias.add(kotlin.math.truncate( i * 1000 ).toInt())
             }
+
+            val listamirandoa : ListView = findViewById(R.id.listamirandoa)
+            val titulo : TextView = findViewById(R.id.textView4)
+            titulo.text="   Miradores en esa dirección"
+            val adapter = ListaMirandoaAdapter(this, indices_cercanos, distancias, true) //true para miradores
+            listamirandoa.adapter = adapter
+
+            listamirandoa.onItemClickListener =
+                AdapterView.OnItemClickListener { parent, view, position, id -> //position será el índice del elemento pulsado
+                    var miradorPulsado = listamirandoa.getItemAtPosition(position) as String
+                    val intent: Intent = Intent(view.context, ActivityInfoMiradores::class.java)
+                    intent.putExtra("MIRADOR", miradorPulsado)
+                    intent.putExtra("POS", indices_cercanos[position].toString())
+                    startActivity(intent)
+
+                }
+
+
+
 
         }else{
             //En caso de que estemos en un mirador, sólo se escribirían las zonas a las que miramos
             //Variable para llevar el índice del mirador en el array de zonas
             var numMirador:Int=0
+            var zonasCercanas:ArrayList<Int> = ArrayList<Int>(15)
             for(zone in z.arrayZonas) {
 
                 var zonaDetectada=false
@@ -448,11 +526,13 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                     if(!zonaDetectada) {
                         if (angmayor * angmenor < 0 && (angmayor-angmenor)> kotlin.math.PI) {
                             if ((degrad > angmayor && degrad <= kotlin.math.PI) || ( degrad < angmenor && degrad >= -kotlin.math.PI)) {
-                                mirandoa.text = mirandoa.text.toString() + z.arrayNombres[numMirador] + System.lineSeparator()
+                                //mirandoa.text = mirandoa.text.toString() + z.arrayNombres[numMirador] + System.lineSeparator()
+                                zonasCercanas.add(numMirador)
                                 zonaDetectada = true
                             }
                         } else if ( degrad < angmayor && degrad > angmenor ) {
-                            mirandoa.text = mirandoa.text.toString() + z.arrayNombres[numMirador] + System.lineSeparator()
+                            //mirandoa.text = mirandoa.text.toString() + z.arrayNombres[numMirador] + System.lineSeparator()
+                            zonasCercanas.add(numMirador)
                             zonaDetectada = true
                         }
                     }
@@ -460,6 +540,12 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
                 numMirador = numMirador + 1
             }
+
+            val listamirandoa : ListView = findViewById(R.id.listamirandoa)
+            val titulo : TextView = findViewById(R.id.textView4)
+            titulo.text="   Zonas en esa dirección"
+            val adapter = ListaMirandoaAdapter(this, zonasCercanas, ArrayList<Int>(15), false) //false para zonas y arrayList no se usa, inicializado a lo que sea
+            listamirandoa.adapter = adapter
 
         }
 
