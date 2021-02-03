@@ -28,7 +28,6 @@ import com.google.android.gms.maps.model.*
 
 class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
 
-    var tvMensaje: TextView?=null
     val MIN_TIME: Long=100000
     var local:Localizacion?=null
     var locationManager:LocationManager?=null
@@ -43,7 +42,6 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gps)
-        tvMensaje = findViewById(R.id.tvMensaje)
 
         if(ActivityCompat.checkSelfPermission(
                 this,
@@ -72,8 +70,6 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
         locationManager= getSystemService(Context.LOCATION_SERVICE) as LocationManager
         local = Localizacion(this)
 
-
-        local?.tvMensaje = tvMensaje
 
         val gpsEnabled: Boolean= locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
         if(!gpsEnabled){
@@ -105,7 +101,6 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
             local as LocationListener
         )
 
-        tvMensaje?.setText("Localización Agregada")
 
     }
 
@@ -164,8 +159,7 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
                             1000
                         )
                     } else {
-                        
-                        tvMensaje?.setText("Actualizando ")
+
                         locationManager?.removeUpdates(local as LocationListener)
                         locationManager?.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER,
@@ -179,7 +173,6 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
                                     LocationManager.NETWORK_PROVIDER
                                 )!!
                             )
-                            tvMensaje?.setText("Actualizando..." + tvMensaje?.text.toString())
                         }
 
                     }
@@ -276,7 +269,8 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
             googleMap.uiSettings.isCompassEnabled=true
 
 
-            googleMap.addMarker(MarkerOptions().position(latLng).title("Su posicion.").snippet("Se encuentra aqui."))
+            googleMap.addMarker(MarkerOptions().position(latLng).title("Su posicion.").snippet("Se encuentra aqui:\n"
+            + "Latitud: " + latLng.latitude.toString() + "\nLongitud " + latLng.longitude.toString()))
 
 
 
