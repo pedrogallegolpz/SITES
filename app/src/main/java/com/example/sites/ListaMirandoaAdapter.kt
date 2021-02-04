@@ -1,6 +1,7 @@
 package com.example.sites
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,7 @@ import com.example.sites.R
 import com.squareup.picasso.Picasso
 import java.io.File
 
-class ListaMirandoaAdapter(private val context: Context, private val cercanos: ArrayList<Int>, private val dist: ArrayList<Int>, private val tipo: Boolean) : BaseAdapter() {
+class ListaMirandoaAdapter(private val context: Context, private val cercanos: ArrayList<Int>, private val dist: ArrayList<Int>, private val tipo: Boolean, private val dirigir: Boolean) : BaseAdapter() {
     // tipo true para miradores, false para zonas
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     private val m:Miradores=Miradores
@@ -58,17 +59,31 @@ class ListaMirandoaAdapter(private val context: Context, private val cercanos: A
         // 1
         val nombre = getItem(position) as String
 
-// 2
-        titleTextView.text = nombre
-        if (tipo){
+        if(dirigir && position==0 && tipo){
+            rowView.setBackgroundColor(Color.parseColor("#c8e6c9"))
+        }
+
+        if(dirigir && position==0 && !tipo){
+            rowView.setBackgroundColor(Color.parseColor("#c8e6c9"))
+            titleTextView.text = m.arrayNombres[position]
             subtitleTextView.text = m.descripcion[cercanos[position] as Int]
             detailTextView.text =dist[position].toString() + " m"
             Picasso.get().load(m.image[cercanos[position] as Int] ).placeholder(R.mipmap.ic_launcher).into(thumbnailImageView)
         }else{
-            subtitleTextView.text = z.descripcion[cercanos[position] as Int]
-            detailTextView.text =""
-            Picasso.get().load(z.image[cercanos[position] as Int] ).placeholder(R.mipmap.ic_launcher).into(thumbnailImageView)
+            titleTextView.text = nombre
+            if (tipo){
+                subtitleTextView.text = m.descripcion[cercanos[position] as Int]
+                detailTextView.text =dist[position].toString() + " m"
+                Picasso.get().load(m.image[cercanos[position] as Int] ).placeholder(R.mipmap.ic_launcher).into(thumbnailImageView)
+            }else{
+                subtitleTextView.text = z.descripcion[cercanos[position] as Int]
+                detailTextView.text =""
+                Picasso.get().load(z.image[cercanos[position] as Int] ).placeholder(R.mipmap.ic_launcher).into(thumbnailImageView)
+            }
         }
+
+// 2
+
 
         return rowView
     }

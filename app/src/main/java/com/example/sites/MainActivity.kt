@@ -468,6 +468,15 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             var distOrdenados=m_cercanos.toSortedMap()
             var indices_cercanos : ArrayList<Int> = ArrayList<Int>(distOrdenados.size)
             var distancias : ArrayList<Int> = ArrayList<Int>(distOrdenados.size)
+            var position=-1
+
+            if(intent.hasExtra("POS")){
+                position = intent.getStringExtra("POS").toString().toInt()
+                indices_cercanos.add(position)
+                var dist = getDistanceFromLatLonInKm(latit, longit, m.arraySitios[position].lat, m.arraySitios[position].lon)
+                distancias.add(kotlin.math.truncate(dist*1000).toInt())
+            }
+
             for(i in distOrdenados.keys) {
                 /*
                 mirandoa.text =mirandoa.text.toString() +"- "+ m.arrayNombres[m_cercanos[i] as Int] + " ( " +  kotlin.math.truncate(
@@ -475,14 +484,22 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                 ).toInt() +"m )" +System.lineSeparator()
 
                  */
-                indices_cercanos.add(m_cercanos[i] as Int)
-                distancias.add(kotlin.math.truncate( i * 1000 ).toInt())
+                if(m_cercanos[i] as Int != position){
+                    indices_cercanos.add(m_cercanos[i] as Int)
+                    distancias.add(kotlin.math.truncate( i * 1000 ).toInt())
+                }
+
             }
 
             val listamirandoa : ListView = findViewById(R.id.listamirandoa)
             val titulo : TextView = findViewById(R.id.textView4)
             titulo.text="   Miradores en esa dirección"
-            val adapter = ListaMirandoaAdapter(this, indices_cercanos, distancias, true) //true para miradores
+            val adapter : ListaMirandoaAdapter
+            if(intent.hasExtra("POS")){
+                adapter = ListaMirandoaAdapter(this, indices_cercanos, distancias, true,true) //true para miradores
+            }else{
+                adapter = ListaMirandoaAdapter(this, indices_cercanos, distancias, true,false) //true para miradores
+            }
             listamirandoa.adapter = adapter
 
             listamirandoa.onItemClickListener =
@@ -503,6 +520,14 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             //Variable para llevar el índice del mirador en el array de zonas
             var numMirador:Int=0
             var zonasCercanas:ArrayList<Int> = ArrayList<Int>(15)
+            var distancias:ArrayList<Int> = ArrayList<Int>(15)
+            var position:Int
+            if(intent.hasExtra("POS")){
+                position = intent.getStringExtra("POS").toString().toInt()
+                zonasCercanas.add(position)
+                var dist = getDistanceFromLatLonInKm(latit, longit, m.arraySitios[position].lat, m.arraySitios[position].lon)
+                distancias.add(kotlin.math.truncate(dist*1000).toInt())
+            }
             for(zone in z.arrayZonas) {
 
                 var zonaDetectada=false
@@ -548,7 +573,13 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             val listamirandoa : ListView = findViewById(R.id.listamirandoa)
             val titulo : TextView = findViewById(R.id.textView4)
             titulo.text="   Zonas en esa dirección"
-            val adapter = ListaMirandoaAdapter(this, zonasCercanas, ArrayList<Int>(15), false) //false para zonas y arrayList no se usa, inicializado a lo que sea
+
+            val adapter : ListaMirandoaAdapter
+            if(intent.hasExtra("POS")){
+                adapter = ListaMirandoaAdapter(this, zonasCercanas, distancias, false, true) //false para zonas y arrayList no se usa, inicializado a lo que sea
+            }else{
+                adapter = ListaMirandoaAdapter(this, zonasCercanas, distancias, false, false) //false para zonas y arrayList no se usa, inicializado a lo que sea
+            }
             listamirandoa.adapter = adapter
 
             listamirandoa.onItemClickListener =

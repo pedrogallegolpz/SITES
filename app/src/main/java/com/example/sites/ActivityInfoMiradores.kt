@@ -38,6 +38,7 @@ class ActivityInfoMiradores : AppCompatActivity() {
             botton.visibility=View.INVISIBLE
 
         }else if (intent.hasExtra("ZONA")) {
+
             miradorElegido = intent.getStringExtra("MIRADOR").toString()
             var position = intent.getStringExtra("POS").toString()
 
@@ -49,6 +50,7 @@ class ActivityInfoMiradores : AppCompatActivity() {
 
             var botton = findViewById<View>(R.id.floatingActionButton) as FloatingActionButton
             botton.visibility=View.INVISIBLE
+
         }else{
 
             miradorElegido = intent.getStringExtra("MIRADOR").toString()
