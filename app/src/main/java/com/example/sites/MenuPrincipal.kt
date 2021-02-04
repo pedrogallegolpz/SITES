@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
+import android.widget.TextView
 
 
 class MenuPrincipal : AppCompatActivity() {
@@ -17,7 +18,7 @@ class MenuPrincipal : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        var sitesBot = findViewById<View>(R.id.chatbot) as ImageButton
+        var sitesBot = findViewById<View>(R.id.chatbot) as TextView
         sitesBot?.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
                 val intent: Intent = Intent(v.context, SitesBot::class.java)
@@ -49,7 +50,7 @@ class MenuPrincipal : AppCompatActivity() {
             }
         })
 
-        var botonAyuda = findViewById<View>(R.id.ayuda) as ImageButton
+        var botonAyuda = findViewById<View>(R.id.ayuda) as TextView
         botonAyuda?.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
                 val intent: Intent = Intent(v.context, ActivityAyuda::class.java)
