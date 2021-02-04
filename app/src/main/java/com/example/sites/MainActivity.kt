@@ -408,8 +408,8 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             var j = 0
             /* MONUMENTOS */
             var monumentoPulsado = ""
-            var monumento : Button = findViewById(R.id.monumento)
-            monumento.text = ""
+            var monumento = findViewById<View>(R.id.monumento) as FloatingActionButton
+            monumento?.visibility=View.INVISIBLE
             for(monument in mon.arraySitios) {
                 var angulo: Double = anguloLatLon(monument.lat, monument.lon, latit, longit)
                 var distMon=getDistanceFromLatLonInKm(latit, longit, monument.lat, monument.lon)
@@ -424,9 +424,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                 }
 
                 if ((abs(degrad3 - angulo) < PI / (distMon * 10)) && kotlin.math.truncate(distMon * 1000).toInt() < 30) {
-                    monumento.text = "Estas a " + kotlin.math.truncate(distMon * 1000).toInt() +
-                            "m del monumento " + mon.arrayNombres[j] + ". Pulsa para obtener información."
-
+                    monumento?.visibility=View.VISIBLE
                     monumentoPulsado = mon.arrayNombres[j]
                 }
 
