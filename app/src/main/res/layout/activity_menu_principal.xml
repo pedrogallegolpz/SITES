@@ -7,134 +7,86 @@
     android:background="#00695c"
     tools:context=".MenuPrincipal">
 
+
     <ImageButton
         android:id="@+id/chatbot"
-        android:layout_width="310dp"
-        android:layout_height="100dp"
+        android:layout_width="161dp"
+        android:layout_height="61dp"
         android:layout_gravity="center"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="44dp"
         android:background="@color/white"
         android:contentDescription="@string/sitesbot"
-        android:scaleType="fitEnd"
+        android:scaleType="centerInside"
         android:src="@drawable/agente"
-        app:layout_constraintBottom_toTopOf="@+id/vision"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <TextView
-        android:layout_width="310dp"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:text="SITESBOT"
-        android:textColor="#d32f2f"
-        android:textSize="17dp"
-        android:textStyle="bold"
-        app:layout_constraintRight_toRightOf="@+id/chatbot"
-        app:layout_constraintTop_toTopOf="@+id/chatbot" />
+        app:layout_constraintTop_toBottomOf="@+id/listaMiradores"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
         android:id="@+id/vision"
-        android:layout_width="310dp"
-        android:layout_height="100dp"
+        android:layout_width="346dp"
+        android:layout_height="300dp"
         android:layout_gravity="center"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="25dp"
         android:background="@color/white"
         android:contentDescription="@string/vision"
-        android:scaleType="fitEnd"
+        android:scaleType="centerInside"
         android:src="@drawable/vision"
-        app:layout_constraintBottom_toTopOf="@+id/listaMiradores"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chatbot" />
-
-    <TextView
-        android:layout_width="310dp"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:text="VISION"
-        android:textColor="#d32f2f"
-        android:textSize="17dp"
-        android:textStyle="bold"
-        app:layout_constraintRight_toRightOf="@+id/vision"
-        app:layout_constraintTop_toTopOf="@+id/vision" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/mapa"
-        android:layout_width="310dp"
-        android:layout_height="100dp"
+        android:layout_width="161dp"
+        android:layout_height="217dp"
         android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="25dp"
         android:background="@color/white"
         android:contentDescription="@string/sitesbot"
-        android:scaleType="fitEnd"
+        android:scaleType="centerInside"
         android:src="@drawable/mapa1"
-        app:layout_constraintBottom_toTopOf="@+id/ayuda"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listaMiradores"/>
-
-
-    <TextView
-        android:layout_width="310dp"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:text="MAPA"
-        android:textColor="#d32f2f"
-        android:textSize="17dp"
-        android:textStyle="bold"
-        app:layout_constraintRight_toRightOf="@+id/mapa"
-        app:layout_constraintTop_toTopOf="@+id/mapa" />
+        app:layout_constraintTop_toBottomOf="@+id/vision" />
 
     <ImageButton
         android:id="@+id/listaMiradores"
-        android:layout_width="310dp"
-        android:layout_height="100dp"
+        android:layout_width="161dp"
+        android:layout_height="217dp"
         android:layout_gravity="center"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="16dp"
         android:background="@color/white"
         android:contentDescription="@string/sitesbot"
-        android:scaleType="fitEnd"
+        android:scaleType="centerInside"
         android:src="@drawable/miradores"
-        app:layout_constraintBottom_toTopOf="@+id/mapa"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/mapa"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vision"/>
-
-
-    <TextView
-        android:layout_width="310dp"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:text="MIRADORES"
-        android:textColor="#d32f2f"
-        android:textSize="17dp"
-        android:textStyle="bold"
-        app:layout_constraintRight_toRightOf="@+id/listaMiradores"
-        app:layout_constraintTop_toTopOf="@+id/listaMiradores" />
+        app:layout_constraintTop_toBottomOf="@+id/vision" />
 
     <ImageButton
         android:id="@+id/ayuda"
-        android:layout_width="310dp"
-        android:layout_height="100dp"
+        android:layout_width="161dp"
+        android:layout_height="61dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="60dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="25dp"
         android:background="@color/white"
-        android:scaleType="fitEnd"
+        android:scaleType="centerInside"
         android:src="@drawable/informacion"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapa" />
-
-    <TextView
-        android:layout_width="310dp"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:text="AYUDA"
-        android:textColor="#d32f2f"
-        android:textSize="17dp"
-        android:textStyle="bold"
-        app:layout_constraintRight_toRightOf="@+id/ayuda"
-        app:layout_constraintTop_toTopOf="@+id/ayuda" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/chatbot"
+        app:layout_constraintTop_toBottomOf="@+id/mapa"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -143,6 +95,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:scaleType="centerInside"
         android:layout_marginTop="50dp"
         app:srcCompat="@drawable/alhambra"
         tools:ignore="MissingConstraints" />
