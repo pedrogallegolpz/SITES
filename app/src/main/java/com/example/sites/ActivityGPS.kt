@@ -308,7 +308,7 @@ class ActivityGPS : AppCompatActivity(), OnMapReadyCallback {
                         var title = arg0.getTitle();
                         var informations = arg0.getSnippet();
 
-                        tv1.setText(title);
+                        tv1.setText(title)
                         tv2.setText(informations);
                         for (j in m.arraySitios.indices) {
                             if (arg0.title.equals(m.arrayNombres[j]))
