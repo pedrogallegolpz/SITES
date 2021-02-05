@@ -485,7 +485,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
             val listamirandoa : ListView = findViewById(R.id.listamirandoa)
             val titulo : TextView = findViewById(R.id.textView4)
-            titulo.text="   Miradores en esa dirección"
+            titulo.text="   Miradores en esa dirección (" + indices_cercanos.size.toString() + ")"
             val adapter : ListaMirandoaAdapter
             if(intent.hasExtra("POS")){
                 adapter = ListaMirandoaAdapter(this, indices_cercanos, distancias, true,true) //true para miradores
