@@ -185,6 +185,9 @@ object Zona {
         }
         return if (`val` > 0) 1 else 2 // clock or counterclock wise
     }
+    fun getIndex(name:String): Int{
+        return arrayNombres.indexOf(name)
+    }
 
     // The function that returns true if
     // line segment 'p1q1' and 'p2q2' intersect.

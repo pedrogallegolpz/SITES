@@ -317,9 +317,15 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
                     if (compl[2]){
                         compl = Array(4){ i -> false }
-                        val intent: Intent = Intent(this, ActivityAyuda::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                        startActivity(intent)
+                        var pos_zona=calcularZonaIndex()
+                        if(pos_zona!=-1){
+                            val intent: Intent = Intent(this, ActivityInfoMiradores::class.java)
+                            intent.putExtra("MIRADOR", z.arrayNombres[pos_zona])
+                            intent.putExtra("POS", pos_zona.toString())
+                            intent.putExtra("ZONA", "")
+                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                            startActivity(intent)
+                        }
                     }
                 }
             }
@@ -757,6 +763,72 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             else
                 zona.text = "Fuera de Granada"
         }
+    }
+
+    fun calcularZonaIndex() : Int{
+        var m=Miradores
+        val a = Zona.Point(latit, longit)
+        enMirador=false
+
+        //Indice en el array de Miradores del mirador en el que estamos (si estamos en alguno)
+        var indiceMirador:Int = 0
+
+        //Primero calculamos si nos encontramos en un mirador para no mostrar la posición de otros miradores en el TextView
+        //Si estamos a menos de 20 metros de un mirador, consideramos que estamos en él
+        for (x in m.getArray()){
+            var dist=getDistanceFromLatLonInKm(latit, longit, x.lat, x.lon)
+            if(dist<0.020){
+                enMirador=true
+                miradorElegido = m.arrayNombres[indiceMirador]
+                posicionElegido = indiceMirador
+
+                // Comprobamos que no estemos de camino a un mirador
+                if(mirador_destino<0f || mirador_destino >= m.arrayNombres.size) {
+                    zona.text = m.arrayNombres[indiceMirador] + System.lineSeparator()
+                }
+                break
+            }else if(!enMirador) {
+                indiceMirador = indiceMirador + 1
+            }
+        }
+
+        // Comprobamos que no estemos de camino a un mirador y que no estemos en uno
+        if(!enMirador && (mirador_destino<0f || mirador_destino >= m.arrayNombres.size)) {
+
+            if (z.isInside(z.centro, 4, a))
+                return 0  //Centro
+            else if (z.isInside(z.albaicin, 4, a))
+                return 10 //Albaicin
+            else if (z.isInside(z.alhambra, 4, a))
+                return 11 //"Alhambra"
+            else if (z.isInside(z.carreteraSierra, 4, a))
+                return 7 //"Carretera de la Sierra"
+            else if (z.isInside(z.cartuja, 4, a))
+                return 9 //"Cartuja"
+            else if (z.isInside(z.cerrillo, 4, a))
+                return 3 //Cerrillo de Maracena
+            else if (z.isInside(z.chana, 4, a))
+                return 2 //La Chana
+            else if (z.isInside(z.generalife, 4, a))
+                return 13 //"Dehesa del Generalife"
+            else if (z.isInside(z.norte, 4, a))
+                return 8 //"Zona Norte"
+            else if (z.isInside(z.plazaToros, 4, a))
+                return 1 //Plaza de Toros
+            else if (z.isInside(z.realejo, 4, a))
+                return 12 //"Realejo"
+            else if (z.isInside(z.sacromonte, 4, a))
+                return 14 //"Sacromonte"
+            else if (z.isInside(z.vega, 4, a))
+                return 4 //Vega de Granada
+            else if (z.isInside(z.zaidin, 4, a))
+                return 5 //"Zaidín"
+            else if (z.isInside(z.juventud, 4, a))
+                return 6 //"Estadio de la Juventud"
+            else
+                return -1 //"Fuera de Granada"
+        }
+        return -1
     }
 
 
