@@ -1,6 +1,9 @@
 package com.example.sites
 
+import android.content.Context
 import android.content.Intent
+import android.hardware.Sensor
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView.OnItemClickListener
@@ -12,6 +15,8 @@ class ListaMiradores : AppCompatActivity() {
 
     var  miradores:Miradores = Miradores
     private lateinit var listamiradores: ListView
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +42,8 @@ class ListaMiradores : AppCompatActivity() {
                 finish()
             }
         })
+
+
 
     }
 }

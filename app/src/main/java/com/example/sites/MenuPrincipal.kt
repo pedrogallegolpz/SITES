@@ -1,14 +1,25 @@
 package com.example.sites
 
+import android.content.Context
 import android.content.Intent
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
+import kotlin.random.Random
 
 
-class MenuPrincipal : AppCompatActivity() {
+class MenuPrincipal : AppCompatActivity(), SensorEventListener {
+
+    // device sensor manager
+    private var mSensorManager: SensorManager? = null
+    var accelerometerSensor: Sensor? = null
+    var accAnt = 0.0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +69,29 @@ class MenuPrincipal : AppCompatActivity() {
             }
         })
 
+        mSensorManager= getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        accelerometerSensor = mSensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        mSensorManager?.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL)
 
+
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        var dif=Math.abs(accAnt-event!!.values[2]);
+        if(dif>15.0f){
+            val m:Miradores=Miradores
+            val random = Random
+            var r = random.nextInt(0,m.getCount())
+            var miradorPulsado = m.arrayNombres[r]
+            val intent: Intent = Intent(this, ActivityInfoMiradores::class.java)
+            intent.putExtra("MIRADOR", miradorPulsado)
+            intent.putExtra("POS", r.toString())
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            startActivity(intent)
+        }
+        accAnt=event.values[2];
     }
 }
