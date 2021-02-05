@@ -2,9 +2,11 @@ package com.example.sites
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ListaMiradores : AppCompatActivity() {
 
@@ -28,6 +30,13 @@ class ListaMiradores : AppCompatActivity() {
                 startActivity(intent)
 
             }
+
+        var botton = findViewById<View>(R.id.floatingActionButton) as FloatingActionButton
+        botton?.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View) {
+                finish()
+            }
+        })
 
     }
 }

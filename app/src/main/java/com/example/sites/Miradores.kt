@@ -27,9 +27,9 @@ object Miradores {
     val zona = arrayOf( "Albaicín", "Alhambra",  "Albaicín", "Alhambra", "Cartuja", "Realejo",
         "Centro")
 
-    val descripcion = arrayOf( "Mirador donde se ve la alhambra", "Mirador donde se ve el Albaicín",
-        "Mirador donde se ve toda Granada", "Mirador en la dehesa de la Alhambra", "Mirador donde vemos Granada ciudad", "Mirador donde vemos todo el Realejo",
-        "Mirador céntrico para copas")
+    val descripcion = arrayOf( "Se ve la alhambra", "Se ve el Albaicín",
+        "Se ve toda Granada", "En la dehesa de la Alhambra", "Se ve Granada ciudad", "Se ve todo el Realejo",
+        "Lugar céntrico para copas")
 
     val info = arrayOf( "El Mirador de San Nicolás se sitúa en el Albaicín, en la parte más alta de la Alcazaba Qadima de los Ziries, junto a la Iglesia de San Nicolás, de donde toma su nombre. " +
             "Es una plaza de forma cuadrada, con árboles alrededor, bancos de piedra, una cruz de piedra en medio y el típico empedrado granadino. Se puede observar el Generalife, " +
