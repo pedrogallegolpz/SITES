@@ -317,6 +317,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                     if (compl[2]){
                         var compl = Array(4){ i -> false }
                         val intent: Intent = Intent(this, ActivityAyuda::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                         startActivity(intent)
                     }
                 }
