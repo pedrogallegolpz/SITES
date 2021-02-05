@@ -39,6 +39,13 @@ class ActivityTextoAyuda : AppCompatActivity() {
                     "Al pulsar en cada chincheta de mirador se mostrará una imagen del mirador y pulsando en la imagen se le mostrará más información y se le permitirá ir a él en el modo Visión. " +
                     "Se actualizará su ubicación cada cierto tiempo y al pasar la mano por encima de la pantalla. Al pulsar en las chinchetas de mirador, también aparecerán abajo a la derecha dos botones. Uno le llevará " +
                     "a la localización de la chincheta en Google Maps y el otro le llevara a Google Maps mostrándole la ruta desde su ubicación al mirador."
+        }else if(position.toInt()==4){
+
+            text.text="En Sites se pueden realizar 3 tipos de gestos:\n" +
+                    "\t - Dibujar un rayo cuando se encuentre en un mirador. Cuando haga este gesto se abrirá la información de ese mirador.\n" +
+                    "\t - Agitar el movil en el menú. Cuando haga este movimiento se abrirá la página de información de un mirador aleatorio.\n" +
+                    "\t - Hacer un Infinito con el móvil en la actividad Visión. Cuando se haga este movimiento se abrirá la página de información de la zona en la que se encuentre."
+
         }
     }
 }

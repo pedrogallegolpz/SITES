@@ -107,13 +107,13 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             var position = intent.getStringExtra("POS").toString()
             comoLlegar(position.toInt())
             gestureSetup()
-            val action = "Si se encuentra en un mirador haga un rayo para obtener información"
+            val action = "Puede usar gestos para obtener información. Consulte la ayuda"
             val notificacion:Toast = Toast.makeText(this, action, Toast.LENGTH_LONG)
             notificacion.setGravity(Gravity.CENTER,Gravity.CENTER,Gravity.CENTER)
             notificacion.show()
         }else{
             gestureSetup()
-            val action = "Si se encuentra en un mirador haga un rayo para obtener información"
+            val action = "Puede usar gestos para obtener información. Consulte la ayuda"
             val notificacion:Toast = Toast.makeText(this, action, Toast.LENGTH_LONG)
             notificacion.setGravity(Gravity.CENTER,Gravity.CENTER,Gravity.CENTER)
             notificacion.show()

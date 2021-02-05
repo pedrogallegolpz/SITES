@@ -12,8 +12,8 @@ class ActivityAyuda : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ayuda)
         var listaAyuda : ListView = findViewById(R.id.listaayuda)
-        val opciones = arrayOf("SitesBot","Visión","Miradores","Mapa")
-        val images = arrayOf(R.drawable.agente,R.drawable.vision,R.drawable.miradores,R.drawable.mapa1)
+        val opciones = arrayOf("SitesBot","Visión","Miradores","Mapa","Gestos")
+        val images = arrayOf(R.drawable.agente,R.drawable.vision,R.drawable.miradores,R.drawable.mapa1,R.drawable.gesture)
 
         val adapter = ListaAyudaAdapter(this, opciones, images)
         listaAyuda.adapter = adapter
