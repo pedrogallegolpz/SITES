@@ -265,7 +265,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         } else {
             cam.onResume()
         }
-
+        compl = Array(4){ i -> false }
         mSensorManager?.registerListener(
             this,
             mSensorManager?.getDefaultSensor(Sensor.TYPE_ORIENTATION),
@@ -280,6 +280,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         Log.e(cam.getTAG(), "onPause")
         cam.stopBackgroundThread()
         super.onPause()
+        compl = Array(4){ i -> false }
     }
 
     fun anguloLatLon(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double{
