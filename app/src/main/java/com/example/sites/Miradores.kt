@@ -2,6 +2,7 @@ package com.example.sites
 
 import android.graphics.Point
 
+//miradores ordenados por zonas
 object Miradores {
 
     val sanNicolas= Point(37.181104,-3.592653)
@@ -13,34 +14,34 @@ object Miradores {
     val monasterioChillOut = Point(37.178866,-3.603495)
     val arraySitios = arrayOf( sanNicolas, torreVelaAlhambra, sanMiguelAlto, sillaDelMoro,
         torreonDeCartuja, barrancoDelAbogado, monasterioChillOut)
-    val arrayNombres = arrayOf( "Mirador de San Nicolás", "Mirador Torre de la Vela de la Alhambra",
-        "Mirador San Miguel Alto", "Mirador Silla del Moro", "Mirador Torreón de Cartuja", "Mirador Barranco del Abogado",
+    val arrayNombres = arrayOf( "Mirador de San Nicolás",
+        "Mirador San Miguel Alto","Mirador Torre de la Vela de la Alhambra", "Mirador Silla del Moro", "Mirador Torreón de Cartuja", "Mirador Barranco del Abogado",
         "Mirador Monasterio Chill-Out")
 
-    val image = arrayOf( R.drawable.miradorsannicolas,R.drawable.torredelavela,R.drawable.sanmiguel,R.drawable.sillamoro,
+    val image = arrayOf( R.drawable.miradorsannicolas,R.drawable.sanmiguel,R.drawable.torredelavela,R.drawable.sillamoro,
         R.drawable.cartuja,R.drawable.barranco,R.drawable.monasterio)
 
-    val image_dest = arrayOf( R.drawable.miradorsannicolas_dest,R.drawable.torredelavela_dest,R.drawable.sanmiguel_dest,R.drawable.sillamoro_dest,
+    val image_dest = arrayOf( R.drawable.miradorsannicolas_dest,R.drawable.sanmiguel_dest,R.drawable.torredelavela_dest,R.drawable.sillamoro_dest,
         R.drawable.cartuja_dest,R.drawable.barranco_dest,R.drawable.monasterio_dest)
 
 
-    val zona = arrayOf( "Albaicín", "Alhambra",  "Albaicín", "Alhambra", "Cartuja", "Realejo",
+    val zona = arrayOf( "Albaicín", "Albaicín",  "Alhambra", "Alhambra", "Cartuja", "Realejo",
         "Centro")
 
-    val descripcion = arrayOf( "Se ve la alhambra", "Se ve el Albaicín",
-        "Se ve toda Granada", "En la dehesa de la Alhambra", "Se ve Granada ciudad", "Se ve todo el Realejo",
+    val descripcion = arrayOf( "Se ve la alhambra",
+        "Se ve toda Granada","Se ve el Albaicín", "En la dehesa de la Alhambra", "Se ve Granada ciudad", "Se ve todo el Realejo",
         "Lugar céntrico para copas")
 
     val info = arrayOf( "El Mirador de San Nicolás se sitúa en el Albaicín, en la parte más alta de la Alcazaba Qadima de los Ziries, junto a la Iglesia de San Nicolás, de donde toma su nombre. " +
             "Es una plaza de forma cuadrada, con árboles alrededor, bancos de piedra, una cruz de piedra en medio y el típico empedrado granadino. Se puede observar el Generalife, " +
             "la Alhambra y Sierra Nevada, y a sus pies el rio Darro y el Paseo de los Tristes. Además, se puede ver la zona Centro con la Catedral.",
 
-        "La Torre de la Vela forma parte del conjunto monumental de la Alhambra, siendo la torre más grande de la Alcazaba. Desde lo alto de la Torre de La Vela se disfruta de una de las mejores " +
-         "vistas que se pueden tener de Granada, su Vega y Sierra Nevada. Además de ser un sitio privilegiado por poder contemplarse desde allí el interior de la Alhambra, el Albaicín, el Sacromonte, " +
-         "el Realejo y la zona Centro donde destaca la Catedral.",
-
         "Se sitúa en el Albaicín y es el más elevado de los miradores de Granada. Desde él se contempla una amplia panorámica de la ciudad, del Albaicín y sus murallas, de la Alhambra y Sierra Nevada. " +
-         "Se accede a él después de una larga y empinada caminata. Está situado ante la Ermita de San Miguel Alto. "
+         "Se accede a él después de una larga y empinada caminata. Está situado ante la Ermita de San Miguel Alto. ",
+
+        "La Torre de la Vela forma parte del conjunto monumental de la Alhambra, siendo la torre más grande de la Alcazaba. Desde lo alto de la Torre de La Vela se disfruta de una de las mejores " +
+                "vistas que se pueden tener de Granada, su Vega y Sierra Nevada. Además de ser un sitio privilegiado por poder contemplarse desde allí el interior de la Alhambra, el Albaicín, el Sacromonte, " +
+                "el Realejo y la zona Centro donde destaca la Catedral."
 
         , "Este mirador se encuentra situado, a modo de balcón, en la Dehesa del Generalife. La llamada Silla del Moro, es un pequeño castillo de época nazarí construido para la vigilancia y protección " +
           "del Generalife. Y desde allí podemos observar la cuenca del río Darro en su recorrido hacia la Alhambra, mientras sus aguas se distribuían por las históricas acequias de los caminos. En las laderas, " +

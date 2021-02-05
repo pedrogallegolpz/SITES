@@ -1,6 +1,7 @@
 package com.example.sites
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,7 @@ class ListaMiradoresAdapter(private val context: Context, private val dataSource
         return position.toLong()
     }
 
+
     //4
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         // Get view for row item
@@ -53,12 +55,24 @@ class ListaMiradoresAdapter(private val context: Context, private val dataSource
         // 1
         val mirador = getItem(position) as String
 
-// 2
+        // 2
         titleTextView.text = mirador
         subtitleTextView.text = dataSource.descripcion[position]
         detailTextView.text = dataSource.zona[position]
 
-// 3    image
+        if(dataSource.zona[position] == "Albaicín"){
+            rowView.setBackgroundColor(Color.parseColor("#bbdefb"))
+        }else if(dataSource.zona[position] == "Alhambra"){
+            rowView.setBackgroundColor(Color.parseColor("#fff9c4"))
+        }else if(dataSource.zona[position] == "Cartuja"){
+            rowView.setBackgroundColor(Color.parseColor("#e1bee7"))
+        }else if(dataSource.zona[position] == "Realejo"){
+            rowView.setBackgroundColor(Color.parseColor("#c8e6c9"))
+        }else if(dataSource.zona[position] == "Centro"){
+            rowView.setBackgroundColor(Color.parseColor("#cfd8dc"))
+        }
+
+        // 3    image
         Picasso.get().load(dataSource.image[position] ).placeholder(R.mipmap.ic_launcher).into(thumbnailImageView) //"@drawable/miradorSanNicolas"
         //thumbnailImageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.miradorsannicolas));
 
