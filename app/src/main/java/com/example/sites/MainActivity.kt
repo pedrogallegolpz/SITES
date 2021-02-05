@@ -292,8 +292,6 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
         val degree=Math.round(event?.values?.get(0)!!)
         val degree_float=event?.values?.get(0) as Float
-        val tit : TextView = findViewById(R.id.textView5)
-        tit.text=compl[0].toString()+compl[1].toString()+compl[2].toString()+compl[3].toString()
 
         if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
             var valorAccelerometerX = event.values[0]
