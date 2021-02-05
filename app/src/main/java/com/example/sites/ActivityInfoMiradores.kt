@@ -37,6 +37,14 @@ class ActivityInfoMiradores : AppCompatActivity() {
             var botton = findViewById<View>(R.id.floatingActionButton) as FloatingActionButton
             botton.visibility=View.INVISIBLE
 
+            var botton2 = findViewById<View>(R.id.floatingActionButton2) as FloatingActionButton
+            botton2.visibility=View.VISIBLE
+            botton2?.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(v: View) {
+                    finish()
+                }
+            })
+
         }else if (intent.hasExtra("ZONA")) {
 
             miradorElegido = intent.getStringExtra("MIRADOR").toString()
@@ -50,6 +58,14 @@ class ActivityInfoMiradores : AppCompatActivity() {
 
             var botton = findViewById<View>(R.id.floatingActionButton) as FloatingActionButton
             botton.visibility=View.INVISIBLE
+
+            var botton2 = findViewById<View>(R.id.floatingActionButton2) as FloatingActionButton
+            botton2.visibility=View.VISIBLE
+            botton2?.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(v: View) {
+                    finish()
+                }
+            })
 
         }else{
 
@@ -72,6 +88,14 @@ class ActivityInfoMiradores : AppCompatActivity() {
                     notificacion.setGravity(Gravity.CENTER, Gravity.CENTER, Gravity.CENTER)
                     notificacion.show()
                     startActivity(intent)
+                }
+            })
+
+            var botton3 = findViewById<View>(R.id.floatingActionButton3) as FloatingActionButton
+            botton3.visibility=View.VISIBLE
+            botton3?.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(v: View) {
+                    finish()
                 }
             })
 

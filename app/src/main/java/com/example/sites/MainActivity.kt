@@ -449,43 +449,47 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         }
         degrad=-degrad
 
-        //Si no estamos en un mirador, añadimos si estamos mirando hacia algún mirador
-        if(!enMirador){
-            var j = 0
-            /* MONUMENTOS */
-            var monumentoPulsado = ""
-            var monumento = findViewById<View>(R.id.monumento) as FloatingActionButton
-            monumento?.visibility=View.INVISIBLE
-            for(monument in mon.arraySitios) {
-                var angulo: Double = anguloLatLon(monument.lat, monument.lon, latit, longit)
-                var distMon=getDistanceFromLatLonInKm(latit, longit, monument.lat, monument.lon)
 
-                var degrad3 = degrad
-                if(degrad*angulo<0 && abs(degrad - angulo)>kotlin.math.PI) {
-                    if(degrad<0){
-                        degrad3=degrad3+2* kotlin.math.PI
-                    }else{
-                        angulo=angulo+2* kotlin.math.PI
-                    }
+        /* MONUMENTOS */
+        var j = 0
+        var monumentoPulsado = ""
+
+        for(monument in mon.arraySitios) {
+            var angulo: Double = anguloLatLon(monument.lat, monument.lon, latit, longit)
+            var distMon=getDistanceFromLatLonInKm(latit, longit, monument.lat, monument.lon)
+
+            var degrad3 = degrad
+            if(degrad*angulo<0 && abs(degrad - angulo)>kotlin.math.PI) {
+                if(degrad<0){
+                    degrad3=degrad3+2* kotlin.math.PI
+                }else{
+                    angulo=angulo+2* kotlin.math.PI
                 }
-
-                if ((abs(degrad3 - angulo) < PI / (distMon * 10)) && kotlin.math.truncate(distMon * 1000).toInt() < 30) {
-                    monumento?.visibility=View.VISIBLE
-                    monumentoPulsado = mon.arrayNombres[j]
-                }
-
-                j += 1
             }
 
-            monumento?.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(v: View) {
-                    val intent: Intent =   Intent(v.context, ActivityInfoMiradores::class.java)
-                    intent.putExtra("MIRADOR", monumentoPulsado)
-                    intent.putExtra("POS", mon.getIndex(monumentoPulsado).toString())
-                    intent.putExtra("MONUMENTO", "")
-                    startActivity(intent)
-                }
-            })
+            if ((abs(degrad3 - angulo) < PI / (distMon * 10)) && kotlin.math.truncate(distMon * 1000).toInt() < 30) {
+                var monumento = findViewById<View>(R.id.monumento) as FloatingActionButton
+                monumento?.visibility=View.VISIBLE
+                monumentoPulsado = mon.arrayNombres[j]
+                monumento?.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(v: View) {
+                        val intent: Intent =   Intent(v.context, ActivityInfoMiradores::class.java)
+                        intent.putExtra("MIRADOR", monumentoPulsado)
+                        intent.putExtra("POS", mon.getIndex(monumentoPulsado).toString())
+                        intent.putExtra("MONUMENTO", "")
+                        startActivity(intent)
+                    }
+                })
+            }
+
+            j += 1
+        }
+
+
+
+        //Si no estamos en un mirador, añadimos si estamos mirando hacia algún mirador
+        if(!enMirador){
+
 
             var indiceMir:Int=0
             for(mir in m.arraySitios) {
@@ -557,7 +561,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         }else{
             //En caso de que estemos en un mirador, sólo se escribirían las zonas a las que miramos
             //Variable para llevar el índice del mirador en el array de zonas
-
+            monumento?.visibility=View.INVISIBLE
             var zonasCercanas:ArrayList<Int> = ArrayList<Int>(15)
             var mirDirigir:ArrayList<Int> = ArrayList<Int>(1)
             var distancias:ArrayList<Int> = ArrayList<Int>(15)
