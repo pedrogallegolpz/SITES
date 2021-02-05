@@ -41,20 +41,34 @@ class ListaMirandoaAdapter(private val context: Context, private val cercanos: A
 
     //4
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        // Get view for row item
-        val rowView = inflater.inflate(R.layout.list_miradores, parent, false)
+
+        var rowView :View? =null
+
+        if(tipo){// si son zonas o miradores cambiamos el relative layout
+            // Get view for row item
+            rowView = inflater.inflate(R.layout.list_miradores, parent, false)
+        }else{
+            // Get view for row item
+            rowView = inflater.inflate(R.layout.zona_ar, parent, false)
+        }
 
         // Get title element
         val titleTextView = rowView.findViewById(R.id.recipe_list_title) as TextView
+        var detailTextView :TextView? = null
+        var subtitleTextView :TextView? = null
 
-// Get subtitle element
-        val subtitleTextView = rowView.findViewById(R.id.recipe_list_subtitle) as TextView
-
-// Get detail element
-        val detailTextView = rowView.findViewById(R.id.recipe_list_detail) as TextView
 
 // Get thumbnail element
         val thumbnailImageView = rowView.findViewById(R.id.recipe_list_thumbnail) as ImageView
+
+        if(tipo){// si son zonas no hay descripcion ni label
+            // Get subtitle element
+            subtitleTextView = rowView.findViewById(R.id.recipe_list_subtitle) as TextView
+
+            // Get detail element
+            detailTextView = rowView.findViewById(R.id.recipe_list_detail) as TextView
+        }
+
 
         // 1
         val nombre = getItem(position) as String
@@ -63,24 +77,16 @@ class ListaMirandoaAdapter(private val context: Context, private val cercanos: A
             rowView.setBackgroundColor(Color.parseColor("#c8e6c9"))
         }
 
-        if(dirigir && position==0 && !tipo){
-            rowView.setBackgroundColor(Color.parseColor("#c8e6c9"))
-            titleTextView.text = m.arrayNombres[position]
-            subtitleTextView.text = m.descripcion[cercanos[position] as Int]
-            detailTextView.text =dist[position].toString() + " m"
+
+        titleTextView.text = nombre
+        if (tipo){
+            subtitleTextView?.text = m.descripcion[cercanos[position] as Int]
+            detailTextView?.text =dist[position].toString() + " m"
             Picasso.get().load(m.image[cercanos[position] as Int] ).placeholder(R.mipmap.ic_launcher).into(thumbnailImageView)
         }else{
-            titleTextView.text = nombre
-            if (tipo){
-                subtitleTextView.text = m.descripcion[cercanos[position] as Int]
-                detailTextView.text =dist[position].toString() + " m"
-                Picasso.get().load(m.image[cercanos[position] as Int] ).placeholder(R.mipmap.ic_launcher).into(thumbnailImageView)
-            }else{
-                subtitleTextView.text = z.descripcion[cercanos[position] as Int]
-                detailTextView.text =""
-                Picasso.get().load(z.image[cercanos[position] as Int] ).placeholder(R.mipmap.ic_launcher).into(thumbnailImageView)
-            }
+            Picasso.get().load(z.image[cercanos[position] as Int] ).placeholder(R.mipmap.ic_launcher).into(thumbnailImageView)
         }
+
 
 // 2
 

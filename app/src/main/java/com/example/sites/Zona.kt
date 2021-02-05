@@ -272,5 +272,16 @@ object Zona {
         return count % 2 == 1 // Same as (count%2 == 1)
     }
 
+    // devuelve el punto del medio
+    fun puntoMedio( i : Int) :Point {
+        var a = (arrayZonas[i][2].y - arrayZonas[i][0].y ) / (arrayZonas[i][2].x - arrayZonas[i][0].x )
+        var b = (arrayZonas[i][3].y - arrayZonas[i][1].y ) / (arrayZonas[i][3].x - arrayZonas[i][1].x )
+
+        var x=(-arrayZonas[i][0].y+arrayZonas[i][1].y + a*arrayZonas[i][0].x - b*arrayZonas[i][1].x )/(a-b)
+        var y= a * (x-arrayZonas[i][0].x) + arrayZonas[i][0].y
+
+        return Point(x,y)
+    }
+
     class Point(var x: Double, var y: Double)
 }

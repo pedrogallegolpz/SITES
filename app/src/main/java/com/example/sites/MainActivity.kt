@@ -26,6 +26,7 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
@@ -350,7 +351,6 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     private fun initData(){
         mSensorManager=getSystemService(Context.SENSOR_SERVICE) as SensorManager?
         imview=findViewById(R.id.imgCompass)
-        //destimview=findViewById(R.id.destinoimagen)
     }
 
 
@@ -476,12 +476,6 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             }
 
             for(i in distOrdenados.keys) {
-                /*
-                mirandoa.text =mirandoa.text.toString() +"- "+ m.arrayNombres[m_cercanos[i] as Int] + " ( " +  kotlin.math.truncate(
-                    i * 1000
-                ).toInt() +"m )" +System.lineSeparator()
-
-                 */
                 if(m_cercanos[i] as Int != position){
                     indices_cercanos.add(m_cercanos[i] as Int)
                     distancias.add(kotlin.math.truncate( i * 1000 ).toInt())
@@ -509,6 +503,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                     startActivity(intent)
 
                 }
+
 
 
 
@@ -567,7 +562,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
                 numMirador = numMirador + 1
             }
-
+/*
             val listamirandoa : ListView = findViewById(R.id.listamirandoa)
             val titulo : TextView = findViewById(R.id.textView4)
             titulo.text="   Zonas en esa dirección"
@@ -590,7 +585,39 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                     startActivity(intent)
 
                 }
+*/
+            /* READAPTANDO VISUAL ZONA */
 
+            /*- primero readapto posiciones*/
+            val listamirandoa : ListView = findViewById(R.id.listamirandoa)
+            val titulo : TextView = findViewById(R.id.textView4)
+            val boton2 : FloatingActionButton = findViewById(R.id.floatingActionButton2) // es el que hay que hacer invisible
+            val boton3 : FloatingActionButton = findViewById(R.id.floatingActionButton3) // es el que hay que hacer visible
+            val constraintLayoutMain: ConstraintLayout  = findViewById(R.id.constraintLayoutMain)
+
+            titulo.visibility=View.INVISIBLE
+            listamirandoa.visibility=View.INVISIBLE
+            constraintLayoutMain.maxHeight=220
+            boton2.visibility=View.INVISIBLE
+            boton3.visibility=View.VISIBLE
+            boton3?.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(v: View) {
+                    val intent: Intent = Intent(v.context, MenuPrincipal::class.java)
+                    startActivity(intent)
+                }
+            })
+            /*- ahora la zona*/
+
+            val listazona : ListView = findViewById(R.id.listazona)
+
+            //Quiero coger la más cercana
+            for (i in zonasCercanas){
+
+            }
+
+            val adapter : ListaMirandoaAdapter
+            adapter = ListaMirandoaAdapter(this, zonasCercanas, distancias, false, false) //false para zonas y arrayList no se usa, inicializado a lo que sea
+            listazona.adapter = adapter
         }
 
     }
