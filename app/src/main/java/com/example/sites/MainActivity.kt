@@ -557,7 +557,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         }else{
             //En caso de que estemos en un mirador, sólo se escribirían las zonas a las que miramos
             //Variable para llevar el índice del mirador en el array de zonas
-            var numMirador:Int=0
+
             var zonasCercanas:ArrayList<Int> = ArrayList<Int>(15)
             var mirDirigir:ArrayList<Int> = ArrayList<Int>(1)
             var distancias:ArrayList<Int> = ArrayList<Int>(15)
@@ -569,47 +569,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                 distancias.add(kotlin.math.truncate(dist*1000).toInt())
             }
             for(i in 0 until z.arrayZonas.size) {
-                /*
-                var zonaDetectada=false
-                for(punto in 0..3){
-                    var ang1: Double = anguloLatLon(zone[punto].x, zone[punto].y, latit, longit)
-                    var ang2: Double = anguloLatLon(
-                        zone[(punto + 1) % 4].x,
-                        zone[(punto + 1) % 4].y,
-                        latit,
-                        longit
-                    )
 
-                    var angmayor: Double= 0.0
-                    var angmenor: Double = 0.0
-
-                    if (ang1 >= ang2) {
-                        angmayor = ang1
-                        angmenor = ang2
-                    }else {
-                        angmayor = ang2
-                        angmenor = ang1
-                    }
-
-                    // con esta condición vemos si es negativo el número
-                    if(!zonaDetectada) {
-                        if (angmayor * angmenor < 0 && (angmayor-angmenor)> kotlin.math.PI) {
-                            if ((degrad > angmayor && degrad <= kotlin.math.PI) || ( degrad < angmenor && degrad >= -kotlin.math.PI)) {
-                                //mirandoa.text = mirandoa.text.toString() + z.arrayNombres[numMirador] + System.lineSeparator()
-                                zonasCercanas.add(numMirador)
-                                zonaDetectada = true
-                            }
-                        } else if ( degrad < angmayor && degrad > angmenor ) {
-                            //mirandoa.text = mirandoa.text.toString() + z.arrayNombres[numMirador] + System.lineSeparator()
-                            zonasCercanas.add(numMirador)
-                            zonaDetectada = true
-                        }
-                    }
-                }
-
-                numMirador = numMirador + 1
-
-                 */
 
                 var angulo: Double = anguloLatLon(z.puntoMedio(i).x, z.puntoMedio(i).y, latit, longit)
                 var distMir=getDistanceFromLatLonInKm(latit, longit, z.puntoMedio(i).x, z.puntoMedio(i).y)
@@ -630,30 +590,6 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
             }
 
-/*
-            val listamirandoa : ListView = findViewById(R.id.listamirandoa)
-            val titulo : TextView = findViewById(R.id.textView4)
-            titulo.text="   Zonas en esa dirección"
-
-            val adapter : ListaMirandoaAdapter
-            if(intent.hasExtra("POS")){
-                adapter = ListaMirandoaAdapter(this, zonasCercanas, distancias, false, true) //false para zonas y arrayList no se usa, inicializado a lo que sea
-            }else{
-                adapter = ListaMirandoaAdapter(this, zonasCercanas, distancias, false, false) //false para zonas y arrayList no se usa, inicializado a lo que sea
-            }
-            listamirandoa.adapter = adapter
-
-            listamirandoa.onItemClickListener =
-                AdapterView.OnItemClickListener { parent, view, position, id -> //position será el índice del elemento pulsado
-                    var miradorPulsado = listamirandoa.getItemAtPosition(position) as String
-                    val intent: Intent = Intent(view.context, ActivityInfoMiradores::class.java)
-                    intent.putExtra("MIRADOR", miradorPulsado)
-                    intent.putExtra("POS", zonasCercanas[position].toString())
-                    intent.putExtra("ZONA", "")
-                    startActivity(intent)
-
-                }
-*/
             /* READAPTANDO VISUAL ZONA */
 
 
@@ -684,6 +620,16 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                 val adapter : ListaMirandoaAdapter
                 adapter = ListaMirandoaAdapter(this,mirDirigir, distancias, true, true) //false para zonas y arrayList no se usa, inicializado a lo que sea
                 listamirandoa.adapter = adapter
+
+                listamirandoa.onItemClickListener =
+                    AdapterView.OnItemClickListener { parent, view, position, id -> //position será el índice del elemento pulsado
+                        var miradorPulsado = listamirandoa.getItemAtPosition(position) as String
+                        val intent: Intent = Intent(view.context, ActivityInfoMiradores::class.java)
+                        intent.putExtra("MIRADOR", miradorPulsado)
+                        intent.putExtra("POS", mirDirigir[position].toString())
+                        startActivity(intent)
+
+                    }
 
             }
 
@@ -720,6 +666,17 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                     val adapter : ListaMirandoaAdapter
                     adapter = ListaMirandoaAdapter(this,zona, distancias, false, false) //false para zonas y arrayList no se usa, inicializado a lo que sea
                     listazona.adapter = adapter
+
+                    listazona.onItemClickListener =
+                        AdapterView.OnItemClickListener { parent, view, position, id -> //position será el índice del elemento pulsado
+                            var miradorPulsado = listazona.getItemAtPosition(position) as String
+                            val intent: Intent = Intent(view.context, ActivityInfoMiradores::class.java)
+                            intent.putExtra("MIRADOR", miradorPulsado)
+                            intent.putExtra("POS", zona[position].toString())
+                            intent.putExtra("ZONA", "")
+                            startActivity(intent)
+
+                        }
                 }
             }else{
                 listazona.adapter = null
