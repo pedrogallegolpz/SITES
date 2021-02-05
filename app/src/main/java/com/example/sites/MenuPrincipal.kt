@@ -20,6 +20,7 @@ class MenuPrincipal : AppCompatActivity(), SensorEventListener {
     private var mSensorManager: SensorManager? = null
     var accelerometerSensor: Sensor? = null
     var accAnt = 0.0f
+    var sensoreventlistener :SensorEventListener=this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +34,7 @@ class MenuPrincipal : AppCompatActivity(), SensorEventListener {
         sitesBot?.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
                 val intent: Intent = Intent(v.context, SitesBot::class.java)
+                mSensorManager?.unregisterListener(sensoreventlistener)
                 startActivity(intent)
             }
         })
@@ -41,6 +43,7 @@ class MenuPrincipal : AppCompatActivity(), SensorEventListener {
         vision?.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
                 val intent: Intent = Intent(v.context, MainActivity::class.java)
+                mSensorManager?.unregisterListener(sensoreventlistener)
                 startActivity(intent)
             }
         })
@@ -49,6 +52,7 @@ class MenuPrincipal : AppCompatActivity(), SensorEventListener {
         mapa?.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
                 val intent: Intent = Intent(v.context, ActivityGPS::class.java)
+                mSensorManager?.unregisterListener(sensoreventlistener)
                 startActivity(intent)
             }
         })
@@ -57,6 +61,7 @@ class MenuPrincipal : AppCompatActivity(), SensorEventListener {
         botonMiradores?.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
                 val intent: Intent = Intent(v.context, ListaMiradores::class.java)
+                mSensorManager?.unregisterListener(sensoreventlistener)
                 startActivity(intent)
             }
         })
@@ -65,6 +70,7 @@ class MenuPrincipal : AppCompatActivity(), SensorEventListener {
         botonAyuda?.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
                 val intent: Intent = Intent(v.context, ActivityAyuda::class.java)
+                mSensorManager?.unregisterListener(sensoreventlistener)
                 startActivity(intent)
             }
         })
@@ -82,6 +88,7 @@ class MenuPrincipal : AppCompatActivity(), SensorEventListener {
     override fun onSensorChanged(event: SensorEvent?) {
         var dif=Math.abs(accAnt-event!!.values[2]);
         if(dif>15.0f){
+            mSensorManager?.unregisterListener(sensoreventlistener)
             val m:Miradores=Miradores
             val random = Random
             var r = random.nextInt(0,m.getCount())
@@ -93,5 +100,10 @@ class MenuPrincipal : AppCompatActivity(), SensorEventListener {
             startActivity(intent)
         }
         accAnt=event.values[2];
+    }
+
+    override fun finish() {
+        super.finish()
+        mSensorManager?.unregisterListener(sensoreventlistener)
     }
 }

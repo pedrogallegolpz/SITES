@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
     // record the compass picture angle turned
     private var currentDegree = 0f
+    var sensoreventlistener:SensorEventListener=this
 
     // device sensor manager
     private var mSensorManager: SensorManager? = null
@@ -123,6 +124,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         botton?.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
                 val intent: Intent = Intent(v.context, MenuPrincipal::class.java)
+                mSensorManager?.unregisterListener(sensoreventlistener)
                 startActivity(intent)
             }
         })
@@ -140,6 +142,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         val gpsEnabled: Boolean= locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
         if(!gpsEnabled){
             var intent: Intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            mSensorManager?.unregisterListener(sensoreventlistener)
             startActivity(intent)
         }
 
@@ -214,6 +217,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                     val intent: Intent = Intent(this, ActivityInfoMiradores::class.java)
                     intent.putExtra("MIRADOR", miradorElegido)
                     intent.putExtra("POS", posicionElegido.toString())
+                    mSensorManager?.unregisterListener(sensoreventlistener)
                     startActivity(intent)
 
                     val action = "cambiando a información"
@@ -322,6 +326,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                             intent.putExtra("POS", pos_zona.toString())
                             intent.putExtra("ZONA", "")
                             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                            mSensorManager?.unregisterListener(sensoreventlistener)
                             startActivity(intent)
                         }
                     }
@@ -483,6 +488,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                         intent.putExtra("MIRADOR", monumentoPulsado)
                         intent.putExtra("POS", mon.getIndex(monumentoPulsado).toString())
                         intent.putExtra("MONUMENTO", "")
+                        mSensorManager?.unregisterListener(sensoreventlistener)
                         startActivity(intent)
                     }
                 })
@@ -556,6 +562,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                     val intent: Intent = Intent(view.context, ActivityInfoMiradores::class.java)
                     intent.putExtra("MIRADOR", miradorPulsado)
                     intent.putExtra("POS", indices_cercanos[position].toString())
+                    mSensorManager?.unregisterListener(sensoreventlistener)
                     startActivity(intent)
 
                 }
@@ -619,6 +626,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                 boton3?.setOnClickListener(object : View.OnClickListener {
                     override fun onClick(v: View) {
                         val intent: Intent = Intent(v.context, MenuPrincipal::class.java)
+                        mSensorManager?.unregisterListener(sensoreventlistener)
                         startActivity(intent)
                     }
                 })
@@ -637,6 +645,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                         val intent: Intent = Intent(view.context, ActivityInfoMiradores::class.java)
                         intent.putExtra("MIRADOR", miradorPulsado)
                         intent.putExtra("POS", mirDirigir[position].toString())
+                        mSensorManager?.unregisterListener(sensoreventlistener)
                         startActivity(intent)
 
                     }
@@ -684,6 +693,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                             intent.putExtra("MIRADOR", miradorPulsado)
                             intent.putExtra("POS", zona[position].toString())
                             intent.putExtra("ZONA", "")
+                            mSensorManager?.unregisterListener(sensoreventlistener)
                             startActivity(intent)
 
                         }
@@ -827,6 +837,11 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                 return -1 //"Fuera de Granada"
         }
         return -1
+    }
+
+    override fun finish() {
+        super.finish()
+        mSensorManager?.unregisterListener(sensoreventlistener)
     }
 
 
