@@ -37,11 +37,6 @@
         android:gestureColor="#A8A6A6"
         android:uncertainGestureColor="#EE0024">
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
     </android.gesture.GestureOverlayView>
 
     <LinearLayout
