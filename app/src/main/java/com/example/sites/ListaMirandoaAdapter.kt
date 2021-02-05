@@ -58,7 +58,7 @@ class ListaMirandoaAdapter(private val context: Context, private val cercanos: A
         var subtitleTextView :TextView? = null
 
 
-// Get thumbnail element
+        // Get thumbnail element
         val thumbnailImageView = rowView.findViewById(R.id.recipe_list_thumbnail) as ImageView
 
         if(tipo){// si son zonas no hay descripcion ni label
@@ -80,7 +80,7 @@ class ListaMirandoaAdapter(private val context: Context, private val cercanos: A
 
         titleTextView.text = nombre
         if (tipo){
-            subtitleTextView?.text = m.descripcion[cercanos[position] as Int]
+            subtitleTextView?.text = ""
             detailTextView?.text =dist[position].toString() + " m"
             Picasso.get().load(m.image[cercanos[position] as Int] ).placeholder(R.mipmap.ic_launcher).into(thumbnailImageView)
         }else{
