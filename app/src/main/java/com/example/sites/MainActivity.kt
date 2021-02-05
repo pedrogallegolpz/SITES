@@ -48,6 +48,9 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 
     // device sensor manager
     private var mSensorManager: SensorManager? = null
+    var gyroscopeSensor:Sensor? = null
+    var accelerometerSensor:Sensor? = null
+
     // image compass
     private var imview: ImageView?=null
     private var destimview: ImageView?=null
@@ -65,8 +68,13 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     var mon = Monumentos
     var  degreeAnt :Float =-1.0f
 
+    // Movimiento
+    var gyroscopeAnt = Array<Float>(3, {i -> 0.0f})
+    var compl = Array(4){ i -> false }
+
     // Como llegar
     var mirador_destino: Int=-1
+    var z = Zona
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,6 +127,8 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             }
         })
 
+        gyroscopeSensor = mSensorManager?.getDefaultSensor(Sensor.TYPE_ORIENTATION)
+        accelerometerSensor = mSensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
 
     }
@@ -261,6 +271,9 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             mSensorManager?.getDefaultSensor(Sensor.TYPE_ORIENTATION),
             SensorManager.SENSOR_DELAY_GAME
         )
+
+        mSensorManager?.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL)
+        mSensorManager?.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
     override fun onPause() {
@@ -277,6 +290,40 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     override fun onSensorChanged(event: SensorEvent?) {
         val degree=Math.round(event?.values?.get(0)!!)
         val degree_float=event?.values?.get(0) as Float
+        val tit : TextView = findViewById(R.id.textView5)
+        tit.text=compl[0].toString()+compl[1].toString()+compl[2].toString()+compl[3].toString()
+
+        if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
+            var valorAccelerometerX = event.values[0]
+            var valorAccelerometerY = event.values[1]
+            var valorAccelerometerZ = event.values[2]
+
+            if(abs(valorAccelerometerZ) > 20 && (abs(valorAccelerometerX) > 15 || abs(valorAccelerometerY) > 15)) {
+                compl[0] = true
+                if (abs(valorAccelerometerZ) > 20 && (abs(valorAccelerometerX) > 10 || abs(valorAccelerometerY) > 10)  && compl[1] == true) {
+                    compl[2] = true
+                }
+            }
+        }
+        if (event.sensor.type == Sensor.TYPE_ORIENTATION) {
+            var angle = Array<Float>(3, {i -> 1.0f})
+                angle[0] += event.values[0]
+
+            if(Math.abs(gyroscopeAnt[0]-angle[0])>90) {
+                if (compl[0]) {
+                    compl[1] = true
+
+                    if (compl[2]){
+                        var compl = Array(4){ i -> false }
+                        val intent: Intent = Intent(this, ActivityAyuda::class.java)
+                        startActivity(intent)
+                    }
+                }
+            }
+
+            gyroscopeAnt[0]=angle[0]
+
+        }
 
         //necesito que ejecute si la diferencia de giro es suficiente
 
@@ -623,7 +670,6 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     }
 
     fun calcularZona(){
-        var z = Zona
         var m=Miradores
         val a = Zona.Point(latit, longit)
         enMirador=false
