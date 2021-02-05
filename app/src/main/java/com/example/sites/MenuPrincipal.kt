@@ -21,6 +21,7 @@ class MenuPrincipal : AppCompatActivity(), SensorEventListener {
     var accelerometerSensor: Sensor? = null
     var accAnt = 0.0f
     var sensoreventlistener :SensorEventListener=this
+    var entrado:Boolean=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +30,7 @@ class MenuPrincipal : AppCompatActivity(), SensorEventListener {
 
     override fun onResume() {
         super.onResume()
-
+        entrado=false
         var sitesBot = findViewById<View>(R.id.chatbot) as TextView
         sitesBot?.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
@@ -87,7 +88,8 @@ class MenuPrincipal : AppCompatActivity(), SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent?) {
         var dif=Math.abs(accAnt-event!!.values[2]);
-        if(dif>15.0f){
+        if(dif>15.0f && !entrado){
+            entrado=true
             mSensorManager?.unregisterListener(sensoreventlistener)
             val m:Miradores=Miradores
             val random = Random
