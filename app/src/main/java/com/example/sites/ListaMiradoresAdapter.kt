@@ -57,7 +57,7 @@ class ListaMiradoresAdapter(private val context: Context, private val dataSource
 
         // 2
         titleTextView.text = mirador
-        subtitleTextView.text = dataSource.descripcion[position]
+        subtitleTextView.text = ""
         detailTextView.text = dataSource.zona[position]
 
         if(dataSource.zona[position] == "Albaicín"){

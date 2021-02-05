@@ -14,9 +14,9 @@ object Miradores {
     val monasterioChillOut = Point(37.178866,-3.603495)
     val arraySitios = arrayOf( sanNicolas, torreVelaAlhambra, sanMiguelAlto, sillaDelMoro,
         torreonDeCartuja, barrancoDelAbogado, monasterioChillOut)
-    val arrayNombres = arrayOf( "Mirador de San Nicolás",
-        "Mirador San Miguel Alto","Mirador Torre de la Vela de la Alhambra", "Mirador Silla del Moro", "Mirador Torreón de Cartuja", "Mirador Barranco del Abogado",
-        "Mirador Monasterio Chill-Out")
+    val arrayNombres = arrayOf( "San Nicolás",
+        "San Miguel Alto","Torre de la Vela de la Alhambra", "Silla del Moro", "Torreón de Cartuja", "Barranco del Abogado",
+        "Monasterio Chill-Out")
 
     val image = arrayOf( R.drawable.miradorsannicolas,R.drawable.sanmiguel,R.drawable.torredelavela,R.drawable.sillamoro,
         R.drawable.cartuja,R.drawable.barranco,R.drawable.monasterio)
