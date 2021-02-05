@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
@@ -24,6 +25,7 @@ class MenuPrincipal : AppCompatActivity(), SensorEventListener {
     var entrado:Boolean=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        entrado=false
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu_principal)
     }
@@ -95,17 +97,25 @@ class MenuPrincipal : AppCompatActivity(), SensorEventListener {
             val random = Random
             var r = random.nextInt(0,m.getCount())
             var miradorPulsado = m.arrayNombres[r]
-            val intent: Intent = Intent(this, ActivityInfoMiradores::class.java)
-            intent.putExtra("MIRADOR", miradorPulsado)
+            var intent: Intent? = Intent(this, ActivityInfoMiradores::class.java)
+            intent!!.putExtra("MIRADOR", miradorPulsado)
             intent.putExtra("POS", r.toString())
-            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            intent.putExtra("SHAKE", "")
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK  )
             startActivity(intent)
+
+            finish()
         }
-        accAnt=event.values[2];
+        accAnt=event.values[2]
     }
 
     override fun finish() {
         super.finish()
         mSensorManager?.unregisterListener(sensoreventlistener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        entrado=false
     }
 }

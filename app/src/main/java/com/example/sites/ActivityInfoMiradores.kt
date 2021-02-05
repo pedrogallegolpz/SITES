@@ -104,4 +104,12 @@ class ActivityInfoMiradores : AppCompatActivity() {
 
 
     }
+
+    override fun finish(){
+        super.finish()
+        if(intent.hasExtra("SHAKE")){
+            val intent: Intent = Intent(this, MenuPrincipal::class.java)
+            startActivity(intent)
+        }
+    }
 }

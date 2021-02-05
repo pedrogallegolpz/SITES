@@ -28,7 +28,7 @@
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".ActivityTextoAyuda"></activity>
         <activity android:name=".ActivityAyuda" />
-        <activity android:name=".ActivityInfoMiradores" />
+        <activity android:name=".ActivityInfoMiradores"/>
         <activity android:name=".ListaMiradores" />
         <activity android:name=".SitesBot" />
         <activity android:name=".MenuPrincipal"/>
