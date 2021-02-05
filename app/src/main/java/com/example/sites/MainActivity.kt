@@ -288,6 +288,7 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
+
         val degree=Math.round(event?.values?.get(0)!!)
         val degree_float=event?.values?.get(0) as Float
         val tit : TextView = findViewById(R.id.textView5)
@@ -326,69 +327,67 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         }
 
         //necesito que ejecute si la diferencia de giro es suficiente
+        if(event.sensor.type == Sensor.TYPE_ORIENTATION){
+            if(degreeAnt==-1.0f || Math.abs(degree_float-degreeAnt)>0.5) {
 
-        if(degreeAnt==-1.0f || Math.abs(degree_float-degreeAnt)>0.5) {
-
-            if (mirador_destino >= 0f && mirador_destino < m.arrayNombres.size) {
-                var angulo: Double = anguloLatLon(
-                    m.arraySitios[mirador_destino].lat,
-                    m.arraySitios[mirador_destino].lon,
-                    latit,
-                    longit
-                )
-                angulo = -angulo + kotlin.math.PI / 2
-                if (angulo < 0)
-                    angulo = angulo + 2 * kotlin.math.PI
-                angulo = 360 * angulo / (2 * kotlin.math.PI)
+                if (mirador_destino >= 0f && mirador_destino < m.arrayNombres.size) {
+                    var angulo: Double = anguloLatLon(
+                        m.arraySitios[mirador_destino].lat,
+                        m.arraySitios[mirador_destino].lon,
+                        latit,
+                        longit
+                    )
+                    angulo = -angulo + kotlin.math.PI / 2
+                    if (angulo < 0)
+                        angulo = angulo + 2 * kotlin.math.PI
+                    angulo = 360 * angulo / (2 * kotlin.math.PI)
 
 
-                var rotateAnimation = RotateAnimation(
-                    currentDegree + angulo.toFloat(),
-                    -degree.toFloat() + angulo.toFloat(),
-                    Animation.RELATIVE_TO_SELF,
-                    0.5f,
-                    Animation.RELATIVE_TO_SELF,
-                    0.5f
-                )
+                    var rotateAnimation = RotateAnimation(
+                        currentDegree + angulo.toFloat(),
+                        -degree.toFloat() + angulo.toFloat(),
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f
+                    )
 
-                rotateAnimation.duration = 210
-                rotateAnimation.fillAfter = true
+                    rotateAnimation.duration = 210
+                    rotateAnimation.fillAfter = true
 
-                imview?.startAnimation(rotateAnimation)
+                    imview?.startAnimation(rotateAnimation)
 
-                //Miramos si hemos llegado al mirador (estar a menos de 10 metros)
-                var distMir = getDistanceFromLatLonInKm(
-                    latit,
-                    longit,
-                    m.arraySitios[mirador_destino].lat,
-                    m.arraySitios[mirador_destino].lon
-                )
+                    //Miramos si hemos llegado al mirador (estar a menos de 10 metros)
+                    var distMir = getDistanceFromLatLonInKm(
+                        latit,
+                        longit,
+                        m.arraySitios[mirador_destino].lat,
+                        m.arraySitios[mirador_destino].lon
+                    )
 
-                destino.text =
-                    "Dirigiéndote a " + m.arrayNombres[mirador_destino] + "(" + kotlin.math.truncate(
-                        distMir * 1000
-                    ).toInt() + "m )"
-                if (distMir < 0.01) {
-                    destinoAlcanzado()
+                    if (distMir < 0.01) {
+                        destinoAlcanzado()
+                    }
+                } else {
+                    // Intentar ocultar la brújula
+                    imview?.animation?.cancel()
+                    imview?.animation = null
+
+                    //hacemos invisible la brújula
+                    if (imview?.visibility == View.VISIBLE) {
+                        imview?.visibility = View.INVISIBLE
+                    }
                 }
-            } else {
-                // Intentar ocultar la brújula
-                imview?.animation?.cancel()
-                imview?.animation = null
 
-                //hacemos invisible la brújula
-                if (imview?.visibility == View.VISIBLE) {
-                    imview?.visibility = View.INVISIBLE
+                currentDegree = (-degree).toFloat()
+                if (latlonActualizadas) {
+                    mirandoHacia(currentDegree)
                 }
-            }
 
-            currentDegree = (-degree).toFloat()
-            if (latlonActualizadas) {
-                mirandoHacia(currentDegree)
             }
-
+            degreeAnt=degree_float
         }
-        degreeAnt=degree_float
+
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
@@ -560,16 +559,17 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
             //Variable para llevar el índice del mirador en el array de zonas
             var numMirador:Int=0
             var zonasCercanas:ArrayList<Int> = ArrayList<Int>(15)
+            var mirDirigir:ArrayList<Int> = ArrayList<Int>(1)
             var distancias:ArrayList<Int> = ArrayList<Int>(15)
             var position:Int
             if(intent.hasExtra("POS")){
                 position = intent.getStringExtra("POS").toString().toInt()
-                zonasCercanas.add(position)
+                mirDirigir.add(position)
                 var dist = getDistanceFromLatLonInKm(latit, longit, m.arraySitios[position].lat, m.arraySitios[position].lon)
                 distancias.add(kotlin.math.truncate(dist*1000).toInt())
             }
-            for(zone in z.arrayZonas) {
-
+            for(i in 0 until z.arrayZonas.size) {
+                /*
                 var zonaDetectada=false
                 for(punto in 0..3){
                     var ang1: Double = anguloLatLon(zone[punto].x, zone[punto].y, latit, longit)
@@ -608,7 +608,28 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
                 }
 
                 numMirador = numMirador + 1
+
+                 */
+
+                var angulo: Double = anguloLatLon(z.puntoMedio(i).x, z.puntoMedio(i).y, latit, longit)
+                var distMir=getDistanceFromLatLonInKm(latit, longit, z.puntoMedio(i).x, z.puntoMedio(i).y)
+
+                var degrad2=degrad
+                if(degrad*angulo<0 && abs(degrad - angulo)>kotlin.math.PI) {
+                    if(degrad<0){
+                        degrad2=degrad2+2* kotlin.math.PI
+                    }else{
+                        angulo=angulo+2* kotlin.math.PI
+                    }
+                }
+
+                if (abs(degrad2 - angulo) < PI / (distMir * 10)) {
+                    //mirandoa.text =mirandoa.text.toString() + m.arrayNombres[indiceMir] + System.lineSeparator()
+                    zonasCercanas.add(i)
+                }
+
             }
+
 /*
             val listamirandoa : ListView = findViewById(R.id.listamirandoa)
             val titulo : TextView = findViewById(R.id.textView4)
@@ -635,36 +656,77 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
 */
             /* READAPTANDO VISUAL ZONA */
 
-            /*- primero readapto posiciones*/
-            val listamirandoa : ListView = findViewById(R.id.listamirandoa)
-            val titulo : TextView = findViewById(R.id.textView4)
-            val boton2 : FloatingActionButton = findViewById(R.id.floatingActionButton2) // es el que hay que hacer invisible
-            val boton3 : FloatingActionButton = findViewById(R.id.floatingActionButton3) // es el que hay que hacer visible
-            val constraintLayoutMain: ConstraintLayout  = findViewById(R.id.constraintLayoutMain)
 
-            titulo.visibility=View.INVISIBLE
-            listamirandoa.visibility=View.INVISIBLE
-            constraintLayoutMain.maxHeight=220
-            boton2.visibility=View.INVISIBLE
-            boton3.visibility=View.VISIBLE
-            boton3?.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(v: View) {
-                    val intent: Intent = Intent(v.context, MenuPrincipal::class.java)
-                    startActivity(intent)
-                }
-            })
-            /*- ahora la zona*/
+            if(!intent.hasExtra("POS")){
+                /*- primero readapto posiciones si no estamos dirigiendo*/
+                val listamirandoa : ListView = findViewById(R.id.listamirandoa)
+                val titulo : TextView = findViewById(R.id.textView4)
+                val boton2 : FloatingActionButton = findViewById(R.id.floatingActionButton2) // es el que hay que hacer invisible
+                val boton3 : FloatingActionButton = findViewById(R.id.floatingActionButton3) // es el que hay que hacer visible
+                val constraintLayoutMain: ConstraintLayout  = findViewById(R.id.constraintLayoutMain)
 
-            val listazona : ListView = findViewById(R.id.listazona)
-
-            //Quiero coger la más cercana
-            for (i in zonasCercanas){
+                titulo.visibility=View.INVISIBLE
+                listamirandoa.visibility=View.INVISIBLE
+                constraintLayoutMain.maxHeight=220
+                boton2.visibility=View.INVISIBLE
+                boton3.visibility=View.VISIBLE
+                boton3?.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(v: View) {
+                        val intent: Intent = Intent(v.context, MenuPrincipal::class.java)
+                        startActivity(intent)
+                    }
+                })
+            }else{
+                /*- primero readapto posiciones si no estamos dirigiendo*/
+                val listamirandoa : ListView = findViewById(R.id.listamirandoa)
+                val constraintLayoutMain: ConstraintLayout  = findViewById(R.id.constraintLayoutMain)
+                constraintLayoutMain.maxHeight=((getResources().getDisplayMetrics().heightPixels)/4.5).toInt()
+                val adapter : ListaMirandoaAdapter
+                adapter = ListaMirandoaAdapter(this,mirDirigir, distancias, true, true) //false para zonas y arrayList no se usa, inicializado a lo que sea
+                listamirandoa.adapter = adapter
 
             }
 
-            val adapter : ListaMirandoaAdapter
-            adapter = ListaMirandoaAdapter(this, zonasCercanas, distancias, false, false) //false para zonas y arrayList no se usa, inicializado a lo que sea
-            listazona.adapter = adapter
+            /*- ahora la zona*/
+
+            if(!zonasCercanas.isEmpty()){
+                val listazona : ListView = findViewById(R.id.listazona)
+
+                var distanciaMasCerca=10000000.0
+                var pos=-1
+                //Quiero coger la segunda más cercana, la primera es en la que estamos
+                for(j in 1..2){
+
+                    distanciaMasCerca=10000000.0
+                    pos=-1
+
+                    for (i in zonasCercanas){
+                        var dist=getDistanceFromLatLonInKm(latit, longit, z.puntoMedio(i).x, z.puntoMedio(i).y)
+                        if(dist<distanciaMasCerca){
+                            pos=i
+                            distanciaMasCerca=dist
+                        }
+                    }
+
+                    if (pos != -1) zonasCercanas.remove(pos)
+                    else break
+
+
+                }
+
+                var zona:ArrayList<Int> = ArrayList<Int>(1)
+                zona.add(pos)
+                if(pos!=-1){
+                    val adapter : ListaMirandoaAdapter
+                    adapter = ListaMirandoaAdapter(this,zona, distancias, false, false) //false para zonas y arrayList no se usa, inicializado a lo que sea
+                    listazona.adapter = adapter
+                }
+            }else{
+                listazona.adapter = null
+            }
+
+
+
         }
 
     }

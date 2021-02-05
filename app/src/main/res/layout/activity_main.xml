@@ -27,16 +27,6 @@
         android:text="Zona"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
-    <TextView
-        android:id="@+id/destino"
-        android:layout_width="match_parent"
-        android:layout_height="93dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="300dp"
-        android:gravity="center"
-        android:text=""
-        android:textAppearance="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large" />
 
 
     <android.gesture.GestureOverlayView
@@ -63,10 +53,10 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="25dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="310dp"
+        android:layout_marginTop="330dp"
         android:layout_marginEnd="25dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="300dp"
+        android:layout_marginBottom="290dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -85,10 +75,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayoutZona"
-        android:layout_width="230dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
         android:layout_marginBottom="0dp"
         android:background="#e0e0e0">
 

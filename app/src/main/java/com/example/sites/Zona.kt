@@ -155,7 +155,7 @@ object Zona {
         "Se encuentra en el valle de Valparaíso, frente a la Alhambra. Famoso por sus cuevas y por su tradición flamenca."
     )
 
-    val image = arrayOf(R.drawable.centro, R.drawable.plazadetoros, R.drawable.chana, R.drawable.etsiit,
+    val image = arrayOf(R.drawable.centro, R.drawable.plazadetoros, R.drawable.sillamoro, R.drawable.sillamoro,
         R.drawable.vega, R.drawable.zaidin, R.drawable.juventud, R.drawable.carr_sierra,R.drawable.norte,R.drawable.cartuja2,R.drawable.albaicin,
         R.drawable.alhambra2,R.drawable.realejo,R.drawable.generalife,R.drawable.sacromonte)
 
