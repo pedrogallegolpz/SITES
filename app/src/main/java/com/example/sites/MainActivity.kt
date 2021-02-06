@@ -435,7 +435,6 @@ class MainActivity : AppCompatActivity(), GestureOverlayView.OnGesturePerformedL
         mirador_destino = indice
 
 
-        destimview?.setImageResource(m.image_dest[mirador_destino])
         if(imview?.visibility==View.INVISIBLE) {
             imview?.visibility = View.VISIBLE
         }

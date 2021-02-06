@@ -159,9 +159,7 @@ object Zona {
         R.drawable.vega, R.drawable.zaidin, R.drawable.juventud, R.drawable.carr_sierra,R.drawable.norte,R.drawable.cartuja2,R.drawable.albaicin,
         R.drawable.alhambra2,R.drawable.realejo,R.drawable.generalife,R.drawable.sacromonte)
 
-    // Given three colinear points p, q, r,
-    // the function checks if point q lies
-    // on line segment 'pr'
+    // Comprueba si el punto q está en el segmento pr
     fun onSegment(p: Point, q: Point, r: Point): Boolean {
         return if (q.x <= Math.max(p.x, r.x) && q.x >= Math.min(p.x, r.x) && q.y <= Math.max(
                 p.y,
@@ -172,25 +170,24 @@ object Zona {
         } else false
     }
 
-    // To find orientation of ordered triplet (p, q, r).
-    // The function returns following values
-    // 0 --> p, q and r are colinear
-    // 1 --> Clockwise
-    // 2 --> Counterclockwise
+    // Devuelve el sentido de un triángulo orientado formado por p, q y r o si son colineales
+    // 0 --> colineales
+    // 1 --> horario
+    // 2 --> antihorario
     fun orientation(p: Point, q: Point, r: Point): Int {
         val `val` = ((q.y - p.y) * (r.x - q.x)
                 - (q.x - p.x) * (r.y - q.y))
         if (`val` == 0.0) {
-            return 0 // colinear
+            return 0 // colineal
         }
-        return if (`val` > 0) 1 else 2 // clock or counterclock wise
+        return if (`val` > 0) 1 else 2 // horario o antihorario
     }
+
     fun getIndex(name:String): Int{
         return arrayNombres.indexOf(name)
     }
 
-    // The function that returns true if
-    // line segment 'p1q1' and 'p2q2' intersect.
+    // Comprueba si los segmentos p1q1 y p2q2 intersecan
     fun doIntersect(
         p1: Point, q1: Point,
         p2: Point, q2: Point

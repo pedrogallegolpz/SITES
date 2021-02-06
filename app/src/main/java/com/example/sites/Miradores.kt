@@ -21,10 +21,6 @@ object Miradores {
     val image = arrayOf( R.drawable.miradorsannicolas,R.drawable.sanmiguel,R.drawable.torredelavela,R.drawable.sillamoro,
         R.drawable.cartuja,R.drawable.barranco,R.drawable.monasterio)
 
-    val image_dest = arrayOf( R.drawable.miradorsannicolas_dest,R.drawable.sanmiguel_dest,R.drawable.torredelavela_dest,R.drawable.sillamoro_dest,
-        R.drawable.cartuja_dest,R.drawable.barranco_dest,R.drawable.monasterio_dest)
-
-
     val zona = arrayOf( "Albaicín", "Albaicín",  "Alhambra", "Alhambra", "Cartuja", "Realejo",
         "Centro")
 
@@ -58,12 +54,6 @@ object Miradores {
 
     fun getArray(): Array<Point> {
         return arraySitios;
-    }
-    fun getPosition(posicion:Int): Point {
-        return arraySitios[posicion];
-    }
-    fun getName(posicion:Int): String {
-        return arrayNombres[posicion];
     }
 
     fun getIndex(name:String): Int{
