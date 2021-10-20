@@ -9,6 +9,8 @@ viable se ha centrado en miradores y monumentos de la ciudad.
 En cuanto a la aplicación, en este repositorio se encuentra el código fuente junto con dos memorias, una [técnica] y otra [descriptiva] del producto.
 
 Hemos hecho un [vídeo] promocional para el proyecto.
+[![Alternate Text]({image-url})]({https://www.youtube.com/watch?v=cSc145gMjO4&ab_channel=PedroGallego} "SITES")
+
 
 [vídeo]: https://www.youtube.com/watch?v=cSc145gMjO4&ab_channel=PedroGallego
 [técnica]: https://github.com/drumalv/Sites/blob/master/MemoriaTecnicaNPI.pdf
